@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  google-adk:
+    build:
+        context: .                    # Build context (directory containing Dockerfile)
+        dockerfile: Dockerfile        # Path to Dockerfile (optional if named "Dockerfile")
+    image: google_adk:latest
+    container_name: google-adk-workspace
+    volumes:
+      - .:/workspace
+    command: tail -f /dev/null
+    ports:
+      - 8000:8000
+      - 3000:3000
