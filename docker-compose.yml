@@ -3,13 +3,28 @@ version: '3.8'
 services:
   google-adk:
     build:
-        context: .                    # Build context (directory containing Dockerfile)
-        dockerfile: Dockerfile        # Path to Dockerfile (optional if named "Dockerfile")
+      context: .
+      dockerfile: Dockerfile
     image: google_adk:latest
     container_name: google-adk-workspace
     volumes:
       - .:/workspace
     command: tail -f /dev/null
     ports:
-      - 8000:8000
-      - 3000:3000
+      - "8000:8000"                # Expose app port
+    networks:
+      - adk-network
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"             # Expose MongoDB port
+    networks:
+      - adk-network                 
+
+networks:
+  adk-network:
+    driver: bridge

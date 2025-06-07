@@ -1,0 +1,14 @@
+LlmAgent:
+  root_agent:
+    name: "product_identifier_agent"
+    model: "gemini-2.0-flash"
+  schema_agent:
+    name: "schema_agent"
+    model: "gemini-2.0-flash"
+  product_research_agent:
+    name: "product_research_agent"
+    model: "gemini-2.0-flash"
+
+  sub_agent_query_param_optimizer:
+    name: "query_param_optimizer"
+    model: "gemini-2.0-flash"
