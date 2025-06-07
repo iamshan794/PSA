@@ -36,5 +36,7 @@ Frontend (React)          Backend (Python FastAPI)
                           │  Database (MongoDB)
                           │  - Products [1]
                           │  - Conversations
+# To Do:
+1. Create guardrails for root_agent
 # Archived 
 1. https://github.com/mckaywrigley/clarity-ai (CLARITY AI)
