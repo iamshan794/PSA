@@ -1,0 +1,604 @@
+{
+    "status": "OK",
+    "request_id": "0680ec64-bc64-45bb-895e-9e291a802ba7",
+    "data": {
+        "products": [
+            {
+                "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:",
+                "product_title": "Colorful Standard Active Organic Sock",
+                "product_description": "Sportsocken aus einer komfortablen Mischung aus Bio-Baumwolle, Polyamid und Elastan mit Anti-Pilling-Behandlung.",
+                "product_photos": [
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcT4sfq0lw2XblA-GAfLvmY8anHtFvUi0wRLGnJMiWfxS5Ruyki9rymsNvlPuldDemBw5xCMRIfQKb1yTL38RKwlcLovqqqHThyN7e8LVUrpUEodXCyO4fep",
+                    "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcS6u9wdDMdB4HiW6ORssVcmOIIn9opJ_JJlYz5c4sIgnRfPf5L9E3lWlCBzf4QwPabtPCFVVv5KhD03z6_HhbU6hcty47NEDH2hzL1HdwkxP-9fi_ogCGMC",
+                    "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSK8h4dlOvPHMxsddYZxk2IcrnAEBP2NCKuUIDXY_P4TyBasnhNehfSPf4w9h6wyKXndQR7InXCxtQeLL8etoVrkj1cX_DfbmoF6A4kyMYFK7iiDQvgfDrNYg",
+                    "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTK47yADUdZmsMvHzALX9-0JRkwQcFgABnMj83AeOq8i9fN96lRjNUEApXXix3mMr6NxyNFVQ57riY7Jx9VdYHR9zU5bUc7CF-U30vyTWAW9LPx8XySzXyz0Q",
+                    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcThyT845pdj-JfvQ_3YZp3F31_5t0Oa1Nq2G1luUCyJ9VDDTr0pYBhr9KOdiKqh_dE0ypw5wt7g_RNdUGpOwdFUZqPUF9qG5xX7uoBlaveF",
+                    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQcvq7uVDyqiyPDP_u7fRbHSmUEKw1AXARYSax_q3B7lrTA3Oq-fsRlxsxrWe8qihs7o7JxTYjXVPah7w0B-mUwF2kVhd-gBM9PqlCqyxdFQk4v8vIMvmCJ",
+                    "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRTL5B1nDpXpFjlqc_qhlKZkjCbhkfKt_cxn8Q5RunKUNuBbf3nUvQHC_upVAtntqxWrDdu7bAfVnTu51MIZq8foG4jTJNKmuPketTmXYF9jdHYLdA4pby7DQ",
+                    "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSJ_vEmrHJNhXJHyo-zN_A7lIs0nQchM_ZhzRRR0ixYOH4SU2Oc2-dNIX7gQZwiCHcV9Xx-8Ngt-VhQbJs6MT-21Lgrcnl1LW3ccDyryIMB",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQqPy0yVXZbCy86-BIk-W3U2WlFuXYQ5P-x_JTUzRpOHLHkFC1qxFShYn5rzhjwQscXghg-ejYm6WN6QCYcKT8L6-BtueR7NNFKaZbYV7A9wcmtvUk0FVba"
+                ],
+                "product_videos": [],
+                "product_attributes": {
+                    "Marke": "COLORFUL",
+                    "Stil": "Wadensocken",
+                    "Farbe": "Kelly Green, Pink, Navy Blue, Emerald Green, Bright Coral, Ivory White, Heather Grey, Scarlet Red, Steel Blue, Raspberry Pink, Optical White, Deep Black, Coffee Brown, Petrol Blue, Warm Taupe, Dusty Olive, Light Aqua, Lava Grey, Soft Yellow, Faded Pink, Desert Khaki, Soft Lavender, Sunny Orange, Oxblood Red, Himmelblau, Polar Blue, Limestone Grey, Burned Yellow, Snow Melange, Seaside Blue, Sandstone Orange, #1e1d59"
+                },
+                "product_rating": null,
+                "product_page_url": "https://www.google.com/search?ibp=oshop&q=new%20cotton%20gray%20sock&prds=catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,gl:0,mid:576462497459479747,pvt:hg&gl=de&hl=en",
+                "product_num_reviews": null,
+                "product_num_offers": 88,
+                "typical_price_range": null,
+                "current_product_variant_properties": {
+                    "Farbe": "Beliebig: Farbe"
+                },
+                "product_variants": {
+                    "Farbe": [
+                        {
+                            "name": "Kelly Green",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARCx59zhAw"
+                        },
+                        {
+                            "name": "Pink",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARD09dzhAw"
+                        },
+                        {
+                            "name": "Navy Blue",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARDr1t3hAw"
+                        },
+                        {
+                            "name": "Emerald Green",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARDay-HhAw"
+                        },
+                        {
+                            "name": "Ivory White",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARC2uOPhAw"
+                        },
+                        {
+                            "name": "Heather Grey",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARCv1ejhAw"
+                        },
+                        {
+                            "name": "Scarlet Red",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARCSw-zhAw"
+                        },
+                        {
+                            "name": "Steel Blue",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARDb8e_hAw"
+                        },
+                        {
+                            "name": "Raspberry Pink",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARCl9fDhAw"
+                        },
+                        {
+                            "name": "Optical White",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARCT9vXhAw"
+                        },
+                        {
+                            "name": "Deep Black",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARDy0frhAw"
+                        },
+                        {
+                            "name": "Coffee Brown",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARDDl5PiAw"
+                        },
+                        {
+                            "name": "Petrol Blue",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARCc4ZPiAw"
+                        },
+                        {
+                            "name": "Warm Taupe",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARD_75biAw"
+                        },
+                        {
+                            "name": "Light Aqua",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARC0z7DiAw"
+                        },
+                        {
+                            "name": "Soft Yellow",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARCQzuTiAw"
+                        },
+                        {
+                            "name": "Faded Pink",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARC4pJPjAw"
+                        },
+                        {
+                            "name": "Soft Lavender",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARC84__jAw"
+                        },
+                        {
+                            "name": "Oxblood Red",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARCXso7sAw"
+                        },
+                        {
+                            "name": "Polar Blue",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARDNx4vvAw"
+                        },
+                        {
+                            "name": "Burned Yellow",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARDdw-T1Aw"
+                        },
+                        {
+                            "name": "Snow Melange",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARCwgsX8Aw"
+                        },
+                        {
+                            "name": "Seaside Blue",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARDmq9aCBA"
+                        },
+                        {
+                            "name": "Sandstone Orange",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARCR0oe-BA"
+                        },
+                        {
+                            "name": "#1e1d59",
+                            "product_id": "catalogid:8593775021195823136,gpcid:17277247778964650872,headlineOfferDocid:2693661919788816613,rds:,imageDocid:5203715676776056368,mid:576462497459479747,pvt:hg,pvf:EgsIktH5ARC22cOzBQ"
+                        }
+                    ]
+                },
+                "reviews_insights": {},
+                "offer": {
+                    "offer_id": "12629822595666129308",
+                    "offer_title": "Organic Active Sock",
+                    "offer_page_url": "https://www.backyard-shop.de/products/colorful-standard-organic-active-sock-polar-blue?currency=EUR&variant=51021250658570&utm_source=google&utm_medium=cpc&utm_campaign=Google+Shopping&stkn=7e6f6f65fb26&srsltid=AfmBOoprxeYHS4izTsN5qhmeJowOEkBl_TpdQYHc1eRRMAfl_4dEychtp6M",
+                    "price": "14,00\u00a0\u20ac",
+                    "shipping": "5\u00a0\u20ac Lieferung: 12.\u201316. Juni",
+                    "on_sale": false,
+                    "original_price": null,
+                    "product_condition": "NEW",
+                    "store_name": "backyard-shop.de",
+                    "store_rating": "4.8/5",
+                    "store_review_count": 100,
+                    "store_reviews_page_url": "https://www.google.com/shopping/ratings/account/metrics?q=backyard-shop.de&c=DE&v=19",
+                    "store_favicon": "https://encrypted-tbn2.gstatic.com/faviconV2?url=https://www.backyard-shop.de&client=SHOPPING&size=32&type=FAVICON&fallback_opts=TYPE,SIZE,URL",
+                    "payment_methods": null
+                }
+            },
+            {},
+            {
+                "product_id": "catalogid:8968342444422382546,gpcid:16766745297539771942,headlineOfferDocid:12484646322165909660,rds:,imageDocid:2789984754345318268,mid:576462808342816459,pvt:hg,pvf:",
+                "product_title": "Trendsplant Socken Grau Organic Cotton Athletic Socks Herren",
+                "product_description": "Die Trendsplant Socken Grey sind aus hochwertiger Bio-Baumwolle gefertigt und bieten einen hohen Tragekomfort. Die Socken sind in einem klassischen Grauton gehalten und passen perfekt zu jedem Outfit. Dank ihres athletischen Designs sind sie ideal f\u00fcr sportliche Aktivit\u00e4ten geeignet. Die Socken sind in verschiedenen Gr\u00f6\u00dfen erh\u00e4ltlich und k\u00f6nnen sowohl von M\u00e4nnern als auch von Frauen getragen werden. Sie zeichnen sich durch ihre Langlebigkeit und Strapazierf\u00e4higkeit aus und sind ein Must-have f\u00fcr jede Sockenschublade. Die Trendsplant Socken Grey bestehen aus hochwertiger Bio-Baumwolle, die ohne den Einsatz von sch\u00e4dlichen Chemikalien angebaut wird. Dadurch sind sie besonders umweltfreundlich und schonend zur Haut. Die Socken sind angenehm weich und bieten einen hervorragenden Tragekomfort. Sie sind atmungsaktiv und sorgen f\u00fcr ein angenehmes Fu\u00dfklima, egal ob beim Sport oder im Alltag. Durch ihre optimale Passform und das elastische B\u00fcndchen sitzen die Socken perfekt am Fu\u00df und verrutschen nicht. Die Trendsplant Socken Grey sind nicht nur funktional, sondern auch optisch ansprechend. Der klassische Grauton passt zu jeder Kleidung und verleiht jedem Outfit das gewisse Etwas. Die Socken sind in verschiedenen Gr\u00f6\u00dfen erh\u00e4ltlich und k\u00f6nnen sowohl von M\u00e4nnern als auch von Frauen getragen werden. Sie lassen sich problemlos in der Waschmaschine reinigen und behalten auch nach mehreren W\u00e4schen ihre Form und Farbe. Mit den Trendsplant Socken Grey setzen Sie ein Statement f\u00fcr Nachhaltigkeit und Stil.",
+                "product_photos": [
+                    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcShzodRvKILJJgWrrIOd8FRaehUYA1WP3f_fbmwzyDGPd6sFDDNnuA6WV8sOZsYoOyzS8fEGFqGwCQyVY8Nb64UuuG6qY6OejSub14jxuVIq7sTRyLxL3g57w",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRzrbNsjMtsezSa9wn5wOhqWmNDUBOGoCuvnmRa6CfCUtHOP80UdBV7IOmonkd8ZwLV1qy9BERVE4YdsAMCAe7BbE8_wwdEFHW2hVVTxoDXpUF-YY_Df4KGCg",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSF6y5SHCC0tzp9UzWCAYVQs233GFUAq95LR-Kv0DX3k7xlnyqRmbrxQWkdP64pIZ3YrW-ernWu9aWALT_0-WX4mgZl3luxdAjx0CfT77NLjNRmuY75Vd8pSA",
+                    "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQi-ZiVQGo1UuYGelEq8YCuNGd3aLUny0rm7h8pC5Y2ChD0Nmq_woxjhrybzyeQX4hWg7HPkrX6TZm-G7nQ3e5il-xPwpAKJOQwrMgpDiQue1iYW6cpElce",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRaHEdDnhOoW_RgnzKwm4Cbmc8Q4NOToxMz3yfP5ja4LLmUL70VjtSShleatKWQz79Cz1FoiKs6aGVuNp-kpfu46hosQVk3DKPgEcvYZ4zzEFZCqjtXNpxr",
+                    "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSQuRK6lYNMqjSHn_FHVhnZadCZ5Oorc4GlOhLAt0CZc5oaw2M3o_prhie9iUdpj9ierkVVYXXfD81A5bBMkzBb5KQSSLaDHhrNjyCkpBY",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSTQhGpsPxpmruTefRZVCoXDS7mvXbVCeIub0fi0qH5sNTQeJJF9vsxds46HuiBCnyZ56Tzjpkm3FO89BbZT_yRgVkySRenAKxsbgQArPESoaEmIm1jYscNfA",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQJnNuXZTpTuyhjdt9ugG4zv-OLXBEk2h4sHWs5QSIja3uOVdfKZjhCFjFWeYVx1c1-EyiLf6EzlJubTNN17-BlFL2oZrBqQam-Y_G2sN2-Is-yTSvb9eUU",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQnOCpW57xZnKxWB7RHCiK2N9L0crSVCBDf1Pbv0FLoN6TcCAKZLbg1-2C-wmgqgxGUk6CaIZHDE126GjUlnXAeTjGFWhb6F4u_vT64GR9t",
+                    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTr7SKavUFO-7R-2DNNLma1B86sfbBPw4CV8jh39HUk-iyNIkr9YNDpWXupWAKO3dZ-6uOCiOsceECqDgBkl3jNjbNDBvI4PCsgr3iLlGo",
+                    "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSJJySFR4_2b0kMjV_bfPZdTmPl-kNwxxf73JBOy9FWVmGFvhI8G7-HshTZucLw3APeeGkJfUgoCQMRt_kseuckTM95l0MQm0Y1Xyj-u2I"
+                ],
+                "product_videos": [],
+                "product_attributes": {
+                    "Zielgruppe": "Herren"
+                },
+                "product_rating": null,
+                "product_page_url": "https://www.google.com/search?ibp=oshop&q=new%20cotton%20gray%20sock&prds=catalogid:8968342444422382546,gpcid:16766745297539771942,headlineOfferDocid:12484646322165909660,rds:,imageDocid:2789984754345318268,gl:0,mid:576462808342816459,pvt:hg&gl=de&hl=en",
+                "product_num_reviews": null,
+                "product_num_offers": 2,
+                "typical_price_range": null,
+                "current_product_variant_properties": {},
+                "product_variants": {},
+                "reviews_insights": {},
+                "offer": {
+                    "offer_id": "12484646322165909660",
+                    "offer_title": "Trendsplant Socken Grey Organic Cotton Athletic Socks, grau, 36-38,5",
+                    "offer_page_url": "https://www.otto.de/extern/?page=/p/S0DAC0N8%23variationId%3DS0DAC0N8GTM7&PProductId=S0DAC0N8&PCountry=DE&PLanguage=DE&AffiliateID=51affeec845959471ab3a1d456bfb0702092f6407e2ac76ac293ea578805ad16&campid=P.AC-G.MP-GSI.AS-OW.T-SE.C-5009417",
+                    "price": "17,59\u00a0\u20ac",
+                    "shipping": "Kostenlose Lieferung",
+                    "on_sale": false,
+                    "original_price": null,
+                    "product_condition": "NEW",
+                    "store_name": "otto.de",
+                    "store_rating": "4.7/5",
+                    "store_review_count": 0,
+                    "store_reviews_page_url": "https://www.google.com/shopping/ratings/account/metrics?q=otto.de&c=DE&v=19",
+                    "store_favicon": "https://encrypted-tbn2.gstatic.com/faviconV2?url=https://www.otto.de&client=SHOPPING&size=32&type=FAVICON&fallback_opts=TYPE,SIZE,URL",
+                    "payment_methods": null
+                }
+            },
+            {},
+            {
+                "product_id": "catalogid:8151534859986567503,gpcid:13433000746518650683,headlineOfferDocid:14735307673848615990,rds:PC_13433000746518650683|PROD_PC_13433000746518650683,imageDocid:6696966995423906818,mid:576462813406625625,pvt:hg,pvf:",
+                "product_title": "Birkenstock Cotton Slub M Str\u00fcmpfe",
+                "product_description": "Dieser Casual-Baumwollstrumpf liegt durch seine Optik voll im Trend und \u00fcberzeugt vor allem durch den hohen Anteil an hautfreundlicher, weicher Baumwolle. Die Passform wird durch ein nachgiebiges B\u00fcndchen und die flache Spitze verbessert. Dauerhaftes Tragevergn\u00fcgen bietet zus\u00e4tzlich die Verst\u00e4rkung in Spitze und Ferse, welche die Lebensdauer des Strumpfs verl\u00e4ngert und den Fu\u00df optimal sch\u00fctzt.",
+                "product_photos": [
+                    "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQU6e7QC9XZDf2MKXCvXQ6WePkR-zqqXVO5k5D8An6f55ZWTzVA0RzRP1g2oh9c0QiFLg36zMVpjjxLnRMXxHbwP4AtNNJftPX2C541C7NIafOxCL8YwOrV",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTAUx3OOo4jbLdCiPfQtSLfjFeq8wCZP-UiL9XV3qiZk4L34WuZ7EGSifdyHfAaMv75ugpqxghGBaUV_YY9_hNHSqfOJM-Lb1to1iChOqxwKsvmuCvmxYE-Iw",
+                    "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRI80Sn8aO8rxT29rI2zfqQm4jG_ILVlHY7beHGWaF5-fAuSH7QcEKpZ-MqeCKJeFviaWcL4GNnLAkezG2u8ndNtKWLHckE377Kilx0ebHY",
+                    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQUa_bFTgfWC6zr1GBtaYnMrooZ4-qeP2gZaDZgBfRUOKcw7luUOOAiQtSNwo7A28Okuw-64ppYFuTUBx5crYq1AGVplScU3PE98Vmz3c5F",
+                    "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSe0fchvh4CIsr_E5R_PN04u3020TRMS8YfwXbPe--CwqrbF7sp83NmX_t-WoNRPrZQ_UgMzaGyzUO8Ylur57ysMeEVG9nvnjAyUPJwE-Gp",
+                    "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQjg8nh0kR_-YYi4LCG5ygykugIjv7CdFwaCks-g0FKXXuDXYHvyTMJZWwn1p1iwnSyzEDO43N7dqw6v8EOC2qJNFuYH8hVeVwWffVvDb5DYZlviWn32hunIX0",
+                    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQIbRSZ0em4pPybifMv26jmUzgW7UNhvSVaBbfS2JYqjOlmWHsNmuUAX81gNKGA_AaaJRkFkEcM4XsLRzX_aByi8SUibt0Nl5r_sl8-oG0",
+                    "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQzVoh-3N2PzpM7rqgLkTG3BnOaaE-ikzRiDVwkrfR4xSA7g4NNpQUxUgGcbphpQvedk91gRCqxbSFWdPtQdcOfDojK1EFRuxxGVjG7X88ZkhcancgnxHKCrQ",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTNhvbWv_EBJMBfZh3T7JMceOLGjLeGdtlFPiYtlA_SZqIPRyUJEddPW12nUKYac658KK4JUotmhyL2YC6k6iv12egMU1XW9K0rFrmrgugP4NKIJKqLjRKBiDhk",
+                    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQkvjQzuTlj_kBQAwTn0I18woDrdJdgrUTvCpUv3K1vFLQ9m9CeyRFA1tF2uBjeVgdx879lMT4FajtmZHQMZ95IlgXyMQ4FthKMTnmvrRBku48Ujs5xUb75",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRxi92XeMd70zLav6WEuh6DNDo2AwDYDwGdyu903pb_9apt49xcsT3vC9CEnXU0aVzf2Pk9Wf95ZmGgHYul3ULIcBDU-VE9VWwU-1mOIi-7ja1WITXuWuYvlQ",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSbvg_GeDRGE0CKSJKF2l6rE0XuF59nnKYrce1DeNSg45rks3afM4v0cJUTaunee3QBwJCybfa1p_OVx0wDxKptQ6zyhTPlKzd8Oikvc8oOQVbpTuJcWRWr1A"
+                ],
+                "product_videos": [],
+                "product_attributes": {
+                    "Marke": "Birkenstock",
+                    "Gr\u00f6\u00dfe": "S, M, L, 36, 45"
+                },
+                "product_rating": 4.7,
+                "product_page_url": "https://www.google.com/search?ibp=oshop&q=new%20cotton%20gray%20sock&prds=catalogid:8151534859986567503,gpcid:13433000746518650683,headlineOfferDocid:14735307673848615990,rds:PC_13433000746518650683|PROD_PC_13433000746518650683,imageDocid:6696966995423906818,gl:0,mid:576462813406625625,pvt:hg&gl=de&hl=en",
+                "product_num_reviews": 95,
+                "product_num_offers": 52,
+                "typical_price_range": null,
+                "current_product_variant_properties": {
+                    "Gr\u00f6\u00dfe": "Beliebig: Gr\u00f6\u00dfe"
+                },
+                "product_variants": {
+                    "Gr\u00f6\u00dfe": [
+                        {
+                            "name": "36",
+                            "product_id": "catalogid:8151534859986567503,gpcid:13433000746518650683,headlineOfferDocid:14735307673848615990,rds:PC_13433000746518650683|PROD_PC_13433000746518650683,imageDocid:6696966995423906818,mid:576462813406625625,pvt:hg,pvf:EgkIpP5FEL2UsQE"
+                        },
+                        {
+                            "name": "45",
+                            "product_id": "catalogid:8151534859986567503,gpcid:13433000746518650683,headlineOfferDocid:14735307673848615990,rds:PC_13433000746518650683|PROD_PC_13433000746518650683,imageDocid:6696966995423906818,mid:576462813406625625,pvt:hg,pvf:EgkIpP5FEM-UsQE"
+                        },
+                        {
+                            "name": "S",
+                            "product_id": "catalogid:8151534859986567503,gpcid:13433000746518650683,headlineOfferDocid:14735307673848615990,rds:PC_13433000746518650683|PROD_PC_13433000746518650683,imageDocid:6696966995423906818,mid:576462813406625625,pvt:hg,pvf:EggIpP5FEMT-RQ"
+                        },
+                        {
+                            "name": "M",
+                            "product_id": "catalogid:8151534859986567503,gpcid:13433000746518650683,headlineOfferDocid:14735307673848615990,rds:PC_13433000746518650683|PROD_PC_13433000746518650683,imageDocid:6696966995423906818,mid:576462813406625625,pvt:hg,pvf:EggIpP5FEMX-RQ"
+                        },
+                        {
+                            "name": "L",
+                            "product_id": "catalogid:8151534859986567503,gpcid:13433000746518650683,headlineOfferDocid:14735307673848615990,rds:PC_13433000746518650683|PROD_PC_13433000746518650683,imageDocid:6696966995423906818,mid:576462813406625625,pvt:hg,pvf:EggIpP5FEMb-RQ"
+                        }
+                    ]
+                },
+                "reviews_insights": {},
+                "offer": {
+                    "offer_id": "3070628264938685032",
+                    "offer_title": "Birkenstock \u2013 Menswear \u2013 Socken aus geflammter Baumwolle in Grau",
+                    "offer_page_url": "https://www.asos.com/de/birkenstock/birkenstock-menswear-socken-aus-geflammter-baumwolle-in-grau/prd/207802043?currencyid=19&browseCountry=DE&affid=26534&freelisting=yes",
+                    "price": "14,00\u00a0\u20ac",
+                    "shipping": "5,50\u00a0\u20ac Lieferung: 11.\u201314. Juni",
+                    "on_sale": false,
+                    "original_price": null,
+                    "product_condition": "NEW",
+                    "store_name": "ASOS",
+                    "store_rating": "0",
+                    "store_review_count": 0,
+                    "store_reviews_page_url": null,
+                    "store_favicon": "https://encrypted-tbn2.gstatic.com/faviconV2?url=https://www.asos.com&client=SHOPPING&size=32&type=FAVICON&fallback_opts=TYPE,SIZE,URL",
+                    "payment_methods": null
+                }
+            },
+            {
+                "product_id": "catalogid:9700450853720526266,gpcid:5636326230469661672,headlineOfferDocid:5183238357957608663,rds:PC_5636326230469661672|PROD_PC_5636326230469661672,imageDocid:2679697647161010012,mid:576462853241545685,pvt:hg,pvf:",
+                "product_title": "Nike Everyday Plus Herren Cushioned Crew 6-Pack Socken",
+                "product_description": "Ob im Fitnessstudio oder auf der Stra\u00dfe - mit dem 6er-Pack Nike Everyday Cushioned Trainingssocken f\u00fcr Herren bist du bestens ausgestattet. Die Socken sind in Wei\u00df, Grau und Schwarz gehalten und bestehen aus einer dehnbaren Baumwollmischung. Sie verf\u00fcgen \u00fcber zus\u00e4tzliche D\u00e4mpfung im Vorfu\u00df- und Fersenbereich, um jeden Aufprall abzufedern, w\u00e4hrend das Fu\u00dfgew\u00f6lbeband und die verst\u00e4rkten Bereiche f\u00fcr eine st\u00fctzende Passform sorgen. Die schwei\u00dfableitende Dri-FIT-Technologie h\u00e4lt den Fu\u00df k\u00fchl, w\u00e4hrend die Socken sind mit dem kultigen Swoosh-Logo versehen sind. Waschmaschinengeeignet.",
+                "product_photos": [
+                    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSJLfJPSKX-nWJFQwFdX4eTUFlk8Zbq0OdSEEu-If9uGzlh3uVUg29g_FSweQon1F9ExhwID5U-7-rmSiVVkY9ctoi4sNC8ptN4VPhuRc_GQj5VuWkraX8x",
+                    "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSP0HpbtfU0Vm7xt0php1pb_igs6Rs-NmUAtmm_ecmJn6SCqgAsbm6bZE4C_Yd-P2awyPie_SzeHAIrieK8sK-kJb83MzQmX5xeSh-f65BRdwLMtp3MiH3LYw",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRg3q9XfJ-HHJyrS92zat1EcHf2qkrHe0bLmXUIPSTqGU0kH3XGlwWbQAKuBB_fo2BTePmHqEFPh1bnsTYguYRaj_7IYY3GDB7JWbuFPIIYhJhn9pALyi69lg",
+                    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQDrolpRWKaAgHb4Gm9OM6tPwlU3qQzCcdeIn81xN1UaGCrEQVyzsO7L8VozNHnaQvTh7oG8_pWYDPWaezgfbayKVoJ8SWTwDdP0m6vTB_MDz-TZM_Vjl2yHw",
+                    "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcR62Pde0w5mNlC-liPhmJZ-7QxUjHCi6ioI_XDvJO6rHwVM5DSfe0beMKtIsiBL83Do-1zvRmuypRBEpAortfi4tt_dhOmyO8dIIfoIng2NZoF8vcj4bQVo",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQsngQ1_DuG5gz6434TUeUuF5tDSQbEGYVbPrsqvdP9AV5hP4UtYY203MXRnXabpn3gX6Ro6YaKpz-82VEEpx0Ry19Dlr--EIkg2MlhsVC5_N6FUBXJPuS-mA",
+                    "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTKkvQ8HeZqSWqa4IfSYNtQnKF3wlnDKojC4ocsW9G6ZwHBgm5ao7MOpnY5wBmiEnFUKkBdI08dnEBK4kOtkHOensLeHGCmnNwAnVtoKJNa6bDP2SvI9fwT",
+                    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcRtAXtfH3OeiTnEmj4GAD2InfE4vlKZk-YjVzP3WyZFAo90DpuR8ibnZ4XQ7gy4uqdcWiy_HtIYbBClBcsbOarwmSkyPKy3d0HCn6j6BLPhaBJl2Otn62Cp",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQ4LFHRgRqxmQQCNwjIDa6xP7qdeAAFFZqvX-_pcxUxTbCXYUe1qVsrxKRLOaF2LDeCExXSDrThkxa8JVbXTLD-9mylkL3R8CbGj2cboVe_2nHRb9EKIdvM",
+                    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTsjQNZM0xQAQ7FxVkFIFrHtRVeU5CNWRLqBzmnoxfoHoTGAYuPc3nqpemCuUCfrHFZzucb5pjWJubHM-o9_PCl1p5gDNit4woBxAxKnI62Y6GlReGZbL9LuA",
+                    "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcT7Ar5Yx3xc5pHI6yAQ4O1SVyZz7xZAaMgybGM7_41LfU2VMGNWQgTunV-Q168h_Zk9cLD5sACMN3zEQ0k4BmZQB152lvD4Ej823itV6HCu-Zfrm1Yxu6nB",
+                    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTsLtUERhqPbmmwHH9rPk4zCRQLRPtrQsjyiE6B5Yg_4nXKAOW0eRgNHIiuIQAdj0JAfWwladZY9441yg37hlxjx1laMjcqKZRgkus-WCCfyuscWMzYAh-jPL4",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcT0QtcZS1XrgqMgfRIylGO5f-UGqglJzrfLsKcuVr7VV7FeWgN-MywOxumEit47vZMoDOn1FgiFsHPGGDzyeXY0xjP0i83PC7kZcXlypR5n"
+                ],
+                "product_videos": [
+                    {
+                        "title": "Nike Everyday Plus Cushioned Crew Socks (Review + On Feet)",
+                        "url": "https://www.youtube.com/watch?v=FtwSuBER754",
+                        "source": "YouTube",
+                        "publisher": "AJ on Men's Style",
+                        "thumbnail": "https://i.ytimg.com/vi/FtwSuBER754/mqdefault.jpg?sqp=-oaymwEGCMACELQB&rs=AMzJL3m1itZOagtulKX4a0EAyHssEZ5xqg",
+                        "preview_url": "https://encrypted-vtbn0.gstatic.com/video?q=tbn:ANd9GcSMNmVmq0ktm-RlpV_Ty16lPIRYGA-_bZ7TIA",
+                        "duration_ms": 477000
+                    },
+                    {
+                        "title": "Watch before you buy Nike Everyday Plus Cushioned Crew Socks ...",
+                        "url": "https://m.youtube.com/watch?v=uUfPNN_8XPA",
+                        "source": "YouTube",
+                        "publisher": "SYL SneakerFixxer ",
+                        "thumbnail": "https://i.ytimg.com/vi/uUfPNN_8XPA/mqdefault.jpg?sqp=-oaymwEGCMACELQB&rs=AMzJL3lDq1otdsN64-8PGrunz7bn28sQbA",
+                        "duration_ms": 575000
+                    },
+                    {
+                        "title": "Nike Everyday Cushion Ankle Training Socks Review",
+                        "url": "https://www.youtube.com/watch?v=FoLWjeumero",
+                        "source": "YouTube",
+                        "publisher": "Martins Family Reviews",
+                        "thumbnail": "https://i.ytimg.com/vi/FoLWjeumero/mqdefault.jpg?sqp=-oaymwEGCMACELQB&rs=AMzJL3mPh8Vx_2Wl3q9KeDnE9yPjTDLjeQ",
+                        "preview_url": "https://encrypted-vtbn0.gstatic.com/video?q=tbn:ANd9GcRq9cW5beQ-3WR9_w1b_R0CFiU78qpjw4ETYA",
+                        "duration_ms": 60000
+                    }
+                ],
+                "product_attributes": {
+                    "Marke": "Nike",
+                    "Stil": "Wadensocken",
+                    "Gr\u00f6\u00dfe": "S, M, L, XL, 38"
+                },
+                "product_rating": 4.7,
+                "product_page_url": "https://www.google.com/search?ibp=oshop&q=new%20cotton%20gray%20sock&prds=catalogid:9700450853720526266,gpcid:5636326230469661672,headlineOfferDocid:5183238357957608663,rds:PC_5636326230469661672|PROD_PC_5636326230469661672,imageDocid:2679697647161010012,gl:0,mid:576462853241545685,pvt:hg&gl=de&hl=en",
+                "product_num_reviews": 9537,
+                "product_num_offers": 746,
+                "typical_price_range": null,
+                "current_product_variant_properties": {
+                    "Gr\u00f6\u00dfe": "Beliebig: Gr\u00f6\u00dfe"
+                },
+                "product_variants": {
+                    "Gr\u00f6\u00dfe": [
+                        {
+                            "name": "38",
+                            "product_id": "catalogid:9700450853720526266,gpcid:5636326230469661672,headlineOfferDocid:5183238357957608663,rds:PC_5636326230469661672|PROD_PC_5636326230469661672,imageDocid:2679697647161010012,mid:576462853241545685,pvt:hg,pvf:EgkIpP5FEMGUsQE"
+                        },
+                        {
+                            "name": "S",
+                            "product_id": "catalogid:9700450853720526266,gpcid:5636326230469661672,headlineOfferDocid:5183238357957608663,rds:PC_5636326230469661672|PROD_PC_5636326230469661672,imageDocid:2679697647161010012,mid:576462853241545685,pvt:hg,pvf:EggIpP5FEMT-RQ"
+                        },
+                        {
+                            "name": "M",
+                            "product_id": "catalogid:9700450853720526266,gpcid:5636326230469661672,headlineOfferDocid:5183238357957608663,rds:PC_5636326230469661672|PROD_PC_5636326230469661672,imageDocid:2679697647161010012,mid:576462853241545685,pvt:hg,pvf:EggIpP5FEMX-RQ"
+                        },
+                        {
+                            "name": "L",
+                            "product_id": "catalogid:9700450853720526266,gpcid:5636326230469661672,headlineOfferDocid:5183238357957608663,rds:PC_5636326230469661672|PROD_PC_5636326230469661672,imageDocid:2679697647161010012,mid:576462853241545685,pvt:hg,pvf:EggIpP5FEMb-RQ"
+                        },
+                        {
+                            "name": "XL",
+                            "product_id": "catalogid:9700450853720526266,gpcid:5636326230469661672,headlineOfferDocid:5183238357957608663,rds:PC_5636326230469661672|PROD_PC_5636326230469661672,imageDocid:2679697647161010012,mid:576462853241545685,pvt:hg,pvf:EggIpP5FEMf-RQ"
+                        }
+                    ]
+                },
+                "reviews_insights": {},
+                "offer": {
+                    "offer_id": "5183238357957608663",
+                    "offer_title": "Nike Everyday Plus Cushioned Crew-Trainingssocken (6 Paar) - Multi-Color - Gr\u00f6\u00dfe: M",
+                    "offer_page_url": "https://www.nike.com/de/t/everyday-plus-cushioned-crew-trainingssocken-8ZKYiuLu/SX6897-991?nikegos=true",
+                    "price": "16,99\u00a0\u20ac",
+                    "shipping": "5\u00a0\u20ac Lieferung: 12.\u201317. Juni",
+                    "on_sale": true,
+                    "original_price": "27,99\u00a0\u20ac",
+                    "percent_off": "Sonderangebot",
+                    "product_condition": "NEW",
+                    "store_name": "Nike Offiziell",
+                    "store_rating": "4.6/5",
+                    "store_review_count": 0,
+                    "store_reviews_page_url": "https://www.google.com/shopping/ratings/account/metrics?q=nike.com&c=DE&v=19",
+                    "store_favicon": "https://encrypted-tbn2.gstatic.com/faviconV2?url=https://www.nike.com&client=SHOPPING&size=32&type=FAVICON&fallback_opts=TYPE,SIZE,URL",
+                    "coupon_discount_percent": "Sonderangebot",
+                    "payment_methods": null
+                }
+            },
+            {
+                "product_id": "catalogid:5426913882037297615,gpcid:7014436681892206385,headlineOfferDocid:14860020984988526269,rds:PC_7014436681892206385|PROD_PC_7014436681892206385,imageDocid:9873058060743601789,mid:576462826594835798,pvt:hg,pvf:",
+                "product_title": "Next Socken Damen Gr\u00f6\u00dfe 36/41",
+                "product_description": "This pack of four trainers socks are made from a comfortable cotton and modal blend, cut to an ankle length with freshness technology. Waschmaschinenfest 38% Baumwolle, 38% Modal, 22% Nylon, 2% Elasthan.",
+                "product_photos": [
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQBbha5szipDIQ_WdizsBSTXTN0nqudqthi0sWGjVau8IHAqWtRlnQSbHZHib32FHo-t6ut0-DDEDJ4eWZFFYHurkbHX_fjIOqY1H3eJW_OLBQGVgVLrdZIeA",
+                    "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQZjmb2uWxZ0zEUIpOv9jxmyzMdzSwXXIn6kk8xpKD6ckD6Gj39zrb8E8etL5fjeTWn9MoJ6Zh1X1Va1Dbd1ztIpNl5_VZL9RAqQc0wSxj90c9MNDCrbxxsTns"
+                ],
+                "product_videos": [],
+                "product_attributes": {
+                    "Material Oberstoff": "37% Modal, 37% Baumwolle, 25% Nylon, 1% Elasthan"
+                },
+                "product_rating": 4.6,
+                "product_page_url": "https://www.google.com/search?ibp=oshop&q=new%20cotton%20gray%20sock&prds=catalogid:5426913882037297615,gpcid:7014436681892206385,headlineOfferDocid:14860020984988526269,rds:PC_7014436681892206385|PROD_PC_7014436681892206385,imageDocid:9873058060743601789,gl:0,mid:576462826594835798,pvt:hg&gl=de&hl=en",
+                "product_num_reviews": 100,
+                "product_num_offers": 4,
+                "typical_price_range": null,
+                "current_product_variant_properties": {},
+                "product_variants": {},
+                "reviews_insights": {},
+                "offer": {
+                    "offer_id": "13148539561338974632",
+                    "offer_title": "Next Kurzsocken Active Sports Sneaker-Socken, 4er-Pack (1-Paar), grau",
+                    "offer_page_url": "https://www.otto.de/extern/?page=/p/S0I5S0KE%23variationId%3DS0I5S0KEJH4F&PProductId=S0I5S0KE&PCountry=DE&PLanguage=DE&AffiliateID=51affeec845959471ab3a1d456bfb0702092f6407e2ac76ac293ea578805ad16&campid=P.AC-G.MP-GSI.AS-OW.T-SE.C-5009417",
+                    "price": "12,00\u00a0\u20ac",
+                    "shipping": "Kostenlose Lieferung",
+                    "on_sale": false,
+                    "original_price": null,
+                    "product_condition": "NEW",
+                    "store_name": "OTTO",
+                    "store_rating": "4.7/5",
+                    "store_review_count": 0,
+                    "store_reviews_page_url": "https://www.google.com/shopping/ratings/account/metrics?q=otto.de&c=DE&v=19",
+                    "store_favicon": "https://encrypted-tbn2.gstatic.com/faviconV2?url=https://www.otto.de&client=SHOPPING&size=32&type=FAVICON&fallback_opts=TYPE,SIZE,URL",
+                    "payment_methods": null
+                }
+            },
+            {},
+            {
+                "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:",
+                "product_title": "Colorful Standard Classic Organic Sock",
+                "product_description": "Behandeln Sie Ihre F\u00fc\u00dfe! Denn auch sie verdienen es, geliebt zu werden. Die Socken aus Bio-Baumwolle sind nahtlos und atmungsaktiv, sodass Ihre F\u00fc\u00dfe auch nach einem langen Arbeitstag gl\u00fccklich bleiben - oder einem langen Tag, an dem Sie einfach nur dasitzen und nichts tun.",
+                "product_photos": [
+                    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTBjyxwIkpuXQ24S6my06oZHVRpfH5gIgUu_lt0aN67WUHvbWlJN82ozzvmXKrE9UBwYFZO2ZQpkldmbkpnMGfyQLtd81esPjmzKkWeW-aJh2YjEQfLjF7LSA",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcS5Hz_V8IuVmFPW6gzKwrT66wKLI1MQNrRnVH7jC1oWUf3TUSX9mDHhbNkmDegefPgmIWcQHuHpdxx4A8ppafesgJItlI7gJFueQEvD879fcZ_C78eRsK-g",
+                    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcRFscOQb3wHZ83OxlyOHiIxIn1G3T4UwHk0IQT1xiqQ9Mwl634QPJHmMOJGig5iyM64IR06Znf0WW8Hhcw9vvVFlO2q_MS3S4jJbtOJi2D6gMa_EbyLEw7Jtw",
+                    "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTI8kocSbgjEuriQisP82lCZRZS6-On0CchvSs11LHzkKY29TR7pKv4ARVcWkh824FVUVyfeqYf2LOc6QgMFOQ2Jhuu84X1sMKYyQQWzdXqFdPLj-91cTYd",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQqao2dc2S1-gIUY-Z8jECLKtXIfL17AKIIO96c8e_o5rGPGzqEJN_SCTyk2YmM6bXr47rcSXEQjPo6e2Y1TV4hBjRXf0OG1g4rv2rkcHuqZ9bvFNbgzTrD",
+                    "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSD6xzljHYCi0POx1MtRaTOfqDu2IIk9J4cMCbu0OYgTYJE_ylvMwVJ9IUr3vZdU0pouLtGhjd8UTlgqGgZlXpc90Xy7xbbI5npFmTi7iM",
+                    "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSa60jX5LAcTLE0U3eaxzpscy_iIVhACVyvI-8u_KncGm42EsxPR1C0nGlIgaNvvfsSwyOSc9Llf_NjFWa8_ons3HBeMa0oNn_mQgcn0DQ-",
+                    "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQTpbXLRTWDxbnBy9GlD8LXe1HepF2iET7CXR7JJflWNAWPkkdcr9XonlDk60UNCTnYwOZi2d-L7qeuk0LAwNLM3Piz5WWBxeIqbNpVC4I",
+                    "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSM7KbXGBdKItRfutCE5hlgK2oqRGu73IXwMhSvlPHwKl02vjR33ahA2ZTkZ78c5hT4njN3jTC1U3alsDBBiaMDzrw7TeSbgXW0bAWAHOM_iHuLD9Fgw-1iSw",
+                    "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTriXKGJqW4Jchl3KXsaGMjn8-8plhjNU4OMcDdbuusHLZ5lyRD-iNdC2G94j-G5UB_DhpKLEAmg5YD3SQrHoLET_GlqlEXE7Q3MX3ZsHidbc08NRLotJHg",
+                    "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTPHo2SBN2E1mZMTLJYkSKp0IKh9cA7cqsTMok5p3oEJ4GLbPRpNk0XTjHXRuP1STDBo9ZA6SkZx2LXl8nDBcbAzfnrUTrwQuXtQt5Ib8Cd2PTif_x_ia4Leg"
+                ],
+                "product_videos": [],
+                "product_attributes": {
+                    "Marke": "Dr. Martens",
+                    "Stil": "Wadensocken",
+                    "Farbe": "Orange, Taupe, Khaki, Pink, Blau, Schwarz, Apricot, Bordeaux, Gris, Ivory White, Rosa, Wei\u00df, Petrol, Rouge, Scarlet Red, Gelb, Bubblegum Pink, Pacific Blue, Hellgrau, Light Aqua, Dunkelbraun, Marineblau, Graphit, Olivgr\u00fcn, Dunkelgr\u00fcn, Lavendel, Hellgelb, Mittelgrau meliert, Seaside Blue, Marineblau-1"
+                },
+                "product_rating": 4.6,
+                "product_page_url": "https://www.google.com/search?ibp=oshop&q=new%20cotton%20gray%20sock&prds=catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,gl:0,mid:576462784330337644,pvt:hg&gl=de&hl=en",
+                "product_num_reviews": 99,
+                "product_num_offers": 84,
+                "typical_price_range": null,
+                "current_product_variant_properties": {
+                    "Farbe": "Beliebig: Farbe"
+                },
+                "product_variants": {
+                    "Farbe": [
+                        {
+                            "name": "Orange",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARC6ktvhAw"
+                        },
+                        {
+                            "name": "Pink",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARD09dzhAw"
+                        },
+                        {
+                            "name": "Blau",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARC8nN3hAw"
+                        },
+                        {
+                            "name": "Schwarz",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARDSrt3hAw"
+                        },
+                        {
+                            "name": "Bordeaux",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARDq3-DhAw"
+                        },
+                        {
+                            "name": "Ivory White",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARC2uOPhAw"
+                        },
+                        {
+                            "name": "Rosa",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARCtoOXhAw"
+                        },
+                        {
+                            "name": "Wei\u00df",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARCLz-XhAw"
+                        },
+                        {
+                            "name": "Petrol",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARCdhufhAw"
+                        },
+                        {
+                            "name": "Scarlet Red",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARCSw-zhAw"
+                        },
+                        {
+                            "name": "Gelb",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARDDl_vhAw"
+                        },
+                        {
+                            "name": "Bubblegum Pink",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARDwm__hAw"
+                        },
+                        {
+                            "name": "Hellgrau",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARC0upviAw"
+                        },
+                        {
+                            "name": "Dunkelbraun",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARDSzuPiAw"
+                        },
+                        {
+                            "name": "Marineblau",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARCCkObiAw"
+                        },
+                        {
+                            "name": "Graphit",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARCp2_biAw"
+                        },
+                        {
+                            "name": "Olivgr\u00fcn",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARD48LntAw"
+                        },
+                        {
+                            "name": "Dunkelgr\u00fcn",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARDrxbrtAw"
+                        },
+                        {
+                            "name": "Lavendel",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARDapc_tAw"
+                        },
+                        {
+                            "name": "Hellgelb",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARCEzuXtAw"
+                        },
+                        {
+                            "name": "Mittelgrau meliert",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARD_iYPuAw"
+                        },
+                        {
+                            "name": "Seaside Blue",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARDmq9aCBA"
+                        },
+                        {
+                            "name": "Marineblau-1",
+                            "product_id": "catalogid:17554676232374662092,gpcid:11888103853699722702,headlineOfferDocid:7309036465704789272,rds:PC_11888103853699722702|PROD_PC_11888103853699722702,imageDocid:14423958673020698101,mid:576462784330337644,pvt:hg,pvf:EgsIktH5ARCf7Nu1BQ"
+                        }
+                    ]
+                },
+                "reviews_insights": {},
+                "offer": {
+                    "offer_id": "12228758900823246799",
+                    "offer_title": "Classic Organic Sock",
+                    "offer_page_url": "https://www.backyard-shop.de/products/colorful-standard-classic-organic-sock-limestone-grey?currency=EUR&variant=42613597896950&utm_source=google&utm_medium=cpc&utm_campaign=Google+Shopping&stkn=7e6f6f65fb26&srsltid=AfmBOops-IVsPsS7Xsvd9CHRRU5osrFmABJ_ppto2IlEEevrqT8i4oU_TlU",
+                    "price": "10,00\u00a0\u20ac",
+                    "shipping": "5\u00a0\u20ac Lieferung: 12.\u201316. Juni",
+                    "on_sale": false,
+                    "original_price": null,
+                    "product_condition": "NEW",
+                    "store_name": "backyard-shop.de",
+                    "store_rating": "4.8/5",
+                    "store_review_count": 100,
+                    "store_reviews_page_url": "https://www.google.com/shopping/ratings/account/metrics?q=backyard-shop.de&c=DE&v=19",
+                    "store_favicon": "https://encrypted-tbn2.gstatic.com/faviconV2?url=https://www.backyard-shop.de&client=SHOPPING&size=32&type=FAVICON&fallback_opts=TYPE,SIZE,URL",
+                    "payment_methods": null
+                }
+            },
+            {
+                "product_id": "catalogid:9519510114583725042,gpcid:,headlineOfferDocid:16166806027015459859,rds:,imageDocid:9677250294740332198,mid:,pvt:hg,pvf:",
+                "product_title": "Men's Organic Cotton Socks Heather Grey",
+                "product_description": null,
+                "product_photos": [
+                    "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcT5WyWsEs6dzmnFbbSRS9X6zbajId7Xj8OhHJO1JPj18WeN5OllKsksCpO1rGDuazzJRI-K1xQ45mhr3m2HGbO2_f9aqr2QJXlk3E_2bigWZLVZsjpuCienem-e"
+                ],
+                "product_videos": [],
+                "product_attributes": {
+                    "farbe": "HEATHER GREY"
+                },
+                "product_rating": null,
+                "product_page_url": "https://www.google.com/search?ibp=oshop&q=new%20cotton%20gray%20sock&prds=catalogid:9519510114583725042,gpcid:,headlineOfferDocid:16166806027015459859,rds:,imageDocid:9677250294740332198,gl:0,mid:,pvt:hg&gl=de&hl=en",
+                "product_num_reviews": null,
+                "product_num_offers": 2,
+                "typical_price_range": null,
+                "current_product_variant_properties": {},
+                "product_variants": {},
+                "reviews_insights": {},
+                "offer": {
+                    "offer_id": "16166806027015459859",
+                    "offer_title": "MEN'S ORGANIC COTTON SOCKS HEATHER GREY",
+                    "offer_page_url": "https://moeon.de/products/mens-organic-cotton-socks?variant=48045430407500&country=DE&currency=EUR&srsltid=AfmBOoo_2jIhztTXN1zOFzBSdRQoKFDzliKMDkQ7wwkA4UjaR9EYZx6riHY",
+                    "price": "10,00\u00a0\u20ac",
+                    "shipping": "5,90\u00a0\u20ac Lieferung: 17.\u201319. Juni",
+                    "on_sale": false,
+                    "original_price": null,
+                    "product_condition": "NEW",
+                    "store_name": "Moeon",
+                    "store_rating": "0",
+                    "store_review_count": 0,
+                    "store_reviews_page_url": null,
+                    "store_favicon": "https://encrypted-tbn2.gstatic.com/faviconV2?url=https://moeon.de&client=SHOPPING&size=32&type=FAVICON&fallback_opts=TYPE,SIZE,URL",
+                    "payment_methods": null
+                }
+            }
+        ],
+        "sponsored_products": []
+    }
+}
