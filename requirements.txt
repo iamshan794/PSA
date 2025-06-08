@@ -1,4 +1,4 @@
 google-adk
 html2text 
-beautifulsoup4
+bs4
 pymongo

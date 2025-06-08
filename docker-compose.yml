@@ -11,9 +11,10 @@ services:
       - .:/workspace
     command: tail -f /dev/null
     ports:
-      - "8000:8000"                # Expose app port
-    networks:
-      - adk-network
+      - "8000:8000"    
+    network_mode: "host"            # Expose app port
+    # networks:
+    #   - adk-network
     depends_on:
       - mongodb
 
