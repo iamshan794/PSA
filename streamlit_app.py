@@ -5,6 +5,7 @@ from pymongo import MongoClient
 from datetime import datetime
 import time
 from bson import ObjectId
+from ping_mongodb import watch_new_inserts 
 
 # ---------- Session Setup ----------
 if 'user_id' not in st.session_state:
@@ -28,6 +29,9 @@ print(f"App Name: {APP_NAME}")
 MONGO_URI = "mongodb://mongodb:27017/"
 DB_NAME = "shopping_app"
 COLLECTION_NAME = "api_results_raw"
+
+
+latest_id = watch_new_inserts(MONGO_URI, DB_NAME, COLLECTION_NAME)
 
 client = MongoClient(MONGO_URI)
 collection = client[DB_NAME][COLLECTION_NAME]

@@ -3,7 +3,20 @@ from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 from typing import Generator
 import sys
-from bson import ObjectId
+from pymongo import MongoClient
+from bson.objectid import ObjectId
+
+def watch_new_inserts(uri: str, db_name: str, collection_name: str):
+    client = MongoClient(uri)
+    collection = client[db_name][collection_name]
+    
+    print("🔍 Listening for new documents...")
+
+    with collection.watch([{"$match": {"operationType": "insert"}}]) as stream:
+        for change in stream:
+            latest_id = change["fullDocument"]["_id"]
+            print(f"🆕 New document inserted with _id: {latest_id}")
+
 def connect_to_mongodb(uri="mongodb://mongodb:27017/", db_name="test_db", collection_name="test_collection"):
     try:
         client = MongoClient(uri, serverSelectionTimeoutMS=3000)
@@ -45,8 +58,7 @@ if __name__ == "__main__":
             insert_json_data(collection, JSON_FILE_PATH)
 
             print("📄 Retrieving documents:")
-            for doc in retrieve_all_documents(collection):
-                print(doc)
+
     elif sys.argv[1] == "ping":
         DB_NAME = "shopping_app"
         COLLECTION_NAME = "api_results_raw"
@@ -57,5 +69,14 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"Error retrieving document: {e}")
             exit()
-        for doc in retrieve_all_documents(collection):
-            print(doc)
+
+    elif sys.argv[1] == "event_listener":
+        MONGO_URI = "mongodb://mongodb:27017/"
+        DB_NAME = "shopping_app"
+        COLLECTION_NAME = "api_results_raw"
+        
+        latest_id = watch_new_inserts(MONGO_URI, DB_NAME, COLLECTION_NAME)
+        if latest_id:
+            print(f"Latest document ID: {latest_id}")
+        else:
+            print("No documents found in the collection.")

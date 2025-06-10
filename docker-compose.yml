@@ -23,11 +23,12 @@ services:
   mongodb:
     image: mongo:latest
     container_name: mongodb
+    restart: always
     ports:
       - "27017:27017"             # Expose MongoDB port
     networks:
       - adk-network                 
-
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
 networks:
   adk-network:
     driver: bridge
