@@ -11,10 +11,12 @@ services:
       - .:/workspace
     command: tail -f /dev/null
     ports:
-      - "8000:8000"    
-    network_mode: "host"            # Expose app port
-    # networks:
-    #   - adk-network
+      - "8000:8000" 
+      - "8501:8501"           # Expose Streamlit port
+      - "8051:8051"
+    #network_mode: "host"            # Expose app port
+    networks:
+      - adk-network
     depends_on:
       - mongodb
 
