@@ -49,6 +49,7 @@ if __name__ == "__main__":
     # Change these if needed
     if sys.argv[1] == "insert":
         JSON_FILE_PATH = "/workspace/assets/outputs/product_search_results_laptop.json"
+        JSON_FILE_PATH = "/workspace/assets/outputs/gray welcome cotton doormat_20250607_200235.json"
         DB_NAME = "shopping_app"
         COLLECTION_NAME = "api_results_raw"
 
@@ -80,3 +81,15 @@ if __name__ == "__main__":
             print(f"Latest document ID: {latest_id}")
         else:
             print("No documents found in the collection.")
+    elif sys.argv[1] == "drop":
+        MONGO_URI = "mongodb://mongodb:27017/"
+        DB_NAME = "shopping_app"
+        COLLECTION_NAME = "api_results_raw"
+        
+        client = MongoClient(MONGO_URI)
+        db = client[DB_NAME]
+        collection = db[COLLECTION_NAME]
+        
+        result = collection.drop()
+        print(f"✅ Collection '{COLLECTION_NAME}' dropped successfully.")
+        
