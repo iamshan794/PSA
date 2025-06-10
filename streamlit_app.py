@@ -6,8 +6,20 @@ from datetime import datetime
 import time
 from bson import ObjectId
 from ping_mongodb import watch_new_inserts 
+import threading
+
+from streamlit_autorefresh import st_autorefresh
+
+
+st.set_page_config(layout="wide")
+# 📦 Placeholder to dynamically update right column
+
 
 # ---------- Session Setup ----------
+
+if "latest_product_doc" not in st.session_state:
+    st.session_state.latest_product_doc = None
+
 if 'user_id' not in st.session_state:
     st.session_state.user_id = str(uuid.uuid4())
 
@@ -22,16 +34,20 @@ APP_NAME = "multi_tool_agent"
 
 
 
-print(f"User ID: {USER_ID}")
-print(f"Session ID: {SESSION_ID}")
-print(f"App Name: {APP_NAME}")
+
 # ---------- MongoDB Setup ----------
 MONGO_URI = "mongodb://mongodb:27017/"
 DB_NAME = "shopping_app"
 COLLECTION_NAME = "api_results_raw"
 
 
-latest_id = watch_new_inserts(MONGO_URI, DB_NAME, COLLECTION_NAME)
+if "watcher_started" not in st.session_state:
+    threading.Thread(
+        target=watch_new_inserts,
+        args=(MONGO_URI, DB_NAME, COLLECTION_NAME),
+        daemon=True
+    ).start()
+    st.session_state.watcher_started = True
 
 client = MongoClient(MONGO_URI)
 collection = client[DB_NAME][COLLECTION_NAME]
@@ -93,9 +109,28 @@ def get_chatbot_response(user_input,app_name,user_id,session_id):
         return "An error occurred while processing your request."
 
 # ---------- Streamlit Layout ----------
-st.set_page_config(layout="wide")
-left_col, right_col = st.columns([2, 1])
 
+left_col, right_col = st.columns([2, 1])
+right_placeholder = right_col.empty()
+
+# 🧠 Sample condition to update right column
+if "last_product_time" not in st.session_state:
+    st.session_state.last_product_time = time.time()
+
+# 🧠 Real check for new MongoDB product document
+if "last_seen_object_id" not in st.session_state:
+    # Initialize on first run
+    latest_doc = collection.find_one(sort=[("_id", -1)])
+    if latest_doc:
+        st.session_state.last_seen_object_id = latest_doc["_id"]
+        st.session_state.latest_product_doc = latest_doc
+else:
+    # Poll for new insert
+    latest_doc = collection.find_one(sort=[("_id", -1)])
+    if latest_doc and latest_doc["_id"] != st.session_state.last_seen_object_id:
+        st.session_state.last_seen_object_id = latest_doc["_id"]
+        st.session_state.latest_product_doc = latest_doc
+        st.session_state.last_product_time = time.time()  # Update time if needed
 # ---------- Left Panel: Chat ----------
 with left_col:
     st.title("🛍️ Personal Shopping Assistant")
@@ -115,40 +150,42 @@ with left_col:
         st.rerun()  # Refresh display
 
 # ---------- Right Panel: Product Card ----------
-with right_col:
+with right_placeholder.container():
     st.title("🛍️ Product Listings")
-    latest_product=fetch_latest_product()
+    if st.session_state.latest_product_doc:
+        latest_product = st.session_state.latest_product_doc
+        #latest_product=fetch_latest_product()
+        print("HERE-----------------",latest_product)
+        products = latest_product["data"]["products"] 
+        
+        if not products:
+            st.info("No products available.")
+        else:
+            for product in products:
+                with st.container():
+                    # Image
+                    image_url = product.get("product_photos", [""])[0]
+                    if image_url:
+                        st.image(image_url, width=200)
 
-    products = latest_product["data"]["products"] 
-    
-    if not products:
-        st.info("No products available.")
-    else:
-        for product in products:
-            with st.container():
-                # Image
-                image_url = product.get("product_photos", [""])[0]
-                if image_url:
-                    st.image(image_url, width=200)
+                    # Title
+                    st.subheader(product.get("product_title", "No Title"))
 
-                # Title
-                st.subheader(product.get("product_title", "No Title"))
+                    # Description
+                    st.caption(product.get("product_description", "No Description"))
 
-                # Description
-                st.caption(product.get("product_description", "No Description"))
+                    # Rating
+                    rating = product.get("product_rating", "N/A")
+                    num_reviews = product.get("product_num_reviews", 0)
+                    st.markdown(f"⭐ **{rating}** ({num_reviews} reviews)")
 
-                # Rating
-                rating = product.get("product_rating", "N/A")
-                num_reviews = product.get("product_num_reviews", 0)
-                st.markdown(f"⭐ **{rating}** ({num_reviews} reviews)")
+                    # Price
+                    price = product.get("typical_price_range", "N/A")
+                    st.markdown(f"💰 **{price}**")
 
-                # Price
-                price = product.get("typical_price_range", "N/A")
-                st.markdown(f"💰 **{price}**")
+                    # Link
+                    url = product.get("product_page_url", "#")
+                    st.markdown(f"[🔗 View Product]({url})")
 
-                # Link
-                url = product.get("product_page_url", "#")
-                st.markdown(f"[🔗 View Product]({url})")
-
-                st.markdown("---")
+                    st.markdown("---")
 
