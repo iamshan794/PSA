@@ -2,3 +2,5 @@ google-adk
 html2text 
 bs4
 pymongo
+streamlit
+streamlit_autorefresh

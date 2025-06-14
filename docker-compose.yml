@@ -9,7 +9,6 @@ services:
     container_name: google-adk-workspace
     volumes:
       - .:/workspace
-    command: tail -f /dev/null
     ports:
       - "8000:8000" 
       - "8501:8501"           # Expose Streamlit port
@@ -19,6 +18,14 @@ services:
       - adk-network
     depends_on:
       - mongodb
+    command:
+      - /bin/bash
+      - -c
+      - |
+        adk api_server --host=0.0.0.0 &
+        sleep 10
+        streamlit run streamlit_app.py || true
+        wait
 
   mongodb:
     image: mongo:latest
@@ -27,8 +34,18 @@ services:
     ports:
       - "27017:27017"             # Expose MongoDB port
     networks:
-      - adk-network                 
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+      - adk-network    
+    volumes:
+      - ./mongodb:/tmp/mongodb  # Persist MongoDB data             
+    command:
+      - /bin/bash
+      - -c
+      - |
+        mongod --replSet rs0 --bind_ip_all &
+        sleep 10
+        mongosh --eval "rs.initiate()" || true
+        wait
+    
 networks:
   adk-network:
     driver: bridge
