@@ -38,9 +38,9 @@ docker_build_job:
   resource_group: development
   needs:
     - test_workflow
-    - shopping_app
   tags:
     - docker
+    - shopping_app
   variables:
     AGENT_ENV_FILE: "$CI_PROJECT_DIR/multi_tool_agent/.env"
   script:
