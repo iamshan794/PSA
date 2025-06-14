@@ -25,9 +25,10 @@ test_workflow:
     stage: test
     needs:
         - lint_job
-        - shopping_app
+        
     resource_group: development
     tags:
+        - shopping_app
         - test_job
     script:
         - echo "Test Successful"
