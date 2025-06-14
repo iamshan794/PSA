@@ -1,0 +1,54 @@
+workflow:
+    name: shopping-app
+    rules:
+        - if: $CI_COMMIT_BRANCH =="main"
+          when: always
+
+stages:
+    - ".pre"
+    - test
+    - build
+    - deploy
+    - ".post" 
+
+lint_job:
+    stage: ".pre"
+    resource_group: development
+    tags:
+        - preprocess
+    script:
+        - echo "Lint Successful"
+    allow_failure: False
+
+test_workflow:
+    stage: test
+    needs:
+        - lint_job
+    resource_group: development
+    tags:
+        - test_job
+    script:
+        - echo "Test Successful"
+    allow_failure: False
+
+docker_build_job:
+  stage: build
+  resource_group: development
+  tags:
+    - docker
+  variables:
+    AGENT_ENV_FILE: "$CI_PROJECT_DIR/multi_tool_agent/.env"
+  script:
+    # Create the .env file
+    - docker compose up -d 
+
+    # Optionally show the file (for debugging — remove if sensitive)
+    - docker exec -it google_adk:latest python ping_mongodb.py ping
+
+    # OR use Dockerfile to COPY the .env
+    - docker compose down 
+
+    - echo "Docker build job succeeded"
+  allow_failure: false
+
+    
