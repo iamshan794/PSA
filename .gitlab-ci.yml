@@ -34,6 +34,8 @@ test_workflow:
 docker_build_job:
   stage: build
   resource_group: development
+  needs:
+    - test_workflow
   tags:
     - docker
   variables:
