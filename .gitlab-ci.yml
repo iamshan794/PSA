@@ -16,6 +16,7 @@ lint_job:
     resource_group: development
     tags:
         - preprocess
+        - shopping_app
     script:
         - echo "Lint Successful"
     allow_failure: False
@@ -24,6 +25,7 @@ test_workflow:
     stage: test
     needs:
         - lint_job
+        - shopping_app
     resource_group: development
     tags:
         - test_job
@@ -36,6 +38,7 @@ docker_build_job:
   resource_group: development
   needs:
     - test_workflow
+    - shopping_app
   tags:
     - docker
   variables:
