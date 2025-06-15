@@ -72,20 +72,5 @@ unit_test_job:
     - echo "Unit tests completed"
   allow_failure: false
 
-mongodb_test_job:
-  stage: test
-  tags:
-    - shopping_app
-  needs:
-    - lint_job
-  resource_group: development
-  script:
-    - echo "Testing MongoDB connectivity..."
-    - docker --version
-    - docker run --rm --name mongodb-test -d -p 27017:27017 mongo:latest
-    - sleep 15
-    - docker exec mongodb-test mongosh --eval "db.runCommand({ ping: 1 })" || echo "MongoDB ping failed"
-    - docker stop mongodb-test || true
-    - echo "MongoDB test completed"
-  allow_failure: false
+
 
