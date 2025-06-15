@@ -148,10 +148,9 @@ unit_test_job:
       fi
 
     - echo "Unit tests completed"
-
-    after_script:
+  after_script:
     # Cleanup
     - docker stop "${APP_IMG_NAME}_api_test" 2>/dev/null || true
     - docker rm "${APP_IMG_NAME}_api_test" 2>/dev/null || true
 
-    allow_failure: false
+  allow_failure: false
