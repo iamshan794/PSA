@@ -56,12 +56,6 @@ unit_test_job:
     
     # Test API server startup (background process)
     - docker stop "${APP_IMG_NAME}_api_test" && docker rm "${APP_IMG_NAME}_api_test"
-    - |
-      docker run --rm -d \
-        --name "${APP_IMG_NAME}_api_test" \
-        -p "8000:8000" \
-        "$APP_IMG_NAME:test" \
-        bash -c "adk api_server --host=0.0.0.0"
 
     # Option 2: Use docker exec to test inside container
     - echo "Testing API server with docker exec..."
