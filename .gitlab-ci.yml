@@ -15,7 +15,6 @@ lint_job:
     stage: ".pre"
     resource_group: development
     tags:
-        - preprocess
         - shopping_app
         - ubuntu_22.04
     script:
@@ -30,7 +29,6 @@ test_workflow:
     resource_group: development
     tags:
         - shopping_app
-        - test_job
         - ubuntu_22.04
     script:
         - echo "Test Successful"
@@ -42,7 +40,6 @@ docker_build_job:
   needs:
     - test_workflow
   tags:
-    - docker
     - shopping_app
     - ubuntu_22.04
   variables:
