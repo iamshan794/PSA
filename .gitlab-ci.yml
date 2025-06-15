@@ -55,7 +55,6 @@ unit_test_job:
         -e ENV_FILE_DESTINATION="$ENV_FILE_DESTINATION" \
         "$APP_IMG_NAME" \
         bash -c "
-          echo '📦 .env contents:' && cat \"$ENV_FILE_DESTINATION\"
           adk api_server --host=0.0.0.0 && curl -f http://localhost:8000/docs/
         "
     - echo "Unit tests completed"
@@ -72,7 +71,9 @@ mongodb_test_job:
     - echo "Testing MongoDB connectivity..."
     - docker run --rm --name mongodb-test -d mongo:latest
     - sleep 10
-    - docker exec mongodb-test mongosh --eval "db.runCommand({ ping: 1 })" || echo "MongoDB basic test failed"
+    - >
+      docker exec mongodb-test mongosh --eval "db.runCommand({ ping: 1 })" ||
+      echo "MongoDB basic test failed"
     - docker stop mongodb-test
     - echo "MongoDB test completed"
   allow_failure: false
