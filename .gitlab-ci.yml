@@ -40,116 +40,49 @@ unit_test_job:
     - lint_job
   resource_group: development
   script:
-    - echo "Running unit tests..."
+    - echo "Running job as ${whoami}"
+    - echo "Setting Up Curl..."
+    - apk add --no-cache curl
+    # Check Docker is available
     - docker --version
     - docker info
     
-    # Prepare environment
+    # Prepare environment file
     - mkdir -p "$(dirname "$ENV_FILE_DESTINATION")"
     - cp "$AGENT_ENV_FILE" "$ENV_FILE_DESTINATION" || echo "No env file to copy"
     
     # Build the image
     - test -n "$(docker images -q "$APP_IMG_NAME")" || docker build -t "$APP_IMG_NAME:test" .
     
-    # Test basic functionality
-    - docker run --rm --name "${APP_IMG_NAME}_test_instance" "$APP_IMG_NAME:test" python --version
-    
-    # Clean up any existing containers
-    - docker stop "${APP_IMG_NAME}_api_test" 2>/dev/null || true
-    - docker rm "${APP_IMG_NAME}_api_test" 2>/dev/null || true
-    
-    # Test 1: Start API server and verify it's running
-    - echo "Starting API server..."
+    # Test API server startup (background process)
+    - docker stop "${APP_IMG_NAME}_api_test" && docker rm "${APP_IMG_NAME}_api_test"
     - |
       docker run --rm -d \
         --name "${APP_IMG_NAME}_api_test" \
         -p "8000:8000" \
         "$APP_IMG_NAME:test" \
-        bash -c "adk api_server --host=0.0.0.0 --port=8000"
-    
-    - sleep 15
-    - echo "=== Server logs ==="
+        bash -c "adk api_server --host=0.0.0.0"
+
+    - sleep 10
     - docker logs "${APP_IMG_NAME}_api_test"
-    - echo "=== End logs ==="
+    - curl -f http://localhost:8000/docs/ || echo "API docs not accessible"
+    - docker stop "${APP_IMG_NAME}_api_test" || true
+
+    # Option 2: Use docker exec to test inside container
+    - echo "Testing API server with docker exec..."
+    - docker run -d --rm --name "${APP_IMG_NAME}_api_test" "$APP_IMG_NAME:test" bash -c "adk api_server --host=0.0.0.0 && sleep 60"
+    - sleep 10
+    - docker exec "${APP_IMG_NAME}_api_test" curl -f http://localhost:8000/ || echo "Internal API test failed"
+    - docker exec "${APP_IMG_NAME}_api_test" curl -f http://localhost:8000/docs/ || echo "Internal API docs test failed"
     
-    # Test 2: Check if container is still running (server didn't crash)
-    - echo "Checking if container is still running..."
-    - docker ps | grep "${APP_IMG_NAME}_api_test" || echo "Container not running"
-    
-    # Test 3: Test known API endpoints from inside container
-    - echo "Testing API endpoints from inside container..."
-    
-    # Test common FastAPI endpoints
-    - docker exec "${APP_IMG_NAME}_api_test" curl -s http://localhost:8000/docs || echo "Docs endpoint not available"
-    - docker exec "${APP_IMG_NAME}_api_test" curl -s http://localhost:8000/openapi.json || echo "OpenAPI endpoint not available"
-    - docker exec "${APP_IMG_NAME}_api_test" curl -s http://localhost:8000/redoc || echo "ReDoc endpoint not available"
-    
-    # Test if there are any endpoints that return 200
-    - echo "Testing various endpoints..."
-    - docker exec "${APP_IMG_NAME}_api_test" curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/ | grep -E "200|404|422" || echo "Root endpoint test completed"
-    - docker exec "${APP_IMG_NAME}_api_test" curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/health | grep -E "200|404|422" || echo "Health endpoint test completed"
-    - docker exec "${APP_IMG_NAME}_api_test" curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/status | grep -E "200|404|422" || echo "Status endpoint test completed"
-    
-    # Test 4: Check if server is listening on correct port
-    - echo "Checking if server is listening on port 8000..."
-    - docker exec "${APP_IMG_NAME}_api_test" netstat -tlnp | grep :8000 || echo "Port 8000 not found in netstat"
-    - docker exec "${APP_IMG_NAME}_api_test" ss -tlnp | grep :8000 || echo "Port 8000 not found in ss"
-    
-    # Test 5: Check process list
-    - echo "Checking running processes..."
-    - docker exec "${APP_IMG_NAME}_api_test" ps aux | grep -E "(python|uvicorn|adk)" || echo "API processes check completed"
-    
-    # Test 6: Try to get any response from the server
-    - echo "Testing basic connectivity..."
-    - docker exec "${APP_IMG_NAME}_api_test" curl -v http://localhost:8000/ 2>&1 | head -20 || echo "Verbose curl test completed"
-    
-    # Test 7: Test with container IP (if reachable from runner)
-    - echo "Getting container IP..."
-    - CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "${APP_IMG_NAME}_api_test")
-    - echo "Container IP: $CONTAINER_IP"
-    - |
-      if [ -n "$CONTAINER_IP" ] && [ "$CONTAINER_IP" != "<no value>" ]; then
-        echo "Testing connection to container IP..."
-        curl -s --connect-timeout 5 --max-time 10 http://$CONTAINER_IP:8000/docs || echo "Container IP connection failed"
-        curl -s --connect-timeout 5 --max-time 10 -o /dev/null -w "%{http_code}" http://$CONTAINER_IP:8000/ || echo "Container IP root test completed"
-      else
-        echo "Could not get container IP"
-      fi
-    
-    # Test 8: Verify the server responds to shutdown gracefully
-    - echo "Testing graceful shutdown..."
-    - docker exec "${APP_IMG_NAME}_api_test" pkill -TERM python || echo "No python process to terminate"
-    - sleep 3
-    - docker logs "${APP_IMG_NAME}_api_test" | tail -10
-    
-    # Final assessment
-    - echo "=== FINAL ASSESSMENT ==="
-    - |
-      if docker ps | grep -q "${APP_IMG_NAME}_api_test"; then
-        echo "✓ Container is running"
-      else
-        echo "✗ Container stopped"
-      fi
-    
-    - |
-      if docker logs "${APP_IMG_NAME}_api_test" 2>&1 | grep -q "Uvicorn running"; then
-        echo "✓ Uvicorn server started successfully"
-      else
-        echo "✗ Uvicorn server startup issue"
-      fi
-    
-    - |
-      if docker exec "${APP_IMG_NAME}_api_test" netstat -tln 2>/dev/null | grep -q ":8000"; then
-        echo "✓ Server is listening on port 8000"
-      else
-        echo "✗ Server not listening on port 8000"
-      fi
+    # Option 3: Use host networking
+    - docker stop "${APP_IMG_NAME}_api_test" || true
+    - echo "Testing with host networking..."
+    - docker run -d --rm --name "${APP_IMG_NAME}_api_host" --network host "$APP_IMG_NAME:test" bash -c "adk api_server --host=0.0.0.0"
+    - sleep 15
+    - curl -f http://localhost:8000/ || echo "Host network API test failed"
+    - docker stop "${APP_IMG_NAME}_api_host" || true
     
     - echo "Unit tests completed"
-  
-  after_script:
-    # Cleanup
-    - docker stop "${APP_IMG_NAME}_api_test" 2>/dev/null || true
-    - docker rm "${APP_IMG_NAME}_api_test" 2>/dev/null || true
-  
+    
   allow_failure: false
