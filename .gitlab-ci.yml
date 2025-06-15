@@ -65,7 +65,7 @@ unit_test_job:
 
     - sleep 10
     - docker logs "${APP_IMG_NAME}_api_test"
-    - curl -f http://localhost:8000/docs/ || echo "API docs not accessible"
+    - curl -f http://${APP_IMG_NAME}_api_test:8000/docs/ || echo "API docs not accessible"
     - docker stop "${APP_IMG_NAME}_api_test" || true
 
     # Option 2: Use docker exec to test inside container
