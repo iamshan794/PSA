@@ -81,18 +81,11 @@ mongodb_test_job:
   resource_group: development
   script:
     - echo "Testing MongoDB connectivity..."
-    
-    # Check Docker is available
     - docker --version
-    
-    # Start MongoDB container
     - docker run --rm --name mongodb-test -d -p 27017:27017 mongo:latest
     - sleep 15
-    
-    # Test MongoDB connectivity
     - docker exec mongodb-test mongosh --eval "db.runCommand({ ping: 1 })" || echo "MongoDB ping failed"
-    
-    # Cleanup
     - docker stop mongodb-test || true
     - echo "MongoDB test completed"
   allow_failure: false
+
