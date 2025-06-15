@@ -17,6 +17,7 @@ lint_job:
     tags:
         - preprocess
         - shopping_app
+        - ubuntu_22.04
     script:
         - echo "Lint Successful"
     allow_failure: False
@@ -30,6 +31,7 @@ test_workflow:
     tags:
         - shopping_app
         - test_job
+        - ubuntu_22.04
     script:
         - echo "Test Successful"
     allow_failure: False
@@ -42,6 +44,7 @@ docker_build_job:
   tags:
     - docker
     - shopping_app
+    - ubuntu_22.04
   variables:
     AGENT_ENV_FILE: "$CI_PROJECT_DIR/multi_tool_agent/.env"
   script:
