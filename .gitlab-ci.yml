@@ -72,15 +72,15 @@ unit_test_job:
     - echo "Testing API server with docker exec..."
     - docker run -d --rm --name "${APP_IMG_NAME}_api_test" "$APP_IMG_NAME:test" bash -c "adk api_server --host=0.0.0.0 && sleep 60"
     - sleep 10
-    - docker exec "${APP_IMG_NAME}_api_test" curl -f http://localhost:8000/ || echo "Internal API test failed"
-    - docker exec "${APP_IMG_NAME}_api_test" curl -f http://localhost:8000/docs/ || echo "Internal API docs test failed"
+    - docker exec "${APP_IMG_NAME}_api_test" curl -f http://${APP_IMG_NAME}_api_test:8000/ || echo "Internal API test failed"
+    - docker exec "${APP_IMG_NAME}_api_test" curl -f http://${APP_IMG_NAME}_api_test:8000/docs/ || echo "Internal API docs test failed"
     
     # Option 3: Use host networking
     - docker stop "${APP_IMG_NAME}_api_test" || true
     - echo "Testing with host networking..."
     - docker run -d --rm --name "${APP_IMG_NAME}_api_host" --network host "$APP_IMG_NAME:test" bash -c "adk api_server --host=0.0.0.0"
     - sleep 15
-    - curl -f http://localhost:8000/ || echo "Host network API test failed"
+    - curl -f http://${APP_IMG_NAME}_api_test:8000/docs/ || echo "Host network API test failed"
     - docker stop "${APP_IMG_NAME}_api_host" || true
     
     - echo "Unit tests completed"
