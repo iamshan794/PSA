@@ -54,7 +54,7 @@ unit_test_job:
     - docker build -t "$APP_IMG_NAME:test" .
     
     # Run basic container test (don't bind ports in CI)
-    - docker run --rm --name "${APP_IMG_NAME}_test_instance" "$APP_IMG_NAME:test" python --version
+    - docker run --rm --name "${APP_IMG_NAME}_test_instance" "$APP_IMG_NAME:test" python3 --version
     
     # Test API server startup (background process)
     - |
