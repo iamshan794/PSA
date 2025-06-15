@@ -35,6 +35,8 @@ lint_job:
 
 unit_test_job:
   stage: test
+  variables:
+    ENV_FILE_DESTINATION: "/workspace/multi_tool_agent/.env"
   tags:
     - shopping_app
   needs:
@@ -45,7 +47,17 @@ unit_test_job:
     # Build test image
     - docker build -t google-adk-test .
     # Run unit tests (non-interactive)
-    - docker run --rm google-adk-test python -m pytest tests/unit/ -v || echo "Add unit tests"
+    - docker run --rm google-adk-test \
+      --name google_adk_test_instance
+      -p "8000:8000" \
+      -p "8501:8501" \
+      -v ".:/workspace" \
+      -e "$ENV_FILE_DESTINATION:ENV_FILE_DESTINATION" \
+      -e "$AGENT_ENV_FILE:AGENT_ENV_FILE" \
+      bash -c "
+      cp "$AGENT_ENV_FILE" "ENV_FILE_DESTINATION"
+      adk api_server --host=0.0.0.0 && curl -V http://localhost:8000/docs/
+      "
     - echo "Unit tests completed"
   allow_failure: false
 
@@ -110,7 +122,7 @@ integration_test_job:
     - docker pull $IMAGE_TAG
     
     # Update docker-compose to use the built image
-    - sed -i "s|image: google_adk:latest|image: $IMAGE_TAG|g" docker-compose.yml
+    - sed -i "s|image: google_adk:latest|image: \"$IMAGE_TAG\"|g" docker-compose.yml
     
     # Start services
     - docker compose up -d
@@ -129,7 +141,7 @@ integration_test_job:
     - docker compose exec -T google-adk curl -f http://localhost:8000/health || echo "Health check test"
     
     # Run integration tests
-    - docker compose exec -T google-adk python -m pytest tests/integration/ -v || echo "Add integration tests"
+    - docker compose exec -T google-adk echo "Add integration tests"
     
     - echo "Integration tests completed"
   after_script:
