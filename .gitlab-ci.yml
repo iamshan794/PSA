@@ -64,6 +64,7 @@ unit_test_job:
     
     # Wait and test API
     - sleep 10
+    - docker exec "${APP_IMG_NAME}_api_test" ls /workspace/multi_tool_agent && cat $ENV_FILE_DESTINATION
     - curl -f http://localhost:8000/docs/ || echo "API docs not accessible"
     - docker stop "${APP_IMG_NAME}_api_test" || true
     
