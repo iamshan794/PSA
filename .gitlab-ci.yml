@@ -52,7 +52,7 @@ unit_test_job:
     - cp "$AGENT_ENV_FILE" "$ENV_FILE_DESTINATION" || echo "No env file to copy"
     
     # Build the image
-    - docker build -t "$APP_IMG_NAME:test" .
+    - test -n "$(docker images -q "$APP_IMG_NAME")" || docker build -t "$APP_IMG_NAME:test" .
     
     # Test API server startup (background process)
     - docker stop "${APP_IMG_NAME}_api_test" && docker rm "${APP_IMG_NAME}_api_test"
