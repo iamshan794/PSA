@@ -57,7 +57,7 @@ unit_test_job:
     # Test API server startup (background process)
     - docker stop "${APP_IMG_NAME}_api_test" && docker rm "${APP_IMG_NAME}_api_test"
     - |
-      docker run -d --rm \
+      docker run --rm -d \
         --name "${APP_IMG_NAME}_api_test" \
         -p "8000:8000" \
         -v ".:/workspace"
