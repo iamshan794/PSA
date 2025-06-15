@@ -58,8 +58,9 @@ unit_test_job:
     - echo "Testing API server with docker exec..."
     - docker run -d --rm --name "${APP_IMG_NAME}_api_test" "$APP_IMG_NAME:test" bash -c "adk api_server --host=0.0.0.0 && sleep 60"
     - sleep 10
-    - docker exec "${APP_IMG_NAME}_api_test" curl -V http://0.0.0.0:8000/ || echo "Internal API test failed"
-    - docker exec "${APP_IMG_NAME}_api_test" curl -V http://0.0.0.0:8000/docs/ || echo "Internal API docs test failed"
+    - docker exec "${APP_IMG_NAME}_api_test" curl -f http://0.0.0.0:8000/ || echo "Internal API test failed"
+    - docker exec "${APP_IMG_NAME}_api_test" curl -f http://0.0.0.0:8000/docs/ || echo "Internal API docs test failed"
+    - sleep 10
     - docker stop "${APP_IMG_NAME}_api_test" || true
     
     
