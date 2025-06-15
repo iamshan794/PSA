@@ -55,13 +55,15 @@ unit_test_job:
     - docker build -t "$APP_IMG_NAME:test" .
     
     # Test API server startup (background process)
+    - docker stop "${APP_IMG_NAME}_api_test" && docker rm "${APP_IMG_NAME}_api_test"
     - |
-      docker run -d \
+      docker run -d --rm \
         --name "${APP_IMG_NAME}_api_test" \
         -p "8000:8000" \
+        -v ".:/workspace"
         "$APP_IMG_NAME:test" \
         bash -c "adk api_server --host=0.0.0.0"
-    
+    - docker logs "${APP_IMG_NAME}_api_test"
     # Wait and test API
     - sleep 10
     - docker exec "${APP_IMG_NAME}_api_test" ls /workspace/multi_tool_agent && cat $ENV_FILE_DESTINATION
