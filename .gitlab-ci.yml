@@ -14,8 +14,6 @@ stages:
 lint_job:
     stage: ".pre"
     resource_group: development
-    tags:
-        - shopping_app
     script:
         - echo "Lint Successful"
     allow_failure: False
@@ -23,11 +21,8 @@ lint_job:
 test_workflow:
     stage: test
     needs:
-        - lint_job
-        
+        - lint_job  
     resource_group: development
-    tags:
-        - shopping_app
     script:
         - echo "Test Successful"
     allow_failure: False
@@ -37,8 +32,6 @@ docker_build_job:
   resource_group: development
   needs:
     - test_workflow
-  tags:
-    - shopping_app
   variables:
     AGENT_ENV_FILE: "$CI_PROJECT_DIR/multi_tool_agent/.env"
   script:
