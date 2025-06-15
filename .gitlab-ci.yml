@@ -40,8 +40,9 @@ unit_test_job:
     - lint_job
   resource_group: development
   script:
-    - echo "Running unit tests..."
-    
+    - echo "Running job as ${whoami}"
+    - echo "Setting Up Curl..."
+    - apt-get update && apt-get install -y curl
     # Check Docker is available
     - docker --version
     - docker info
