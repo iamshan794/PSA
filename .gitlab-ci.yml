@@ -62,10 +62,9 @@ unit_test_job:
         -p "8000:8000" \
         "$APP_IMG_NAME:test" \
         bash -c "adk api_server --host=0.0.0.0"
-    - docker logs "${APP_IMG_NAME}_api_test"
-    # Wait and test API
+
     - sleep 10
-    - docker exec "${APP_IMG_NAME}_api_test" ls /workspace/multi_tool_agent && cat $ENV_FILE_DESTINATION
+    - docker logs "${APP_IMG_NAME}_api_test"
     - curl -f http://localhost:8000/docs/ || echo "API docs not accessible"
     - docker stop "${APP_IMG_NAME}_api_test" || true
     
