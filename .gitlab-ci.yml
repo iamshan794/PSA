@@ -30,6 +30,8 @@ test_workflow:
 docker_build_job:
   stage: build
   resource_group: development
+  tags:
+    - shopping_app
   needs:
     - test_workflow
   variables:
