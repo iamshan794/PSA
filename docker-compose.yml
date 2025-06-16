@@ -45,8 +45,8 @@ services:
         sleep 10
         mongosh --eval "rs.initiate()" || true
         wait
-    tmpfs:
-      - /data/db
+    # tmpfs:
+    #   - /data/db
 networks:
   adk-network:
     driver: bridge
