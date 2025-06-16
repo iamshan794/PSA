@@ -121,3 +121,51 @@ mongodb_test_job:
     - docker rm test_mongodb 2>/dev/null || true
   
   allow_failure: false
+
+integration_test_job:
+  stage: integration_test
+  tags:
+    - shopping_app
+  needs:
+    - unit_test_job
+    - mongodb_test_job
+  resource_group: development
+  variables:
+    ENV_FILE_DESTINATION: "/workspace/multi_tool_agent/.env"
+    COMPOSE_PROJECT_NAME: "ci_integration_test"
+  script:
+    - echo "Running integration tests..."
+    
+    # Prepare environment
+    - mkdir -p "$(dirname "$ENV_FILE_DESTINATION")"
+    - cp "$AGENT_ENV_FILE" "$ENV_FILE_DESTINATION" || echo "No env file to copy"
+    
+    # Install docker-compose if not available
+    - which docker-compose || (curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose)
+    
+    # Build and start services
+    - docker-compose -f docker-compose.yml build
+    - docker-compose -f docker-compose.yml up -d
+    
+    # Wait for services to be ready
+    - sleep 30
+    - docker-compose -f docker-compose.yml ps
+    - docker-compose -f docker-compose.yml logs
+    
+    # Test service connectivity
+    - echo "Testing service connectivity..."
+    # Add your specific integration tests here based on your docker-compose.yml
+    
+    # Example tests (adjust based on your actual services):
+    # - curl -f http://localhost:8000/health || echo "App health check failed"
+    # - Test MongoDB connection from app container
+    # - Test any other service integrations
+    
+    - echo "Integration tests completed"
+  
+  after_script:
+    # Cleanup
+    - docker-compose -f docker-compose.yml down -v || true
+    - docker system prune -f || true
+  
+  allow_failure: false
