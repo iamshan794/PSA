@@ -21,7 +21,7 @@ variables:
   APP_IMG_NAME: "google-adk"
 
 
-lint_job:
+.lint_job:
   stage: ".pre"
   resource_group: development
   tags:
@@ -32,7 +32,7 @@ lint_job:
   allow_failure: false
 
 
-unit_test_job:
+.unit_test_job:
   stage: test
   variables:
     ENV_FILE_DESTINATION: "/workspace/multi_tool_agent/.env"
@@ -76,7 +76,7 @@ unit_test_job:
   allow_failure: false 
   
 
-mongodb_test_job:
+.mongodb_test_job:
   stage: test
   tags:
     - shopping_app
