@@ -126,9 +126,9 @@ integration_test_job:
   stage: integration
   tags:
     - shopping_app
-  needs:
-    - unit_test_job
-    - mongodb_test_job
+  # needs:
+  #   - unit_test_job
+  #   - mongodb_test_job
   resource_group: development
   variables:
     ENV_FILE_DESTINATION: "/workspace/multi_tool_agent/.env"
