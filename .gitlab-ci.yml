@@ -145,6 +145,7 @@ integration_test_job:
     # Install docker-compose if not available
     - which docker-compose || (curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose)
     - apk add --no-cache gettext
+    - apk add --no-cache curl
     - - envsubst < docker-compose.yml > docker-compose.generated.yml
     # Build and start services
     - docker-compose -f docker-compose.generated.yml build
