@@ -150,6 +150,8 @@ integration_test_job:
     # Build and start services
     - docker-compose -f docker-compose.generated.yml build
     - docker-compose -f docker-compose.generated.yml up -d
+    - sleep 25 
+    - docker logs "${APP_IMG_NAME}"
     - curl -v http://localhost:8501
     - docker exec "${APP_IMG_NAME}" curl -v http://localhost:8501 
     # Wait for services to be ready
