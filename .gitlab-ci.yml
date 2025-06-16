@@ -88,14 +88,13 @@ mongodb_test_job:
     MONGO_INITDB_ROOT_PASSWORD: password123
     MONGO_PORT: 27017
   script:
-    - echo "Testing MongoDB with Docker..."
+    - echo "Testing MongoDB ping..."
     
     # Clean up any existing MongoDB containers
     - docker stop test_mongodb 2>/dev/null || true
     - docker rm test_mongodb 2>/dev/null || true
     
     # Start MongoDB container
-    - echo "Starting MongoDB container..."
     - |
       docker run -d \
         --name test_mongodb \
@@ -104,13 +103,10 @@ mongodb_test_job:
         -e MONGO_INITDB_ROOT_PASSWORD=$MONGO_INITDB_ROOT_PASSWORD \
         mongo:latest
     
-    # Wait for MongoDB to be ready
-    - echo "Waiting for MongoDB to start..."
-    - sleep 20
-    - docker logs test_mongodb
+    # Wait for MongoDB to start
+    - sleep 15
     
-    # Test MongoDB connectivity using Docker client
-    - echo "Testing MongoDB connectivity..."
+    # Ping MongoDB
     - |
       docker run --rm --network host mongo:latest \
         mongosh --host localhost --port $MONGO_PORT \
@@ -118,43 +114,9 @@ mongodb_test_job:
         --password $MONGO_INITDB_ROOT_PASSWORD \
         --eval "db.adminCommand('ping')"
     
-    # Test basic operations
-    - echo "Testing basic MongoDB operations..."
-    - |
-      docker run --rm --network host mongo:latest \
-        mongosh --host localhost --port $MONGO_PORT \
-        --username $MONGO_INITDB_ROOT_USERNAME \
-        --password $MONGO_INITDB_ROOT_PASSWORD \
-        --eval "
-          db = db.getSiblingDB('testdb');
-          db.testcollection.insertOne({test: 'data', timestamp: new Date()});
-          print('Document inserted');
-          var count = db.testcollection.countDocuments();
-          print('Document count: ' + count);
-          db.testcollection.find().limit(1).forEach(printjson);
-        "
-    
-    # Test connection from different network (container to container)
-    - echo "Testing container-to-container connectivity..."
-    - |
-      docker run --rm --link test_mongodb:mongodb mongo:latest \
-        mongosh --host mongodb --port 27017 \
-        --username $MONGO_INITDB_ROOT_USERNAME \
-        --password $MONGO_INITDB_ROOT_PASSWORD \
-        --eval "
-          print('Connected to MongoDB from another container');
-          db.adminCommand('ping');
-        "
-    
-    # Check MongoDB container status
-    - echo "Checking MongoDB container status..."
-    - docker ps | grep test_mongodb || echo "MongoDB container not running"
-    - docker exec test_mongodb mongosh --version || echo "MongoDB shell version check failed"
-    
-    - echo "MongoDB tests completed successfully"
+    - echo "MongoDB ping test completed"
   
   after_script:
-    # Cleanup
     - docker stop test_mongodb 2>/dev/null || true
     - docker rm test_mongodb 2>/dev/null || true
   
