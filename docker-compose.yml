@@ -7,8 +7,8 @@ services:
       dockerfile: Dockerfile
     image: google_adk:latest
     container_name: google-adk-workspace
-    volumes:
-      - .:/workspace
+    # volumes:
+    #   - .:/workspace
     ports:
       - "8000:8000" 
       - "8501:8501"           # Expose Streamlit port
