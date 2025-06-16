@@ -35,8 +35,8 @@ services:
       - "27017:27017"             # Expose MongoDB port
     networks:
       - adk-network    
-    volumes:
-      - ./mongodb:/tmp/mongodb  # Persist MongoDB data             
+    # volumes:
+    #   - ./mongodb:/tmp/mongodb  # Persist MongoDB data             
     command:
       - /bin/bash
       - -c
@@ -45,7 +45,8 @@ services:
         sleep 10
         mongosh --eval "rs.initiate()" || true
         wait
-    
+    tmpfs:
+      - /data/db
 networks:
   adk-network:
     driver: bridge
