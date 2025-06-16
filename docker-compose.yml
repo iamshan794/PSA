@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: google_adk:latest
-    container_name: google-adk-workspace
+    container_name: "${APP_IMG_NAME}"
     # volumes:
     #   - .:/workspace
     ports:
@@ -29,7 +29,7 @@ services:
 
   mongodb:
     image: mongo:latest
-    container_name: mongodb
+    container_name: "${APP_DB_NAME}"
     restart: always
     ports:
       - "27017:27017"             # Expose MongoDB port
