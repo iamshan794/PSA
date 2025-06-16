@@ -152,8 +152,9 @@ integration_test_job:
     - docker-compose -f docker-compose.generated.yml up -d
     - sleep 25 
     - docker logs "${APP_IMG_NAME}"
-    - curl -v http://localhost:8501
+    - docker exec "${APP_IMG_NAME}" python3 ping_mongodb.py ping 
     - docker exec "${APP_IMG_NAME}" curl -v http://localhost:8501 
+
     # Wait for services to be ready
     - sleep 30
     - docker-compose -f docker-compose.yml ps
