@@ -133,6 +133,8 @@ integration_test_job:
   variables:
     ENV_FILE_DESTINATION: "/workspace/multi_tool_agent/.env"
     COMPOSE_PROJECT_NAME: "ci_integration_test"
+    APP_IMG_NAME: "google-adk-workspace"
+    APP_DB_NAME: "mongodb"
   script:
     - echo "Running integration tests..."
     
@@ -142,11 +144,12 @@ integration_test_job:
     
     # Install docker-compose if not available
     - which docker-compose || (curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose)
-    
+    - - envsubst < docker-compose.yml > docker-compose.generated.yml
     # Build and start services
-    - docker-compose -f docker-compose.yml build
-    - docker-compose -f docker-compose.yml up -d
-    
+    - docker-compose -f docker-compose.generated.yml build
+    - docker-compose -f docker-compose.generated.yml up -d
+    - curl -v http://localhost:8501
+    - docker exec "${APP_IMG_NAME}" curl -v http://localhost:8501 
     # Wait for services to be ready
     - sleep 30
     - docker-compose -f docker-compose.yml ps
