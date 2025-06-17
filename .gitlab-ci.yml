@@ -194,7 +194,7 @@ variables:
 
 
 
-build:
+.build:
   stage: build
   image: google/cloud-sdk:alpine
   services:
@@ -247,5 +247,4 @@ deploy_job:
         --cpu 2 \
         --memory 4Gi \
         --max-instances 5 \
-        --min-instances 1 \
-        --set-env-vars PORT=8501
+        --min-instances 1
