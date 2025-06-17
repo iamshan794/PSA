@@ -155,16 +155,16 @@ integration_test_job:
     - docker exec "${APP_IMG_NAME}" python3 ping_mongodb.py ping 
     - docker exec "${APP_IMG_NAME}" curl -v http://localhost:8501 
     
-    - docker exec "${APP_IMG_NAME}" lsof -i :8000 2>/dev/null
+    - docker exec "${APP_IMG_NAME}" lsof -i :8000 2>/dev/null || true
 
     # Or check all listening processes
-    - docker exec "${APP_IMG_NAME}" ps aux 2>/dev/null
+    - docker exec "${APP_IMG_NAME}" ps aux 2>/dev/null || true
 
     # Or check if your app process is running
-    - docker exec "${APP_IMG_NAME}" ps aux | grep adk 2>/dev/null
+    - docker exec "${APP_IMG_NAME}" ps aux | grep adk 2>/dev/null || true
 
-    - docker port "${APP_IMG_NAME}" 2>/dev/null
-    - docker logs "${APP_IMG_NAME}" 2>/dev/null
+    - docker port "${APP_IMG_NAME}" 2>/dev/null || true
+    - docker logs "${APP_IMG_NAME}" 2>/dev/null || true
     # Wait for services to be ready
     - sleep 30
     - docker-compose -f docker-compose.yml ps
