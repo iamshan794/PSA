@@ -227,6 +227,18 @@ deploy_job:
   image: google/cloud-sdk:alpine
   variables:
     APP_IMG_NAME: "google-adk"
-    IMAGE_TAG: "gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:$CI_COMMIT_SHA"
+    REGISTRY_LOCATION: "us-central1"
+    REPOSITORY_NAME: "docker-repo"
+    IMAGE_TAG: "$REGISTRY_LOCATION-docker.pkg.dev/$GC_PROJECT_ID/$REPOSITORY_NAME/$APP_IMG_NAME:$CI_COMMIT_SHA"
+    CLOUD_RUN_SERVICE_NAME: "google-adk"  # You can customize this
+    CLOUD_RUN_REGION: "us-central1"       # Choose your preferred region
+  before_script:
+    - gcloud auth activate-service-account --key-file "$GC_SERVICE_ACCOUNT_KEY"
+    - gcloud config set project $GC_PROJECT_ID
   script:
-    - gcloud run deploy $APP_IMG_NAME --image $IMAGE_TAG
+    - gcloud run deploy $CLOUD_RUN_SERVICE_NAME 
+      --image $IMAGE_TAG 
+      --region $CLOUD_RUN_REGION 
+      --platform managed 
+      --allow-unauthenticated
+      --port 8501
