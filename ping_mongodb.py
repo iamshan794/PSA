@@ -5,6 +5,8 @@ from typing import Generator
 import sys
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+import os 
+MONGODB_URI = f"mongodb://{os.environ["MONGODB_HOST"]}:27017/"
 
 def watch_new_inserts(uri: str, db_name: str, collection_name: str):
     client = MongoClient(uri)
@@ -17,7 +19,7 @@ def watch_new_inserts(uri: str, db_name: str, collection_name: str):
             latest_id = change["fullDocument"]["_id"]
             print(f"🆕 New document inserted with _id: {latest_id}")
 
-def connect_to_mongodb(uri="mongodb://mongodb:27017/", db_name="test_db", collection_name="test_collection"):
+def connect_to_mongodb(uri=MONGODB_URI, db_name="test_db", collection_name="test_collection"):
     try:
         client = MongoClient(uri, serverSelectionTimeoutMS=3000)
         client.admin.command("ping")
@@ -72,21 +74,19 @@ if __name__ == "__main__":
             exit()
 
     elif sys.argv[1] == "event_listener":
-        MONGO_URI = "mongodb://mongodb:27017/"
         DB_NAME = "shopping_app"
         COLLECTION_NAME = "api_results_raw"
         
-        latest_id = watch_new_inserts(MONGO_URI, DB_NAME, COLLECTION_NAME)
+        latest_id = watch_new_inserts(MONGODB_URI, DB_NAME, COLLECTION_NAME)
         if latest_id:
             print(f"Latest document ID: {latest_id}")
         else:
             print("No documents found in the collection.")
     elif sys.argv[1] == "drop":
-        MONGO_URI = "mongodb://mongodb:27017/"
         DB_NAME = "shopping_app"
         COLLECTION_NAME = "api_results_raw"
         
-        client = MongoClient(MONGO_URI)
+        client = MongoClient(MONGODB_URI)
         db = client[DB_NAME]
         collection = db[COLLECTION_NAME]
         

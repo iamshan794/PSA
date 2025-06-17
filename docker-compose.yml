@@ -5,49 +5,33 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: google_adk:latest
-    container_name: "${APP_IMG_NAME}"
-    # volumes:
-    #   - .:/workspace
+    image: google-adk:latest
+    container_name: google-adk-container
+    volumes:
+      # - mongodb_data:/data/db        # Uncomment to persist MongoDB data
+      - .:/workspace                 # Uncomment for development
     ports:
-      - "0.0.0.0:8000:8000" 
-      - "0.0.0.0:8501:8501"           # Expose Streamlit port
-      - "0.0.0.0:8051:8051"
-    #network_mode: "host"            # Expose app port
-    # networks:
-    #   - adk-network
-    depends_on:
-      - mongodb
-    command:
-      - /bin/bash
-      - -c
-      - |
-        adk api_server --host=0.0.0.0 --port=8000 &
-        sleep 10
-        streamlit run streamlit_app.py --server.address 0.0.0.0 --server.port 8501 || true
-        wait
+      - "0.0.0.0:8000:8000"           # API server port
+      - "0.0.0.0:8501:8501"           # Streamlit port
+      - "0.0.0.0:8051:8051"           # Additional app port
+      - "0.0.0.0:27017:27017"         # MongoDB port
+    environment:
+      - PYTHONUNBUFFERED=1
+      - MONGODB_HOST=0.0.0.0
+    # restart: unless-stopped
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    command: [tail, "-f", "/dev/null"]  # Keep the container running
+    networks:
+      - adk-network
 
-  mongodb:
-    image: mongo:latest
-    container_name: "${APP_DB_NAME}"
-    restart: always
-    ports:
-      - "0.0.0.0:27017:27017"             # Expose MongoDB port
-    # networks:
-    #   - adk-network   
-    # network_mode: "host" 
-    # volumes:
-    #   - ./mongodb:/tmp/mongodb  # Persist MongoDB data             
-    command:
-      - /bin/bash
-      - -c
-      - |
-        mongod --replSet rs0 --bind_ip_all &
-        sleep 10
-        mongosh --eval "rs.initiate()" || true
-        wait
-    # tmpfs:
-    #   - /data/db
+# volumes:
+#   mongodb_data:
+#     driver: local
+
 networks:
   adk-network:
     driver: bridge

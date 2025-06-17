@@ -5,10 +5,11 @@ from typing import Generator
 import sys
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+import os 
 
 DB_NAME = "shopping_app"
 COLLECTION_NAME = "api_results_raw"
-MONGO_URI = "mongodb://mongodb:27017/"
+MONGO_URI = f"mongodb://{os.environ["MONGODB_HOST"]}:27017/"
 
 def watch_new_inserts(uri: str, db_name: str, collection_name: str):
     client = MongoClient(uri)
@@ -21,7 +22,7 @@ def watch_new_inserts(uri: str, db_name: str, collection_name: str):
             latest_id = change["fullDocument"]["_id"]
             print(f"🆕 New document inserted with _id: {latest_id}")
 
-def connect_to_mongodb(uri="mongodb://mongodb:27017/", db_name="test_db", collection_name="test_collection"):
+def connect_to_mongodb(uri=MONGO_URI, db_name="test_db", collection_name="test_collection"):
     try:
         client = MongoClient(uri, serverSelectionTimeoutMS=3000)
         client.admin.command("ping")

@@ -7,7 +7,7 @@ import time
 from bson import ObjectId
 from ping_mongodb import watch_new_inserts 
 import threading
-
+import os 
 from streamlit_autorefresh import st_autorefresh
 
 
@@ -36,7 +36,7 @@ APP_NAME = "multi_tool_agent"
 
 
 # ---------- MongoDB Setup ----------
-MONGO_URI = "mongodb://mongodb:27017/"
+MONGODB_URI = f"mongodb://{os.environ["MONGODB_HOST"]}:27017/"
 DB_NAME = "shopping_app"
 COLLECTION_NAME = "api_results_raw"
 
@@ -44,12 +44,12 @@ COLLECTION_NAME = "api_results_raw"
 if "watcher_started" not in st.session_state:
     threading.Thread(
         target=watch_new_inserts,
-        args=(MONGO_URI, DB_NAME, COLLECTION_NAME),
+        args=(MONGODB_URI, DB_NAME, COLLECTION_NAME),
         daemon=True
     ).start()
     st.session_state.watcher_started = True
 
-client = MongoClient(MONGO_URI)
+client = MongoClient(MONGODB_URI)
 collection = client[DB_NAME][COLLECTION_NAME]
 
 def fetch_latest_product():
@@ -74,7 +74,7 @@ def initialize_sesion(app_name,user_id,session_id):
 def list_apps():
     url = "http://0.0.0.0:8000/list-apps/"  # Replace with your FastAPI endpoint
     response = requests.get(url)
-    print("AT list apps",response.json())
+    #print("AT list apps",response.json())
 
 def get_chatbot_response(user_input,app_name,user_id,session_id):
     list_apps()
@@ -155,7 +155,6 @@ with right_placeholder.container():
     if st.session_state.latest_product_doc:
         latest_product = st.session_state.latest_product_doc
         #latest_product=fetch_latest_product()
-        print("HERE-----------------",latest_product)
         products = latest_product["data"]["products"] 
         
         if not products:

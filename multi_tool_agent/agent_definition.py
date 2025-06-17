@@ -55,6 +55,7 @@ class agent_definition:
         2. Call API to obtain JSON object of products.
         3. Process the API result and show it as collection of product cards similar to an e-commerce website.
         4. If the API call fails, investigate and try one last time after informing the user about the failure.
+        Do not use retreive_products_from_api more than twice.(rate limited to 2 calls)
         '''
     ),
     tools=[html_to_text_h2t,retrieve_products_from_api],  # Assuming retrieve_products_from_api is defined elsewhere

@@ -6,7 +6,8 @@ import requests
 import json
 import datetime 
 from datetime import datetime
-
+from .ping_mongodb import agent_tool_insert_product
+RATE_LIMITER = 0
 def html_to_text_h2t():
     html = '''
     <div class="flex flex-col gap-4"><div><div class="flex flex-col"><div class="mb-1 flex items-center justify-between"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="q">q</label><span class="items-baseline text-red-500"> *</span></div></div><input class="focus-visible:none flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-toolkit" type="text" value="Nike shoes"><div class="flex flex-col"><span class="text-[10px] text-gray-300">String</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Search query / keyword</p></div></div></div></div><div><div class="flex flex-col"><div class="mb-1 flex items-center justify-between"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="country">country</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></div><input class="focus-visible:none flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-toolkit" type="text" value="de"><div class="flex flex-col"><span class="text-[10px] text-gray-300">String</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Country code of the region/country to return offers for.</p>
@@ -74,6 +75,11 @@ async def retrieve_products_from_api(product_name_search:str, \
         "x-rapidapi-key": "1ea1e31cfemshfe587adc5c86704p14d35cjsn4b260d16d0a0",
         "x-rapidapi-host": "real-time-product-search.p.rapidapi.com"
     }
+    global RATE_LIMITER 
+    if RATE_LIMITER >2:
+        return {"status": "ERROR", "message": "Rate limit reached. Abort."}
+    else:
+        RATE_LIMITER += 1
     try:
         # Make the GET request to the API
         async with httpx.AsyncClient() as client:
@@ -81,8 +87,9 @@ async def retrieve_products_from_api(product_name_search:str, \
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"/workspace/{product_name_search}_{timestamp}.json"
             try:
-                with open(filename, 'w') as f:
-                    json.dump(response.json(), f, indent=4)
+                print("##INSERTING JSON DATA##")
+                agent_tool_insert_product(response.json())
+                print("##INSERTED JSON DATA##")
             except Exception as e:
                 print(f"Cannot save file due to{e}")
                 
