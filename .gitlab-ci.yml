@@ -194,7 +194,7 @@ variables:
 
 
 
-.build:
+build:
   stage: build
   image: google/cloud-sdk:alpine
   services:
