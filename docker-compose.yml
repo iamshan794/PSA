@@ -31,8 +31,8 @@ services:
     image: mongo:latest
     container_name: "${APP_DB_NAME}"
     restart: always
-    ports:
-      - "27017:27017"             # Expose MongoDB port
+    # ports:
+    #   - "27017:27017"             # Expose MongoDB port
     # networks:
     #   - adk-network   
     network_mode: "host" 
