@@ -9,11 +9,11 @@ services:
     container_name: "${APP_IMG_NAME}"
     # volumes:
     #   - .:/workspace
-    # ports:
-    #   - "8000:8000" 
-    #   - "8501:8501"           # Expose Streamlit port
-    #   - "8051:8051"
-    network_mode: "host"            # Expose app port
+    ports:
+      - "8000:8000" 
+      - "8501:8501"           # Expose Streamlit port
+      - "8051:8051"
+    #network_mode: "host"            # Expose app port
     # networks:
     #   - adk-network
     depends_on:
@@ -31,11 +31,11 @@ services:
     image: mongo:latest
     container_name: "${APP_DB_NAME}"
     restart: always
-    # ports:
-    #   - "27017:27017"             # Expose MongoDB port
+    ports:
+      - "27017:27017"             # Expose MongoDB port
     # networks:
     #   - adk-network   
-    network_mode: "host" 
+    # network_mode: "host" 
     # volumes:
     #   - ./mongodb:/tmp/mongodb  # Persist MongoDB data             
     command:
