@@ -153,13 +153,14 @@ integration_test_job:
     - sleep 15 
     - docker logs "${APP_IMG_NAME}"
     - docker exec "${APP_IMG_NAME}" python3 ping_mongodb.py ping 
+
     - docker exec "${APP_IMG_NAME}" curl -v http://localhost:8501 
-    - docker exec "${APP_IMG_NAME}" curl http://127.0.0.1:8000
     - docker exec "${APP_IMG_NAME}" curl http://0.0.0.0:8000
-    - curl -v http://0.0.0.0:8000/docs || true
-
-    - curl -v http://127.0.0.1:8000/docs || true
-
+    - curl -v http://localhost:8501 || true
+    - curl http://0.0.0.0:8000 || true
+    - echo "HTTPD TEST"
+    - docker exec "${APP_IMG_NAME}" python3 -m http.server 8051 --bind 0.0.0.0
+    - curl -v http://localhost:8051
     # - docker exec "${APP_IMG_NAME}" lsof -i :8000 2>/dev/null || true
 
     # # Or check all listening processes
