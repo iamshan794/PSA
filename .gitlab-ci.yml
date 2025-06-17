@@ -195,19 +195,18 @@ variables:
 
 build:
   stage: build
-  image: google/cloud-sdk:alpine
+  image: docker:latest
   services:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: "/certs"
-    APP_IMG_NAME: "google-adk"
-    IMAGE_TAG: "gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:$CI_COMMIT_SHA"
-    LATEST_TAG: "gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:latest"
-  script:
-    - docker build -t $IMAGE_TAG .
-    - docker push $IMAGE_TAG
-  
+  before_script:
+    # Install gcloud in Docker image
+    - apk add --no-cache curl python3 py3-pip
+    - curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-423.0.0-linux-x86_64.tar.gz | tar xz
+    - ./google-cloud-sdk/install.sh --quiet
+    - export PATH=$PATH:./google-cloud-sdk/bin
+    - gcloud auth activate-service-account --key-file "$GC_SERVICE_ACCOUNT_KEY"
 
 deploy:
   stage: deploy
