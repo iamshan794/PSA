@@ -201,17 +201,21 @@ build:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_VERIFY: 1
+    DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
     APP_IMG_NAME: "google-adk"
-    IMAGE_TAG: "gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:$CI_COMMIT_SHA"
-    LATEST_TAG: "gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:latest"
+    REGISTRY_LOCATION: "us-central1"
+    REPOSITORY_NAME: "docker-repo"
+    IMAGE_TAG: "$REGISTRY_LOCATION-docker.pkg.dev/$GC_PROJECT_ID/$REPOSITORY_NAME/$APP_IMG_NAME:$CI_COMMIT_SHA"
+    LATEST_TAG: "$REGISTRY_LOCATION-docker.pkg.dev/$GC_PROJECT_ID/$REPOSITORY_NAME/$APP_IMG_NAME:latest"
   before_script:
     # Wait for Docker daemon
     - until docker info; do sleep 1; done
     - gcloud auth activate-service-account --key-file "$GC_SERVICE_ACCOUNT_KEY"
     - gcloud config set project $GC_PROJECT_ID
-    - gcloud auth configure-docker
+    - gcloud auth configure-docker $REGISTRY_LOCATION-docker.pkg.dev
   script:
     - docker build -t $IMAGE_TAG .
     - docker push $IMAGE_TAG
