@@ -154,7 +154,7 @@ integration_test_job:
     - docker logs "${APP_IMG_NAME}"
     - docker exec "${APP_IMG_NAME}" python3 ping_mongodb.py ping 
     - docker exec "${APP_IMG_NAME}" curl -v http://localhost:8501 
-    - curl -v http://localhost:8501 
+    - curl -f http://localhost:8000/docs
 
     # Wait for services to be ready
     - sleep 30
