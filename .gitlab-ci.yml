@@ -193,6 +193,7 @@ variables:
   allow_failure: false
 
 
+
 build:
   stage: build
   image: google/cloud-sdk:alpine
@@ -200,8 +201,8 @@ build:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
-    DOCKER_HOST: tcp://docker:2376
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
     APP_IMG_NAME: "google-adk"
     IMAGE_TAG: "gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:$CI_COMMIT_SHA"
     LATEST_TAG: "gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:latest"
