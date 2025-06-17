@@ -193,20 +193,31 @@ variables:
   allow_failure: false
 
 
-build_job:
-  stage: build
-  image: docker:latest
-  services:
-    - docker:dind
-  variables:
-    DOCKER_DRIVER: overlay2
-  before_script:
-    # Install gcloud in Docker image
-    - apk add --no-cache curl python3 py3-pip
-    - curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-423.0.0-linux-x86_64.tar.gz | tar xz
-    - ./google-cloud-sdk/install.sh --quiet
-    - export PATH=$PATH:./google-cloud-sdk/bin
-    - gcloud auth activate-service-account --key-file "$GC_SERVICE_ACCOUNT_KEY"
+build:
+ stage: build
+ image: docker:latest
+ services:
+   - docker:dind
+ variables:
+   DOCKER_DRIVER: overlay2
+   APP_IMG_NAME: "google-adk"
+   IMAGE_TAG: "gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:$CI_COMMIT_SHA"
+   LATEST_TAG: "gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:latest"
+ before_script:
+   # Install gcloud in Docker image
+   - apk add --no-cache curl python3 py3-pip
+   - curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-423.0.0-linux-x86_64.tar.gz | tar xz
+   - ./google-cloud-sdk/install.sh --quiet
+   - export PATH=$PATH:./google-cloud-sdk/bin
+   - gcloud auth activate-service-account --key-file "$GC_SERVICE_ACCOUNT_KEY"
+   - gcloud config set project $GC_PROJECT_ID
+   - gcloud auth configure-docker
+ script:
+   - export PATH=$PATH:./google-cloud-sdk/bin
+   - docker build -t $IMAGE_TAG .
+   - docker push $IMAGE_TAG
+   - docker tag $IMAGE_TAG $LATEST_TAG
+   - docker push $LATEST_TAG
 
 deploy_job:
   stage: deploy
