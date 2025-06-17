@@ -198,7 +198,7 @@ build:
   image: google/cloud-sdk:alpine
   before_script:
     # Save the service account key to a file
-    - echo "$GC_SERVICE_ACCOUNT_KEY" > gcloud-service-key.json
+    - cp "$GC_SERVICE_ACCOUNT_KEY" gcloud-service-key.json
     # Authenticate with Google Cloud
     - gcloud auth activate-service-account --key-file gcloud-service-key.json
     # Set the project
