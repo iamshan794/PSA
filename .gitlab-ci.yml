@@ -196,44 +196,24 @@ variables:
 build:
   stage: build
   image: google/cloud-sdk:alpine
-  before_script:
-    # Save the service account key to a file
-    - cp "$GC_SERVICE_ACCOUNT_KEY" gcloud-service-key.json
-    # Authenticate with Google Cloud
-    - gcloud auth activate-service-account --key-file gcloud-service-key.json
-    # Set the project
-    - gcloud config set project $GC_PROJECT_ID
-    # Configure Docker to use gcloud credentials
-    - gcloud auth configure-docker
+  services:
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: "/certs"
+    APP_IMG_NAME: "google-adk"
+    IMAGE_TAG: "gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:$CI_COMMIT_SHA"
+    LATEST_TAG: "gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:latest"
   script:
-    # Build the Docker image
-    - docker build -t gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:$CI_COMMIT_SHA .
-    # Push the image with commit SHA tag
-    - docker push gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:$CI_COMMIT_SHA
-    # Also tag and push as latest
-    - docker tag gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:$CI_COMMIT_SHA gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:latest
-    - docker push gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:latest
-  only:
-    - master
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
+  
 
 deploy:
   stage: deploy
   image: google/cloud-sdk:alpine
-  before_script:
-    # Save the service account key to a file
-    - echo "$GC_SERVICE_ACCOUNT_KEY" > gcloud-service-key.json
-    # Authenticate with Google Cloud
-    - gcloud auth activate-service-account --key-file gcloud-service-key.json
-    # Set the project
-    - gcloud config set project $GC_PROJECT_ID
+  variables:
+    APP_IMG_NAME: "google-adk"
+    IMAGE_TAG: "gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:$CI_COMMIT_SHA"
   script:
-    # Deploy to Cloud Run
-    - gcloud run deploy $APP_IMG_NAME
-        --image gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:$CI_COMMIT_SHA
-        --platform managed
-        --region $REGION
-        --allow-unauthenticated
-        --port 8000
-        --set-env-vars MONGODB_URI=$MONGODB_URI
-  only:
-    - master
+    - gcloud run deploy $APP_IMG_NAME --image $IMAGE_TAG
