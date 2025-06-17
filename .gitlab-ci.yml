@@ -154,7 +154,7 @@ integration_test_job:
     - docker logs "${APP_IMG_NAME}"
     - docker exec "${APP_IMG_NAME}" python3 ping_mongodb.py ping 
     - docker exec "${APP_IMG_NAME}" curl -v http://localhost:8501 
-    - # Check if any process is listening on port 8000
+    
     - docker exec "${APP_IMG_NAME}" lsof -i :8000 2>/dev/null
 
     # Or check all listening processes
