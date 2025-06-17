@@ -10,9 +10,9 @@ services:
     # volumes:
     #   - .:/workspace
     ports:
-      - "8000:8000" 
-      - "8501:8501"           # Expose Streamlit port
-      - "8051:8051"
+      - "0.0.0.0:8000:8000" 
+      - "0.0.0.0:8501:8501"           # Expose Streamlit port
+      - "0.0.0.0:8051:8051"
     #network_mode: "host"            # Expose app port
     # networks:
     #   - adk-network
@@ -32,7 +32,7 @@ services:
     container_name: "${APP_DB_NAME}"
     restart: always
     ports:
-      - "27017:27017"             # Expose MongoDB port
+      - "0.0.0.0:27017:27017"             # Expose MongoDB port
     # networks:
     #   - adk-network   
     # network_mode: "host" 
