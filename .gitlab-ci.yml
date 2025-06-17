@@ -214,7 +214,7 @@ build:
     - docker tag gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:$CI_COMMIT_SHA gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:latest
     - docker push gcr.io/$GC_PROJECT_ID/$APP_IMG_NAME:latest
   only:
-    - main
+    - master
 
 deploy:
   stage: deploy
@@ -236,4 +236,4 @@ deploy:
         --port 8000
         --set-env-vars MONGODB_URI=$MONGODB_URI
   only:
-    - main
+    - master
