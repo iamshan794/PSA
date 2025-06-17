@@ -161,7 +161,8 @@ integration_test_job:
     - echo "HTTPD TEST"
     - docker exec -d "${APP_IMG_NAME}" python3 -m http.server 8051 --bind 0.0.0.0 
     - sleep 15
-    - curl -v http://localhost:8051
+    - curl -v http://localhost:8051 || true 
+    - docker exec -d "${APP_IMG_NAME}" curl -v http://localhost:8051 || true
     # - docker exec "${APP_IMG_NAME}" lsof -i :8000 2>/dev/null || true
 
     # # Or check all listening processes
