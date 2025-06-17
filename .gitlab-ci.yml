@@ -193,7 +193,7 @@ variables:
   allow_failure: false
 
 
-build:
+build_job:
   stage: build
   image: docker:latest
   services:
@@ -208,7 +208,7 @@ build:
     - export PATH=$PATH:./google-cloud-sdk/bin
     - gcloud auth activate-service-account --key-file "$GC_SERVICE_ACCOUNT_KEY"
 
-deploy:
+deploy_job:
   stage: deploy
   image: google/cloud-sdk:alpine
   variables:
