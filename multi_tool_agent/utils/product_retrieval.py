@@ -80,8 +80,12 @@ async def retrieve_products_from_api(product_name_search:str, \
             response = await client.get(url, headers=headers, params=querystring)
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"/workspace/{product_name_search}_{timestamp}.json"
-            with open(filename, 'w') as f:
-                json.dump(response.json(), f, indent=4)
+            try:
+                with open(filename, 'w') as f:
+                    json.dump(response.json(), f, indent=4)
+            except Exception as e:
+                print(f"Cannot save file due to{e}")
+                
         return {"status": "OK", "data": response.json()}
     except Exception as e:
         print(f"Error retrieving products: {e}")
