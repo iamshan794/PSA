@@ -18,10 +18,11 @@ variables:
   # No DOCKER_HOST needed for self-hosted runner with Docker
   IMAGE_TAG: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
   LATEST_TAG: "$CI_REGISTRY_IMAGE:latest"
-  APP_IMG_NAME: "google-adk"
+  APP_IMG_NAME: "google_adk"
+  APP_IMG_TAG: "latest"
   APP_HOST: 0.0.0.0
 
-lint_job:
+.lint_job:
   stage: ".pre"
   resource_group: development
   tags:
@@ -55,21 +56,22 @@ test_container:
     - cp "$AGENT_ENV_FILE" "$ENV_FILE_DESTINATION" || echo "No env file to copy"
   
   script:
-    - docker build -t "$APP_IMG_NAME:test" .
+
+    - docker build -t "$APP_IMG_NAME:$APP_IMG_TAG" .
     
     #Stop and remove previous instances of the app
-    - docker stop "${APP_IMG_NAME}_api_test" 2>/dev/null || true
-    - docker rm "${APP_IMG_NAME}_api_test" 2>/dev/null || true
+    - docker stop "${APP_IMG_NAME}" 2>/dev/null || true
+    - docker rm "${APP_IMG_NAME}" 2>/dev/null || true
 
-    - docker run -d --rm --name "${APP_IMG_NAME}_test" \ 
+    - docker run -d --rm --name "${APP_IMG_NAME}" \ 
       -e "APP_HOST:$APP_HOST" \
-      "$APP_IMG_NAME:test" \ 
+      "$APP_IMG_NAME:$APP_IMG_TAG" \ 
        bash -c "sh /workspace/start.sh && sleep 30"
 
     #Test database, FastAPI server and frontend app
-    - docker exec "${APP_IMG_NAME}_test" python3 ping_mongodb.py ping
-    - docker exec "${APP_IMG_NAME}_test" curl -L http://localhost:8000/docs || echo "Internal API test failed"
-    - docker exec "${APP_IMG_NAME}_test" curl -v http://localhost:8501 || echo "App not reachable"
+    - docker exec "${APP_IMG_NAME}" python3 ping_mongodb.py ping
+    - docker exec "${APP_IMG_NAME}" curl -L http://localhost:8000/docs || echo "Internal API test failed"
+    - docker exec "${APP_IMG_NAME}" curl -v http://localhost:8501 || echo "App not reachable"
     
   after_script:
 
