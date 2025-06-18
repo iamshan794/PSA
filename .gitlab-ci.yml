@@ -63,10 +63,10 @@ test_container:
     - docker stop "${APP_IMG_NAME}" 2>/dev/null || true
     - docker rm "${APP_IMG_NAME}" 2>/dev/null || true
 
-    - docker run -d --rm --name "${APP_IMG_NAME}" \ 
-      -e "APP_HOST:$APP_HOST" \
-      "$APP_IMG_NAME:$APP_IMG_TAG" \ 
-       bash -c "sh /workspace/start.sh && sleep 30"
+    - docker run -d --rm --name "${APP_IMG_NAME}" \
+      -e "APP_HOST=${APP_HOST}" \
+      "${APP_IMG_NAME}:${APP_IMG_TAG}" \
+      bash -c "sh /workspace/start.sh && sleep 30"
 
     #Test database, FastAPI server and frontend app
     - docker exec "${APP_IMG_NAME}" python3 ping_mongodb.py ping
