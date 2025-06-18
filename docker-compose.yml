@@ -7,9 +7,9 @@ services:
       dockerfile: Dockerfile
     image: google-adk:latest
     container_name: google-adk-container
-    volumes:
-      # - mongodb_data:/data/db        # Uncomment to persist MongoDB data
-      - .:/workspace                 # Uncomment for development
+    # volumes:
+    #   - mongodb_data:/data/db        # Uncomment to persist MongoDB data
+    #   - .:/workspace                 # Uncomment for development
     ports:
       - "0.0.0.0:8000:8000"           # API server port
       - "0.0.0.0:8501:8501"           # Streamlit port
