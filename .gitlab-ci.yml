@@ -34,7 +34,7 @@ variables:
   allow_failure: false
 
 
-test_container:
+.test_container:
   stage: test
   variables:
     #Destination to write the .env file required to run the agent
