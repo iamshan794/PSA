@@ -84,7 +84,7 @@ variables:
     
   allow_failure: false 
   
-.build:
+build:
   stage: build
   image: google/cloud-sdk:alpine
   services:
