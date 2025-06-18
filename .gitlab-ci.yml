@@ -62,7 +62,7 @@ test_container:
     - docker rm "${APP_IMG_NAME}_api_test" 2>/dev/null || true
 
     - docker run -d --rm --name "${APP_IMG_NAME}_test" \ 
-      -e "APP_HOST:$APP_HOST"
+      -e "APP_HOST:$APP_HOST" \
       "$APP_IMG_NAME:test" \ 
        bash -c "sh /workspace/start.sh && sleep 30"
 
