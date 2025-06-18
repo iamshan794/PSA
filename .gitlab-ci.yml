@@ -1,7 +1,7 @@
 workflow:
   name: shopping-app
   rules:
-    - if: '$CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "main"
       when: always
     - if: '$CI_MERGE_REQUEST_ID'
       when: always
@@ -19,9 +19,9 @@ variables:
   IMAGE_TAG: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
   LATEST_TAG: "$CI_REGISTRY_IMAGE:latest"
   APP_IMG_NAME: "google-adk"
+  APP_HOST: 0.0.0.0
 
-
-.lint_job:
+lint_job:
   stage: ".pre"
   resource_group: development
   tags:
@@ -32,169 +32,54 @@ variables:
   allow_failure: false
 
 
-.unit_test_job:
+test_container:
   stage: test
   variables:
+    #Destination to write the .env file required to run the agent
     ENV_FILE_DESTINATION: "/workspace/multi_tool_agent/.env"
   tags:
     - shopping_app
   needs:
     - lint_job
   resource_group: development
-  script:
-    - echo "Running job as ${whoami}"
+
+  before_script:
+
     - echo "Setting Up Curl..."
     - apk add --no-cache curl
-    # Check Docker is available
-    - docker --version
-    - docker info
+
+    - echo "Check docker version"
+    - docker --version && docker info
     
-    # Prepare environment file
     - mkdir -p "$(dirname "$ENV_FILE_DESTINATION")"
     - cp "$AGENT_ENV_FILE" "$ENV_FILE_DESTINATION" || echo "No env file to copy"
+  
+  script:
+    - docker build -t "$APP_IMG_NAME:test" .
     
-    # Build the image
-    - test -n "$(docker images -q "$APP_IMG_NAME")" || docker build -t "$APP_IMG_NAME:test" .
-
-    # Option 2: Use docker exec to test inside container
-    - echo "Testing API server with docker exec..."
+    #Stop and remove previous instances of the app
     - docker stop "${APP_IMG_NAME}_api_test" 2>/dev/null || true
     - docker rm "${APP_IMG_NAME}_api_test" 2>/dev/null || true
-    - docker run -d --rm --name "${APP_IMG_NAME}_api_test" "$APP_IMG_NAME:test" bash -c "adk api_server --host=0.0.0.0 && sleep 60"
-    - sleep 10
-    - docker exec "${APP_IMG_NAME}_api_test" pwd
-    - docker exec "${APP_IMG_NAME}_api_test" ls
-    - docker exec "${APP_IMG_NAME}_api_test" curl -v http://localhost:8000/ || echo "Internal API test failed"
-    - docker exec "${APP_IMG_NAME}_api_test" curl -L http://localhost:8000/docs || echo "Internal API test failed"
-    - sleep 10
-    - docker logs "${APP_IMG_NAME}_api_test"
-    - docker stop "${APP_IMG_NAME}_api_test" || true
+
+    - docker run -d --rm --name "${APP_IMG_NAME}_test" \ 
+      -e "APP_HOST:$APP_HOST"
+      "$APP_IMG_NAME:test" \ 
+       bash -c "sh /workspace/start.sh && sleep 30"
+
+    #Test database, FastAPI server and frontend app
+    - docker exec "${APP_IMG_NAME}_test" python3 ping_mongodb.py ping
+    - docker exec "${APP_IMG_NAME}_test" curl -L http://localhost:8000/docs || echo "Internal API test failed"
+    - docker exec "${APP_IMG_NAME}_test" curl -v http://localhost:8501 || echo "App not reachable"
     
-    
-    - echo "Unit tests completed"
+  after_script:
+
+    - docker logs "${APP_IMG_NAME}_test"
+    - docker stop "${APP_IMG_NAME}_test" || true
+    - echo "Container test completed"
     
   allow_failure: false 
   
-
-.mongodb_test_job:
-  stage: test
-  tags:
-    - shopping_app
-  needs:
-    - lint_job
-  resource_group: development
-  variables:
-    MONGO_INITDB_ROOT_USERNAME: admin
-    MONGO_INITDB_ROOT_PASSWORD: password123
-    MONGO_PORT: 27017
-  script:
-    - echo "Testing MongoDB ping..."
-    
-    # Clean up any existing MongoDB containers
-    - docker stop test_mongodb 2>/dev/null || true
-    - docker rm test_mongodb 2>/dev/null || true
-    
-    # Start MongoDB container
-    - |
-      docker run -d \
-        --name test_mongodb \
-        -p $MONGO_PORT:27017 \
-        -e MONGO_INITDB_ROOT_USERNAME=$MONGO_INITDB_ROOT_USERNAME \
-        -e MONGO_INITDB_ROOT_PASSWORD=$MONGO_INITDB_ROOT_PASSWORD \
-        mongo:latest
-    
-    # Wait for MongoDB to start
-    - sleep 15
-    
-    # Ping MongoDB
-    - |
-      docker run --rm --network host mongo:latest \
-        mongosh --host localhost --port $MONGO_PORT \
-        --username $MONGO_INITDB_ROOT_USERNAME \
-        --password $MONGO_INITDB_ROOT_PASSWORD \
-        --eval "db.adminCommand('ping')"
-    
-    - echo "MongoDB ping test completed"
-  
-  after_script:
-    - docker stop test_mongodb 2>/dev/null || true
-    - docker rm test_mongodb 2>/dev/null || true
-  
-  allow_failure: false
-
-.integration_test_job:
-  stage: integration
-  tags:
-    - shopping_app
-  # needs:
-  #   - unit_test_job
-  #   - mongodb_test_job
-  resource_group: development
-  variables:
-    ENV_FILE_DESTINATION: "/workspace/multi_tool_agent/.env"
-    COMPOSE_PROJECT_NAME: "ci_integration_test"
-    APP_IMG_NAME: "google-adk-workspace"
-    APP_DB_NAME: "mongodb"
-  script:
-    - echo "Running integration tests..."
-    
-    # Prepare environment
-    - mkdir -p "$(dirname "$ENV_FILE_DESTINATION")"
-    - cp "$AGENT_ENV_FILE" "$ENV_FILE_DESTINATION" || echo "No env file to copy"
-    
-    # Install docker-compose if not available
-    - which docker-compose || (curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose)
-    - apk add --no-cache gettext
-    - apk add --no-cache curl
-    - - envsubst < docker-compose.yml > docker-compose.generated.yml
-    # Build and start services
-    - docker-compose -f docker-compose.generated.yml build
-    - docker-compose -f docker-compose.generated.yml up -d
-    - sleep 15 
-    - docker logs "${APP_IMG_NAME}"
-
-    - echo "HTTPD TEST"
-    - docker exec -d "${APP_IMG_NAME}" python3 -m http.server 8051 --bind 0.0.0.0 
-    - sleep 15
-    - curl -v http://localhost:8051 || true 
-    - docker exec "${APP_IMG_NAME}" curl -v http://localhost:8051 || true
-    - curl -v http://docker:8051 || true
-    # - docker exec "${APP_IMG_NAME}" lsof -i :8000 2>/dev/null || true
-
-    # # Or check all listening processes
-    # - docker exec "${APP_IMG_NAME}" ps aux 2>/dev/null || true
-
-    # # Or check if your app process is running
-    # - docker exec "${APP_IMG_NAME}" ps aux | grep adk 2>/dev/null || true
-
-    # - docker port "${APP_IMG_NAME}" 2>/dev/null || true
-    # - docker logs "${APP_IMG_NAME}" 2>/dev/null || true
-    # # Wait for services to be ready
-    # - sleep 30
-    - docker-compose -f docker-compose.yml ps
-    - docker-compose -f docker-compose.yml logs
-    
-    # Test service connectivity
-    - echo "Testing service connectivity..."
-    # Add your specific integration tests here based on your docker-compose.yml
-    
-    # Example tests (adjust based on your actual services):
-    # - curl -f http://localhost:8000/health || echo "App health check failed"
-    # - Test MongoDB connection from app container
-    # - Test any other service integrations
-    
-    - echo "Integration tests completed"
-  
-  after_script:
-    # Cleanup
-    - docker-compose -f docker-compose.yml down -v || true
-    - docker system prune -f || true
-  
-  allow_failure: false
-
-
-
-.build:
+build:
   stage: build
   image: google/cloud-sdk:alpine
   services:
@@ -222,7 +107,7 @@ variables:
     - docker tag $IMAGE_TAG $LATEST_TAG
     - docker push $LATEST_TAG
 
-.deploy_job:
+deploy_job:
   stage: deploy
   image: google/cloud-sdk:alpine
   variables:
