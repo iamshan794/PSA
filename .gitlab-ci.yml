@@ -40,8 +40,8 @@ test_container:
     ENV_FILE_DESTINATION: "/workspace/multi_tool_agent/.env"
   tags:
     - shopping_app
-  needs:
-    - lint_job
+  # needs:
+  #   - lint_job
   resource_group: development
 
   before_script:
