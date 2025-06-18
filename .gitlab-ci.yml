@@ -66,9 +66,10 @@ test_container:
 
     - docker run -d --rm --name $APP_CONTAINER_NAME \
       -e APP_HOST=$APP_HOST \
-      $APP_IMG_NAME:$APP_IMG_TAG \
-      bash -c "sh /workspace/start.sh && sleep 30"
-
+      $APP_IMG_NAME:$APP_IMG_TAG bash 
+      
+    - docker exec -d "${APP_CONTAINER_NAME}" sh /workspace/start.sh
+    - sleep 30
     #Test database, FastAPI server and frontend app
     - docker exec "${APP_CONTAINER_NAME}" python3 ping_mongodb.py ping
     - docker exec "${APP_CONTAINER_NAME}" curl -L http://localhost:8000/docs || echo "Internal API test failed"
