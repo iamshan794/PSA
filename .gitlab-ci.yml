@@ -18,8 +18,8 @@ variables:
   # No DOCKER_HOST needed for self-hosted runner with Docker
   IMAGE_TAG: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
   LATEST_TAG: "$CI_REGISTRY_IMAGE:latest"
-  APP_IMG_NAME: google_adk
-  APP_CONTAINER_NAME: testContainer
+  APP_IMG_NAME: google-adk
+  APP_CONTAINER_NAME: google-adk-container
   APP_IMG_TAG: latest
   APP_HOST: 0.0.0.0
 
@@ -53,6 +53,9 @@ test_container:
     - echo "Check docker version"
     - docker --version && docker info
     
+    - echo "Setup Docker Compose"
+    - apk update && apk add docker-cli-compose
+    
     - mkdir -p "$(dirname "$ENV_FILE_DESTINATION")"
     - cp "$AGENT_ENV_FILE" "$ENV_FILE_DESTINATION" || echo "No env file to copy"
   
@@ -64,16 +67,8 @@ test_container:
     - docker stop "${APP_IMG_NAME}" 2>/dev/null || true
     - docker rm "${APP_IMG_NAME}" 2>/dev/null || true
 
-    - docker run -d --rm \
-      --name "$APP_CONTAINER_NAME" \
-      -e APP_HOST="$APP_HOST" \
-      -p 8000:8000 \
-      -p 8501:8501 \
-      -p 8051:8051 \
-      "$APP_IMG_NAME:$APP_IMG_TAG"
+    - docker compose up -d 
 
-
-      
     - docker exec -d "${APP_CONTAINER_NAME}" sh /workspace/start.sh
     - sleep 30
     #Test database, FastAPI server and frontend app
