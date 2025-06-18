@@ -20,5 +20,5 @@ sleep 10
 
 
 echo "Starting Streamlit app..."
-exec streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=${PORT:-8501} &
+exec streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=${PORT:-8501} 
 
