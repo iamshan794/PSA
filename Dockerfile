@@ -33,9 +33,5 @@ RUN chmod +x /workspace/start.sh
 # Expose the ports your application uses
 EXPOSE 8501
 
-# Health check to ensure services are running
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8501/_stcore/health || exit 1
-
 # Use the startup script
 CMD ["/workspace/start.sh"]
