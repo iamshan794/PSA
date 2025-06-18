@@ -66,7 +66,8 @@ test_container:
 
     - docker run -d --rm --name $APP_CONTAINER_NAME \
       -e APP_HOST=$APP_HOST \
-      $APP_IMG_NAME:$APP_IMG_TAG bash 
+      -p 8000:8000 $APP_IMG_NAME:$APP_IMG_TAG
+
       
     - docker exec -d "${APP_CONTAINER_NAME}" sh /workspace/start.sh
     - sleep 30
