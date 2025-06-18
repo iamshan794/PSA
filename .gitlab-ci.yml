@@ -19,6 +19,7 @@ variables:
   IMAGE_TAG: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
   LATEST_TAG: "$CI_REGISTRY_IMAGE:latest"
   APP_IMG_NAME: "google_adk"
+  APP_CONTAINER_NAME: "testContainer"
   APP_IMG_TAG: "latest"
   APP_HOST: 0.0.0.0
 
@@ -63,20 +64,20 @@ test_container:
     - docker stop "${APP_IMG_NAME}" 2>/dev/null || true
     - docker rm "${APP_IMG_NAME}" 2>/dev/null || true
 
-    - docker run -d --rm --name $APP_IMG_NAME \
+    - docker run -d --rm --name $APP_CONTAINER_NAME \
       -e APP_HOST=$APP_HOST \
       $APP_IMG_NAME:$APP_IMG_TAG \
       bash -c "sh /workspace/start.sh && sleep 30"
 
     #Test database, FastAPI server and frontend app
-    - docker exec "${APP_IMG_NAME}" python3 ping_mongodb.py ping
-    - docker exec "${APP_IMG_NAME}" curl -L http://localhost:8000/docs || echo "Internal API test failed"
-    - docker exec "${APP_IMG_NAME}" curl -v http://localhost:8501 || echo "App not responding"
+    - docker exec "${APP_CONTAINER_NAME}" python3 ping_mongodb.py ping
+    - docker exec "${APP_CONTAINER_NAME}" curl -L http://localhost:8000/docs || echo "Internal API test failed"
+    - docker exec "${APP_CONTAINER_NAME}" curl -v http://localhost:8501 || echo "App not responding"
     
   after_script:
 
-    - docker logs "${APP_IMG_NAME}_test"
-    - docker stop "${APP_IMG_NAME}_test" || true
+    - docker logs "${APP_CONTAINER_NAME}"
+    - docker stop "${APP_CONTAINER_NAME}" || true
     - echo "Container test completed"
     
   allow_failure: false 
