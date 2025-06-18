@@ -20,8 +20,5 @@ sleep 10
 
 
 echo "Starting Streamlit app..."
-streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=8501 &
-STREAMLIT_PID=$!
+exec streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=${PORT:-8501} &
 
-
-wait $API_PID $STREAMLIT_PID
