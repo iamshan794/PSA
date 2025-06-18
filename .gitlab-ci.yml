@@ -18,9 +18,9 @@ variables:
   # No DOCKER_HOST needed for self-hosted runner with Docker
   IMAGE_TAG: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
   LATEST_TAG: "$CI_REGISTRY_IMAGE:latest"
-  APP_IMG_NAME: "google_adk"
-  APP_CONTAINER_NAME: "testContainer"
-  APP_IMG_TAG: "latest"
+  APP_IMG_NAME: google_adk
+  APP_CONTAINER_NAME: testContainer
+  APP_IMG_TAG: latest
   APP_HOST: 0.0.0.0
 
 .lint_job:
@@ -64,9 +64,14 @@ test_container:
     - docker stop "${APP_IMG_NAME}" 2>/dev/null || true
     - docker rm "${APP_IMG_NAME}" 2>/dev/null || true
 
-    - docker run -d --rm --name $APP_CONTAINER_NAME \
-      -e APP_HOST=$APP_HOST \
-      -p 8000:8000 $APP_IMG_NAME:$APP_IMG_TAG
+    - docker run -d --rm \
+      --name "$APP_CONTAINER_NAME" \
+      -e APP_HOST="$APP_HOST" \
+      -p 8000:8000 \
+      -p 8501:8501 \
+      -p 8051:8051 \
+      "$APP_IMG_NAME:$APP_IMG_TAG"
+
 
       
     - docker exec -d "${APP_CONTAINER_NAME}" sh /workspace/start.sh
