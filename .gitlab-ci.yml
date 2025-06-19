@@ -135,7 +135,6 @@ deploy_job:
         --platform managed \
         --allow-unauthenticated \
         --port 8501 \
-        --port 8000 \
         --timeout 900 \
         --cpu 2 \
         --memory 4Gi \
