@@ -9,7 +9,7 @@ from ping_mongodb import watch_new_inserts
 import threading
 import os 
 from streamlit_autorefresh import st_autorefresh
-
+import subprocess
 
 st.set_page_config(layout="wide")
 # 📦 Placeholder to dynamically update right column
@@ -123,17 +123,20 @@ def get_chatbot_response(user_input,app_name,user_id,session_id):
         return result
     except requests.exceptions.RequestException as e:
         print(f"Request failed: {e}")
-        return f"""Apologies, I am not reachable at the moment due to {e.response.status_code}:{e.response.text} and {e.response.headers}
+        if hasattr(e, 'response') and e.response is not None:
+            return f"""Apologies, I am not reachable at the moment due to {e.response.status_code}:{e.response.text} and {e.response.headers}
 
-                Files in multi_tool_agent/: {os.listdir("multi_tool_agent/")}
+                    Files in multi_tool_agent/: {os.listdir("multi_tool_agent/")}
 
-                Running processes:
-                {get_process_info()}
+                    Running processes:
+                    {get_process_info()}
 
-                Port 8000 status:
-                {check_port_8000()}
+                    Port 8000 status:
+                    {check_port_8000()}
 
-                Please try again later"""
+                    Please try again later"""
+        else:
+            return f"Request failed: {e}"
     except Exception as e:
         return "An error occurred while processing your request."
 
