@@ -65,7 +65,7 @@ def initialize_sesion(app_name,user_id,session_id):
     "accept": "application/json",
     "Content-Type": "application/json"
 }
-    response = requests.post(full_url, headers=headers, json=payload)
+    response = requests.post(full_url, headers=headers, json=payload, timeout=(10, 30))
     if response.status_code == 200 and response.ok:
         print(f"Session initialized successfully for app {app_name}, user {user_id}, session {session_id}")
     else:
@@ -73,7 +73,7 @@ def initialize_sesion(app_name,user_id,session_id):
     
 def list_apps():
     url = "http://localhost:8000/list-apps/"  # Replace with your FastAPI endpoint
-    response = requests.get(url)
+    response = requests.get(url, timeout=30)
     #print("AT list apps",response.json())
 
 def get_chatbot_response(user_input,app_name,user_id,session_id):
@@ -97,7 +97,7 @@ def get_chatbot_response(user_input,app_name,user_id,session_id):
 }
     try:
         initialize_sesion(app_name,user_id,session_id)
-        response = requests.post(url, headers=headers, json=payload)
+        response = requests.post(url, headers=headers, json=payload, timeout=(10, 30))
         response.raise_for_status()  # Raises an error for 4xx/5xx
         result = response.json()
         result = result[0]["content"]["parts"][0]["text"]
