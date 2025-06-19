@@ -72,7 +72,7 @@ def fetch_latest_product():
 
 # ---------- Chat API Request (Mock) ----------
 def initialize_sesion(app_name,user_id,session_id):
-    url = "http://localhost:8000"  # Replace with your FastAPI endpoint
+    url = "http://0.0.0.0:8000"  # Replace with your FastAPI endpoint
     full_url = f"{url}/apps/{app_name}/users/{user_id}/sessions/{session_id}"
     payload = {"additionalProp1": {}}
     headers = {
@@ -81,12 +81,12 @@ def initialize_sesion(app_name,user_id,session_id):
 }
     response = requests.post(full_url, headers=headers, json=payload, timeout=(10, 30))
     if response.status_code == 200 and response.ok:
-        print(f"Session initialized successfully for app {app_name}, user {user_id}, session {session_id}")
+        return (f"Session initialized successfully for app {app_name}, user {user_id}, session {session_id}")
     else:
-        print(f"Failed to initialize session: {response.status_code} - {response.text}")
+        return (f"Failed to initialize session: {response.status_code} - {response.text}")
     
 def list_apps():
-    url = "http://localhost:8000/list-apps/"  # Replace with your FastAPI endpoint
+    url = "http://0.0.0.0:8000/list-apps/"  # Replace with your FastAPI endpoint
     try:
         response = requests.get(url, timeout=30)
     except requests.exceptions.RequestException as e:
@@ -96,9 +96,8 @@ def list_apps():
         print("An error occurred while processing your request.")
 
 def get_chatbot_response(user_input,app_name,user_id,session_id):
-    list_apps()
     # Replace with real endpoint
-    url = "http://localhost:8000/run"  # Replace with your FastAPI endpoint
+    url = "http://0.0.0.0:8000/run"  # Replace with your FastAPI endpoint
 
     payload = { "appName": app_name,
                 "userId": user_id,
@@ -113,26 +112,23 @@ def get_chatbot_response(user_input,app_name,user_id,session_id):
     headers = {
     "accept": "application/json",
     "Content-Type": "application/json"
-}
-    try:
-        initialize_sesion(app_name,user_id,session_id)
+}   
+    return_result = initialize_sesion(app_name,user_id,session_id)
+    try:  
         response = requests.post(url, headers=headers, json=payload, timeout=(10, 30))
         response.raise_for_status()  # Raises an error for 4xx/5xx
         result = response.json()
         result = result[0]["content"]["parts"][0]["text"]
         return result
     except requests.exceptions.RequestException as e:
-        print(f"Request failed: {e}")
+        print(f"Request failed: {e}{return_result}")
         if hasattr(e, 'response') and e.response is not None:
-            return f"""Apologies, I am not reachable at the moment due to {e.response.status_code}:{e.response.text} and {e.response.headers}
+            return f""" {return result} Apologies, I am not reachable at the moment due to {e.response.status_code}:{e.response.text} and {e.response.headers}
 
                     Files in multi_tool_agent/: {os.listdir("multi_tool_agent/")}
 
                     Running processes:
                     {get_process_info()}
-
-                    Port 8000 status:
-                    {check_port_8000()}
 
                     Please try again later"""
         else:
