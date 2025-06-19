@@ -16,11 +16,9 @@ RUN apt-get update && \
 RUN python3 --version && pip --version && node --version && npm --version && mongod --version
 
 WORKDIR /workspace
-
-ARG ENV_CONTENT
-RUN echo "$ENV_CONTENT" > $PWD/multi_tool_agent/.env
-
 COPY . /workspace
+ARG ENV_CONTENT
+RUN echo "$ENV_CONTENT" > multi_tool_agent/.env
 
 RUN echo "=== Contents of multi_tool_agent/.env ===" && cat /workspace/multi_tool_agent/.env && echo "=== End of .env file ==="
 
