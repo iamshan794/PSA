@@ -29,7 +29,7 @@ RUN pip install --no-cache --break-system-packages -r requirements.txt
 RUN mkdir -p /data/db
 
 # Expose the ports your application uses
-EXPOSE 8501 8000
+EXPOSE 8501 
 
 CMD ["sh", "-c", "\
 set -e && \
