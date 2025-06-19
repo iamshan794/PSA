@@ -104,7 +104,7 @@ def get_chatbot_response(user_input,app_name,user_id,session_id):
         return result
     except requests.exceptions.RequestException as e:
         print(f"Request failed: {e}")
-        return f"Apologies, I am not reachable at the moment due to {e}. Please try again later"
+        return f"Apologies, I am not reachable at the moment due to {e.response.status_code}:{e.response.text} and {e.response.headers}. Please try again later"
     except Exception as e:
         return "An error occurred while processing your request."
 
