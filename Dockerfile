@@ -18,7 +18,7 @@ RUN python3 --version && pip --version && node --version && npm --version && mon
 WORKDIR /workspace
 
 ARG ENV_CONTENT
-RUN echo "$ENV_CONTENT" > multi_tool_agent/.env
+RUN echo "$ENV_CONTENT" > $PWD/multi_tool_agent/.env
 
 COPY . /workspace
 
