@@ -28,10 +28,8 @@ RUN pip install --no-cache --break-system-packages -r requirements.txt
 # Create MongoDB data directory
 RUN mkdir -p /data/db
 
-RUN chmod +x /workspace/start.sh
-
 # Expose the ports your application uses
-EXPOSE 8501
+EXPOSE 8501 8000
 
 # Use the startup script
 CMD ["sh", "-c", "\
