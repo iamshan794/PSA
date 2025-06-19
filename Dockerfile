@@ -17,11 +17,12 @@ RUN python3 --version && pip --version && node --version && npm --version && mon
 
 WORKDIR /workspace
 
-COPY . /workspace 
-
 ARG ENV_CONTENT
-RUN echo "$ENV_CONTENT" > /workspace/multi_tool_agent/.env
+RUN echo "$ENV_CONTENT" > multi_tool_agent/.env
 
+COPY . /workspace
+
+RUN echo "=== Contents of multi_tool_agent/.env ===" && cat /workspace/multi_tool_agent/.env && echo "=== End of .env file ==="
 
 # Install Python dependencies
 RUN pip install --no-cache --break-system-packages -r requirements.txt
