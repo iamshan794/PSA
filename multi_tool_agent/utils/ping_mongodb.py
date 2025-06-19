@@ -9,7 +9,7 @@ import os
 
 DB_NAME = "shopping_app"
 COLLECTION_NAME = "api_results_raw"
-MONGO_URI = f"mongodb://{os.environ["MONGODB_HOST"]}:27017/"
+MONGO_URI = os.environ["MONGODB_URI"]
 
 def watch_new_inserts(uri: str, db_name: str, collection_name: str):
     client = MongoClient(uri)
@@ -99,7 +99,6 @@ if __name__ == "__main__":
             exit()
 
     elif sys.argv[1] == "event_listener":
-        MONGO_URI = "mongodb://mongodb:27017/"
         DB_NAME = "shopping_app"
         COLLECTION_NAME = "api_results_raw"
         
@@ -109,7 +108,6 @@ if __name__ == "__main__":
         else:
             print("No documents found in the collection.")
     elif sys.argv[1] == "drop":
-        MONGO_URI = "mongodb://mongodb:27017/"
         DB_NAME = "shopping_app"
         COLLECTION_NAME = "api_results_raw"
         

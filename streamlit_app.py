@@ -36,7 +36,7 @@ APP_NAME = "multi_tool_agent"
 
 
 # ---------- MongoDB Setup ----------
-MONGODB_URI = f"mongodb://{os.environ["MONGODB_HOST"]}:27017/"
+MONGODB_URI = os.environ["MONGODB_URI"]
 DB_NAME = "shopping_app"
 COLLECTION_NAME = "api_results_raw"
 

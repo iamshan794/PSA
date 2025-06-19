@@ -1,6 +1,6 @@
 google-adk
 html2text 
 bs4
-pymongo
+pymongo[srv]
 streamlit
 streamlit_autorefresh

@@ -17,7 +17,7 @@ services:
       - "0.0.0.0:27017:27017"         # MongoDB port
     environment:
       - PYTHONUNBUFFERED=1
-      - MONGODB_HOST=0.0.0.0
+      - MONGODB_URI=$MONGODB_URI 
     # restart: unless-stopped
     # healthcheck:
     #   test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]

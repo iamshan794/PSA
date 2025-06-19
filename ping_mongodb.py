@@ -6,7 +6,8 @@ import sys
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import os 
-MONGODB_URI = f"mongodb://{os.environ["MONGODB_HOST"]}:27017/"
+
+MONGODB_URI = os.environ["MONGODB_URI"] 
 
 def watch_new_inserts(uri: str, db_name: str, collection_name: str):
     client = MongoClient(uri)
