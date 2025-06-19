@@ -140,4 +140,4 @@ deploy_job:
         --memory 4Gi \
         --max-instances 5 \
         --min-instances 1 \
-        --set-env-vars "MONGODB_HOST=$MDB_HOST"
+        --set-env-vars "MONGODB_URI=$MONGODB_URI"
