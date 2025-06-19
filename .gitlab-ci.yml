@@ -86,7 +86,7 @@ variables:
     
   allow_failure: false 
   
-.build:
+build:
   stage: build
   image: google/cloud-sdk:alpine
   services:
@@ -109,12 +109,14 @@ variables:
     - gcloud config set project $GC_PROJECT_ID
     - gcloud auth configure-docker $REGISTRY_LOCATION-docker.pkg.dev
   script:
-    - docker build -t $IMAGE_TAG .
+    - docker build 
+        --build-arg ENV_CONTENT="$AGENT_ENV_FILE" 
+        -t $IMAGE_TAG .
     - docker push $IMAGE_TAG
     - docker tag $IMAGE_TAG $LATEST_TAG
     - docker push $LATEST_TAG
 
-.deploy_job:
+deploy_job:
   stage: deploy
   image: google/cloud-sdk:alpine
   variables:
