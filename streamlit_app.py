@@ -58,7 +58,7 @@ def fetch_latest_product():
 
 # ---------- Chat API Request (Mock) ----------
 def initialize_sesion(app_name,user_id,session_id):
-    url = "http://localhost:8000"  # Replace with your FastAPI endpoint
+    url = "http://0.0.0.0:8000"  # Replace with your FastAPI endpoint
     full_url = f"{url}/apps/{app_name}/users/{user_id}/sessions/{session_id}"
     payload = {"additionalProp1": {}}
     headers = {
@@ -72,14 +72,14 @@ def initialize_sesion(app_name,user_id,session_id):
         print(f"Failed to initialize session: {response.status_code} - {response.text}")
     
 def list_apps():
-    url = "http://localhost:8000/list-apps/"  # Replace with your FastAPI endpoint
+    url = "http://0.0.0.0:8000/list-apps/"  # Replace with your FastAPI endpoint
     response = requests.get(url, timeout=30)
     #print("AT list apps",response.json())
 
 def get_chatbot_response(user_input,app_name,user_id,session_id):
     list_apps()
     # Replace with real endpoint
-    url = "http://localhost:8000/run"  # Replace with your FastAPI endpoint
+    url = "http://0.0.0.0:8000/run"  # Replace with your FastAPI endpoint
 
     payload = { "appName": app_name,
                 "userId": user_id,
