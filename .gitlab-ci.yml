@@ -86,7 +86,7 @@ variables:
     
   allow_failure: false 
   
-build:
+.build:
   stage: build
   image: google/cloud-sdk:alpine
   services:
@@ -114,7 +114,7 @@ build:
     - docker tag $IMAGE_TAG $LATEST_TAG
     - docker push $LATEST_TAG
 
-deploy_job:
+.deploy_job:
   stage: deploy
   image: google/cloud-sdk:alpine
   variables:
