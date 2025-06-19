@@ -32,7 +32,21 @@ USER_ID = st.session_state.user_id
 SESSION_ID = st.session_state.session_id
 APP_NAME = "multi_tool_agent"
 
+def get_process_info():
+    try:
+        # Get all processes
+        ps_result = subprocess.run(['ps', 'aux'], capture_output=True, text=True)
+        return ps_result.stdout
+    except Exception as e:
+        return f"Error running ps: {e}"
 
+def check_port_8000():
+    try:
+        # Check what's listening on port 8000
+        netstat_result = subprocess.run(['netstat', '-tlnp'], capture_output=True, text=True)
+        return netstat_result.stdout
+    except Exception as e:
+        return f"Error running netstat: {e}"
 
 
 # ---------- MongoDB Setup ----------
@@ -77,9 +91,9 @@ def list_apps():
         response = requests.get(url, timeout=30)
     except requests.exceptions.RequestException as e:
         print(f"Request failed: {e}")
-        return f"Apologies also {os.listdir("multi_tool_agent/")}. Please try again later"
+
     except Exception as e:
-        return "An error occurred while processing your request."
+        print("An error occurred while processing your request.")
 
 def get_chatbot_response(user_input,app_name,user_id,session_id):
     list_apps()
@@ -109,7 +123,17 @@ def get_chatbot_response(user_input,app_name,user_id,session_id):
         return result
     except requests.exceptions.RequestException as e:
         print(f"Request failed: {e}")
-        return f"Apologies, I am not reachable at the moment due to {e.response.status_code}:{e.response.text} and {e.response.headers} {os.listdir("multi_tool_agent/")}. Please try again later"
+        return f"""Apologies, I am not reachable at the moment due to {e.response.status_code}:{e.response.text} and {e.response.headers}
+
+                Files in multi_tool_agent/: {os.listdir("multi_tool_agent/")}
+
+                Running processes:
+                {get_process_info()}
+
+                Port 8000 status:
+                {check_port_8000()}
+
+                Please try again later"""
     except Exception as e:
         return "An error occurred while processing your request."
 
