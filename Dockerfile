@@ -19,6 +19,10 @@ WORKDIR /workspace
 
 COPY . /workspace 
 
+ARG ENV_CONTENT
+RUN echo "$ENV_CONTENT" > /workspace/multi_tool_agent/.env
+
+
 # Install Python dependencies
 RUN pip install --no-cache --break-system-packages -r requirements.txt
 
