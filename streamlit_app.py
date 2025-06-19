@@ -123,7 +123,7 @@ def get_chatbot_response(user_input,app_name,user_id,session_id):
     except requests.exceptions.RequestException as e:
         print(f"Request failed: {e}{return_result}")
         if hasattr(e, 'response') and e.response is not None:
-            return f""" {return result} Apologies, I am not reachable at the moment due to {e.response.status_code}:{e.response.text} and {e.response.headers}
+            return f""" {return_result} Apologies, I am not reachable at the moment due to {e.response.status_code}:{e.response.text} and {e.response.headers}
 
                     Files in multi_tool_agent/: {os.listdir("multi_tool_agent/")}
 
