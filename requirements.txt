@@ -4,4 +4,3 @@ bs4
 pymongo[srv]
 streamlit
 streamlit_autorefresh
-socket

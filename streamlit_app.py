@@ -12,7 +12,7 @@ from streamlit_autorefresh import st_autorefresh
 import subprocess
 import logging 
 import subprocess
-import socket 
+import socket
 
 logging.basicConfig(
     level=logging.INFO,
