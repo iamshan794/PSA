@@ -63,12 +63,19 @@ def initialize_sesion(app_name,user_id,session_id):
     headers = {
     "accept": "application/json",
     "Content-Type": "application/json"
-}
-    response = requests.post(full_url, headers=headers, json=payload)
-    if response.status_code == 200 and response.ok:
-        return (f"Session initialized successfully for app {app_name}, user {user_id}, session {session_id}")
-    else:
-        return (f"Failed to initialize session: {response.status_code} - {response.text}")
+}   
+    try:
+        response = requests.post(full_url, headers=headers, json=payload)
+        if response.status_code == 200 and response.ok:
+            return (f"Session initialized successfully for app {app_name}, user {user_id}, session {session_id}")
+        else:
+            return (f"Failed to initialize session: {response.status_code} - {response.text}")
+    except requests.exceptions.ConnectionError as e:
+        return (f"Failed to connect to service: Connection refused. Is the service running on the target host/port? Error: {str(e)}")
+    except requests.exceptions.RequestException as e:
+        return (f"Request failed: {str(e)}")
+    except Exception as e:
+        return (f"Unexpected error during session initialization: {str(e)}")
 
 def get_chatbot_response(user_input,app_name,user_id,session_id):
     # Replace with real endpoint
@@ -88,7 +95,7 @@ def get_chatbot_response(user_input,app_name,user_id,session_id):
     "accept": "application/json",
     "Content-Type": "application/json"
 }   
-    initialize_sesion(app_name,user_id,session_id)
+    initialize_response = initialize_sesion(app_name,user_id,session_id)
 
     try:  
         response = requests.post(url, headers=headers, json=payload)
@@ -106,15 +113,16 @@ def get_chatbot_response(user_input,app_name,user_id,session_id):
                     result = result_i_j["text"]
                     logger.info(f"User input: {user_input}")
                     logger.info(f"Chatbot response: {results}")
+                    result = initialize_response + result
                     returnable_results.append(result)
 
         return returnable_results
                     
     
     except requests.exceptions.RequestException as e:
-        print(f"Request failed: {e}")
+        return f"{initialize_response}Request failed: {repr(e)}")
     except Exception as e:
-        return f"An error occurred while processing your request.{repr(e)}"
+        return f"{initialize_response}An error occurred while processing your request.{repr(e)}"
 
 # ---------- Streamlit Layout ----------
 
