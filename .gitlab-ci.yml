@@ -99,6 +99,8 @@ variables:
 build_gc:
   stage: build
   image: google/cloud-sdk:alpine
+  tags:
+    - shopping_app
   needs: 
     - job: test_container
       optional: true
@@ -129,6 +131,8 @@ build_gc:
 deploy_job:
   stage: deploy
   image: google/cloud-sdk:alpine
+  tags:
+    - shopping_app
   needs:
     - build_gc
   variables:
