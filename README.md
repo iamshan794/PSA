@@ -1,4 +1,4 @@
-#   Multi-Agent AI shopping assistant for new vs used. 
+#   Multi-Agent AI shopping assistant for new, used and refurbished
 
 # Agents and their tasks
 1. PA agent:  Master agent that interfaces with the customer

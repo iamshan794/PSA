@@ -1,65 +1,57 @@
-import html2text 
+import html2text
 import httpx
-import typing 
 from typing import *
 import requests
 import json
-import datetime 
+import datetime
 from datetime import datetime
 from .ping_mongodb import agent_tool_insert_product
-RATE_LIMITER = 0
-def html_to_text_h2t():
-    html = '''
-    <div class="flex flex-col gap-4"><div><div class="flex flex-col"><div class="mb-1 flex items-center justify-between"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="q">q</label><span class="items-baseline text-red-500"> *</span></div></div><input class="focus-visible:none flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-toolkit" type="text" value="Nike shoes"><div class="flex flex-col"><span class="text-[10px] text-gray-300">String</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Search query / keyword</p></div></div></div></div><div><div class="flex flex-col"><div class="mb-1 flex items-center justify-between"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="country">country</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></div><input class="focus-visible:none flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-toolkit" type="text" value="de"><div class="flex flex-col"><span class="text-[10px] text-gray-300">String</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Country code of the region/country to return offers for.</p>
-    <p><strong>Default:</strong> <code>de</code></p>
-    <p><strong>Allowed values:</strong> See <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2</a>.</p></div></div></div></div><div><div class="flex flex-col"><div class="mb-1 flex items-center justify-between"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="language">language</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></div><input class="focus-visible:none flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-toolkit" type="text" value="en"><div class="flex flex-col"><span class="text-[10px] text-gray-300">String</span><div class="markdown w-full break-normal text-xs leading-normal"><p>The language of the results.</p>
-    <p><strong>Default:</strong> <code>en</code></p>
-    <p><strong>Allowed values:</strong> See <a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes</a></p></div></div></div></div><div><div class="flex flex-col"><div class="mb-1 flex items-center justify-between"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="page">page</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></div><input class="focus-visible:none flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-toolkit" step="any" type="number" value="1"><div class="flex flex-col"><span class="text-[10px] text-gray-300">Number</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Results page to return (each page contains up to 100 product results).</p>
-    <p><strong>Default:</strong> <code>1</code></p>
-    <p><strong>Allowed values:</strong> <code>1-100</code></p></div></div><div class="mt-1 text-xs text-gray-500">Default: 1 </div></div></div><div><div class="flex flex-col"><div class="mb-1 flex items-center justify-between"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="limit">limit</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></div><input class="focus-visible:none flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-toolkit" step="any" type="number" value="10"><div class="flex flex-col"><span class="text-[10px] text-gray-300">Number</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Maximum number of products to return.</p>
-    <p><strong>Default:</strong> <code>10</code></p>
-    <p><strong>Allowed values:</strong> <code>1-100</code></p></div></div><div class="mt-1 text-xs text-gray-500">Default: 10 </div></div></div><div><div class="flex flex-col"><div class="mb-1 flex items-center justify-between"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="sort_by">sort_by</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></div><div class="flex flex-col gap-2"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary"></label><div class="rapid-select-container css-1igje9w-container"><span id="react-select-10-live-region" class="css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false" aria-relevant="additions text" role="log" class="css-7pg0cj-a11yText"></span><div class="rapid-select__control css-v5tdxz-control"><div class="rapid-select__value-container rapid-select__value-container--has-value css-qkh385"><div class="rapid-select__single-value css-1dimb5e-singleValue">BEST_MATCH</div><div class="rapid-select__input-container css-19bb58m" data-value=""><input class="rapid-select__input" autocapitalize="none" autocomplete="off" autocorrect="off" id="react-select-10-input" spellcheck="false" tabindex="0" aria-autocomplete="list" aria-expanded="false" aria-haspopup="true" role="combobox" aria-activedescendant="" type="text" value="" style="color: inherit; background: 0px center; opacity: 1; width: 100%; grid-area: 1 / 2; font: inherit; min-width: 2px; border: 0px; margin: 0px; outline: 0px; padding: 0px;"></div></div><div class="rapid-select__indicators css-1nbqx9a"><span class="rapid-select__indicator-separator css-1u9des2-indicatorSeparator"></span><div class="rapid-select__indicator rapid-select__dropdown-indicator css-1xc3v61-indicatorContainer" aria-hidden="true"><svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="css-8mmkcg"><path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path></svg></div></div></div></div></div><div class="flex flex-col"><span class="text-[10px] text-gray-300">Enum</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Sort product offers by best match, top rated, lowest or highest price.</p>
-    <p><strong>Default:</strong> <code>BEST_MATCH</code></p>
-    <p><strong>Allowed values:</strong> <code>BEST_MATCH, TOP_RATED, LOWEST_PRICE, HIGHEST_PRICE</code></p></div></div></div></div><div><div class="flex flex-col"><div class="mb-1 flex items-center justify-between"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="min_price">min_price</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></div><input class="focus-visible:none flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-toolkit" step="any" type="number" value=""><div class="flex flex-col"><span class="text-[10px] text-gray-300">Number</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Only return product offers with price greater than a certain value</p></div></div><div class="mt-1 text-xs text-gray-500">Default: 0 </div></div></div><div><div class="flex flex-col"><div class="mb-1 flex items-center justify-between"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="max_price">max_price</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></div><input class="focus-visible:none flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-toolkit" step="any" type="number" value=""><div class="flex flex-col"><span class="text-[10px] text-gray-300">Number</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Only return product offers with price lower than a certain value</p></div></div><div class="mt-1 text-xs text-gray-500">Default: 0 </div></div></div><div><div class="flex flex-col"><div class="mb-1 flex items-center justify-between"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="product_condition">product_condition</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></div><div class="flex flex-col gap-2"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary"></label><div class="rapid-select-container css-1igje9w-container"><span id="react-select-11-live-region" class="css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false" aria-relevant="additions text" role="log" class="css-7pg0cj-a11yText"></span><div class="rapid-select__control css-v5tdxz-control"><div class="rapid-select__value-container rapid-select__value-container--has-value css-qkh385"><div class="rapid-select__single-value css-1dimb5e-singleValue">ANY</div><div class="rapid-select__input-container css-19bb58m" data-value=""><input class="rapid-select__input" autocapitalize="none" autocomplete="off" autocorrect="off" id="react-select-11-input" spellcheck="false" tabindex="0" aria-autocomplete="list" aria-expanded="false" aria-haspopup="true" role="combobox" aria-activedescendant="" type="text" value="" style="color: inherit; background: 0px center; opacity: 1; width: 100%; grid-area: 1 / 2; font: inherit; min-width: 2px; border: 0px; margin: 0px; outline: 0px; padding: 0px;"></div></div><div class="rapid-select__indicators css-1nbqx9a"><span class="rapid-select__indicator-separator css-1u9des2-indicatorSeparator"></span><div class="rapid-select__indicator rapid-select__dropdown-indicator css-1xc3v61-indicatorContainer" aria-hidden="true"><svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="css-8mmkcg"><path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path></svg></div></div></div></div></div><div class="flex flex-col"><span class="text-[10px] text-gray-300">Enum</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Only return products with a specific condition.</p>
-    <p><strong>Default:</strong> <code>ANY</code></p>
-    <p><strong>Allowed values:</strong> <code>ANY, NEW, USED, REFURBISHED</code></p></div></div></div></div><div><div class="flex flex-col"><div class="flex flex-col gap-2"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="free_returns">free_returns</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></label><div class="rapid-select-container css-1igje9w-container"><span id="react-select-12-live-region" class="css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false" aria-relevant="additions text" role="log" class="css-7pg0cj-a11yText"></span><div class="rapid-select__control css-v5tdxz-control"><div class="rapid-select__value-container rapid-select__value-container--has-value css-qkh385"><div class="rapid-select__single-value css-1dimb5e-singleValue">rapid_do_not_include_in_request_key</div><div class="rapid-select__input-container css-19bb58m" data-value=""><input class="rapid-select__input" autocapitalize="none" autocomplete="off" autocorrect="off" id="react-select-12-input" spellcheck="false" tabindex="0" aria-autocomplete="list" aria-expanded="false" aria-haspopup="true" role="combobox" aria-activedescendant="" type="text" value="" style="color: inherit; background: 0px center; opacity: 1; width: 100%; grid-area: 1 / 2; font: inherit; min-width: 2px; border: 0px; margin: 0px; outline: 0px; padding: 0px;"></div></div><div class="rapid-select__indicators css-1nbqx9a"><span class="rapid-select__indicator-separator css-1u9des2-indicatorSeparator"></span><div class="rapid-select__indicator rapid-select__dropdown-indicator css-1xc3v61-indicatorContainer" aria-hidden="true"><svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="css-8mmkcg"><path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path></svg></div></div></div></div></div><div class="flex flex-col"><span class="text-[10px] text-gray-300">Boolean</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Only return product offers that offer free returns.</p>
-    <p><strong>Default:</strong> <code>false</code></p></div></div></div></div><div><div class="flex flex-col"><div class="flex flex-col gap-2"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="free_shipping">free_shipping</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></label><div class="rapid-select-container css-1igje9w-container"><span id="react-select-13-live-region" class="css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false" aria-relevant="additions text" role="log" class="css-7pg0cj-a11yText"></span><div class="rapid-select__control css-v5tdxz-control"><div class="rapid-select__value-container rapid-select__value-container--has-value css-qkh385"><div class="rapid-select__single-value css-1dimb5e-singleValue">rapid_do_not_include_in_request_key</div><div class="rapid-select__input-container css-19bb58m" data-value=""><input class="rapid-select__input" autocapitalize="none" autocomplete="off" autocorrect="off" id="react-select-13-input" spellcheck="false" tabindex="0" aria-autocomplete="list" aria-expanded="false" aria-haspopup="true" role="combobox" aria-activedescendant="" type="text" value="" style="color: inherit; background: 0px center; opacity: 1; width: 100%; grid-area: 1 / 2; font: inherit; min-width: 2px; border: 0px; margin: 0px; outline: 0px; padding: 0px;"></div></div><div class="rapid-select__indicators css-1nbqx9a"><span class="rapid-select__indicator-separator css-1u9des2-indicatorSeparator"></span><div class="rapid-select__indicator rapid-select__dropdown-indicator css-1xc3v61-indicatorContainer" aria-hidden="true"><svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="css-8mmkcg"><path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path></svg></div></div></div></div></div><div class="flex flex-col"><span class="text-[10px] text-gray-300">Boolean</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Only return product offers that offer free shipping/delivery.</p>
-    <p><strong>Default:</strong> <code>false</code></p></div></div></div></div><div><div class="flex flex-col"><div class="mb-1 flex items-center justify-between"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="max_shipping_days">max_shipping_days</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></div><input class="focus-visible:none flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-toolkit" step="any" type="number" value=""><div class="flex flex-col"><span class="text-[10px] text-gray-300">Number</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Only return product offers that offer shipping/delivery of up to specific number of days (i.e. shipping speed).</p></div></div><div class="mt-1 text-xs text-gray-500">Default: 0 </div></div></div><div><div class="flex flex-col"><div class="flex flex-col gap-2"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="on_sale">on_sale</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></label><div class="rapid-select-container css-1igje9w-container"><span id="react-select-14-live-region" class="css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false" aria-relevant="additions text" role="log" class="css-7pg0cj-a11yText"></span><div class="rapid-select__control css-v5tdxz-control"><div class="rapid-select__value-container rapid-select__value-container--has-value css-qkh385"><div class="rapid-select__single-value css-1dimb5e-singleValue">rapid_do_not_include_in_request_key</div><div class="rapid-select__input-container css-19bb58m" data-value=""><input class="rapid-select__input" autocapitalize="none" autocomplete="off" autocorrect="off" id="react-select-14-input" spellcheck="false" tabindex="0" aria-autocomplete="list" aria-expanded="false" aria-haspopup="true" role="combobox" aria-activedescendant="" type="text" value="" style="color: inherit; background: 0px center; opacity: 1; width: 100%; grid-area: 1 / 2; font: inherit; min-width: 2px; border: 0px; margin: 0px; outline: 0px; padding: 0px;"></div></div><div class="rapid-select__indicators css-1nbqx9a"><span class="rapid-select__indicator-separator css-1u9des2-indicatorSeparator"></span><div class="rapid-select__indicator rapid-select__dropdown-indicator css-1xc3v61-indicatorContainer" aria-hidden="true"><svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="css-8mmkcg"><path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path></svg></div></div></div></div></div><div class="flex flex-col"><span class="text-[10px] text-gray-300">Boolean</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Only return product offers that are currently on sale.</p>
-    <p><strong>Default:</strong> <code>false</code></p></div></div></div></div><div><div class="flex flex-col"><div class="mb-1 flex items-center justify-between"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="store_id">store_id</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></div><input class="focus-visible:none flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-toolkit" type="text" value=""><div class="flex flex-col"><span class="text-[10px] text-gray-300">String</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Only return product offers from specific stores.
-    Store IDs can be obtained from the Google Shopping URL after using the <strong>Seller</strong> filter by taking the part after the <code>merchagg:</code> variable within the <code>tbs</code> parameter.</p>
-    <p>When filtering for a certain Seller / Store on Google Shopping, a URL similar to the following is shown on the address bar: <code>https://www.google.com/search?gl=us&amp;tbm=shop&amp;q=shoes&amp;tbs=mr:1,merchagg:m100456214|m114373355</code>, in that case, the Store IDs are <strong>m100456214</strong> and <strong>m114373355</strong> - to filter for these stores set <code>store_id=m100456214,m114373355</code>.</p></div></div></div></div><div><div class="flex flex-col"><div class="mb-1 flex items-center justify-between"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="min_rating">min_rating</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></div><div class="flex flex-col gap-2"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary"></label><div class="rapid-select-container css-1igje9w-container"><span id="react-select-15-live-region" class="css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false" aria-relevant="additions text" role="log" class="css-7pg0cj-a11yText"></span><div class="rapid-select__control css-v5tdxz-control"><div class="rapid-select__value-container rapid-select__value-container--has-value css-qkh385"><div class="rapid-select__single-value css-1dimb5e-singleValue">ANY</div><div class="rapid-select__input-container css-19bb58m" data-value=""><input class="rapid-select__input" autocapitalize="none" autocomplete="off" autocorrect="off" id="react-select-15-input" spellcheck="false" tabindex="0" aria-autocomplete="list" aria-expanded="false" aria-haspopup="true" role="combobox" aria-activedescendant="" type="text" value="" style="color: inherit; background: 0px center; opacity: 1; width: 100%; grid-area: 1 / 2; font: inherit; min-width: 2px; border: 0px; margin: 0px; outline: 0px; padding: 0px;"></div></div><div class="rapid-select__indicators css-1nbqx9a"><span class="rapid-select__indicator-separator css-1u9des2-indicatorSeparator"></span><div class="rapid-select__indicator rapid-select__dropdown-indicator css-1xc3v61-indicatorContainer" aria-hidden="true"><svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="css-8mmkcg"><path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path></svg></div></div></div></div></div><div class="flex flex-col"><span class="text-[10px] text-gray-300">Enum</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Return products with rating greater than the specified value.</p>
-    <p><strong>Default:</strong> <code>ANY</code></p>
-    <p><strong>Allowed values:</strong> <code>ANY, 1, 2, 3, 4</code></p></div></div></div></div><div><div class="flex flex-col"><div class="mb-1 flex items-center justify-between"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="filters">filters</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></div><input class="focus-visible:none flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-toolkit" type="text" value=""><div class="flex flex-col"><span class="text-[10px] text-gray-300">String</span><div class="markdown w-full break-normal text-xs leading-normal"><p>A list of filters (e.g. Size, Color, Price, etc) supported by Google Shopping for a specific query and result set. The filter values should be taken from the Search response <em>filters</em> array (separated by comma when multiple values are specified). In case a refinement filter is defined as multivalue (i.e. multivalue: true), multiple values from within the specific filter can be specified in the filters list (e.g. Seller), otherwise, only a single value can be specified for the filter (e.g. Price).</p>
-    <p><strong>Example:</strong> <code>price:1,ppr_max:40,990651|990652,990651|2154542</code></p></div></div></div></div><div><div class="flex flex-col"><div class="flex flex-col gap-2"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary"><div class="flex items-baseline"><label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mr-2 overflow-hidden text-ellipsis text-sm font-light text-primary" aria-label="return_filters">return_filters</label><span class="items-baseline italic text-xs text-gray-400"> (optional)</span></div></label><div class="rapid-select-container css-1igje9w-container"><span id="react-select-16-live-region" class="css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false" aria-relevant="additions text" role="log" class="css-7pg0cj-a11yText"></span><div class="rapid-select__control css-v5tdxz-control"><div class="rapid-select__value-container rapid-select__value-container--has-value css-qkh385"><div class="rapid-select__single-value css-1dimb5e-singleValue">rapid_do_not_include_in_request_key</div><div class="rapid-select__input-container css-19bb58m" data-value=""><input class="rapid-select__input" autocapitalize="none" autocomplete="off" autocorrect="off" id="react-select-16-input" spellcheck="false" tabindex="0" aria-autocomplete="list" aria-expanded="false" aria-haspopup="true" role="combobox" aria-activedescendant="" type="text" value="" style="color: inherit; background: 0px center; opacity: 1; width: 100%; grid-area: 1 / 2; font: inherit; min-width: 2px; border: 0px; margin: 0px; outline: 0px; padding: 0px;"></div></div><div class="rapid-select__indicators css-1nbqx9a"><span class="rapid-select__indicator-separator css-1u9des2-indicatorSeparator"></span><div class="rapid-select__indicator rapid-select__dropdown-indicator css-1xc3v61-indicatorContainer" aria-hidden="true"><svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="css-8mmkcg"><path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path></svg></div></div></div></div></div><div class="flex flex-col"><span class="text-[10px] text-gray-300">Boolean</span><div class="markdown w-full break-normal text-xs leading-normal"><p>Whether to return filters / refinements from Google Shopping (left refinement filters panel on desktop).</p></div></div></div></div></div>
-    '''
+import pathlib
+import os 
+import asyncio
+
+RATE_COUNT = 0
+
+
+def html_to_text_h2t()-> str:
+
+    PROJECT_ROOT=pathlib.Path(os.environ["PROJECT_ROOT"])
+    template_path = PROJECT_ROOT / "assets" / "inputs" / "template.html"
+
+    assert template_path.exists(), f"Template file not found at {template_path}"
+
+    with open(template_path, "r", encoding="utf-8") as f:
+        html = f.read()
+
     h = html2text.HTML2Text()
     h.ignore_links = False
     h.ignore_images = False
     h.ignore_emphasis = False
     h.body_width = 0  # Don't wrap lines
-    
+
     return h.handle(html)
 
 
-
-async def retrieve_products_from_api(product_name_search:str, \
-                                    country:str="de",
-                                    language:str="en",
-                                    sort_by:str="BEST_MATCH",
-                                    product_condition:str="ANY",
-                                    min_rating:str="ANY",
-                                     **kwdargs:Any) -> Dict[str, Any]:
+async def retrieve_products_from_api(
+    product_name_search: str,
+    country: str = "de",
+    language: str = "en",
+    sort_by: str = "BEST_MATCH",
+    product_condition: str = "ANY",
+    min_rating: str = "ANY",
+    **kwdargs: Any,
+) -> Dict[str, Any]:
     """
     Function to search for products using the Real-Time Product Search API.
     Returns the JSON response from the API.
-    Refer docs for data types, constraints and options to configure querystring
+    Refer template docs for data types, constraints and options to configure querystring
     """
     # Define the API endpoint and parameters
-    url = "https://real-time-product-search.p.rapidapi.com/search"
-    
-    page:int=1
-    limit:int=10
-    
+    url = os.environ.get("API_URL")
+
+    page: int = 1
+    limit: int = 10
+
     querystring = {
         "q": product_name_search,
         "country": country,
@@ -68,76 +60,39 @@ async def retrieve_products_from_api(product_name_search:str, \
         "limit": limit,
         "sort_by": sort_by,
         "product_condition": product_condition,
-        "min_rating": min_rating
+        "min_rating": min_rating,
     }
     querystring.update(kwdargs)
     headers = {
-        "x-rapidapi-key": "1ea1e31cfemshfe587adc5c86704p14d35cjsn4b260d16d0a0",
-        "x-rapidapi-host": "real-time-product-search.p.rapidapi.com"
+        "x-rapidapi-key": os.environ.get("API_KEY"),
+        "x-rapidapi-host": os.environ.get("API_HOST"),
     }
-    global RATE_LIMITER 
-    if RATE_LIMITER >2:
+
+    global RATE_COUNT
+    if RATE_COUNT > os.environ.get("API_RATE_LIMIT", 4):
         return {"status": "ERROR", "message": "Rate limit reached. Abort."}
     else:
-        RATE_LIMITER += 1
+        RATE_COUNT += 1
     try:
-        # Make the GET request to the API
+
         async with httpx.AsyncClient() as client:
             response = await client.get(url, headers=headers, params=querystring)
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            filename = f"/workspace/{product_name_search}_{timestamp}.json"
             try:
-                print("##INSERTING JSON DATA##")
+                #Insert to mongoDB collection
                 agent_tool_insert_product(response.json())
-                print("##INSERTED JSON DATA##")
+                return {"status": "OK", "data": response.json()}
+            
             except Exception as e:
-                print(f"Cannot save file due to{e}")
-                
-        return {"status": "OK", "data": response.json()}
+
+                print(f"Cannot insert into MongoDB due to {e}")
+
     except Exception as e:
-        print(f"Error retrieving products: {e}")
-        return {"status": "ERROR", "message": "Failed to retrieve products from API. Error: " + str(e)}
-    
-def retrieve_products_from_api_normal(product_name_search:str, **kwdargs:Any) -> Dict[str, Any]:
-    """
-    Function to search for products using the Real-Time Product Search API.
-    Returns the JSON response from the API.
-    Refer docs for data types, constraints and options to configure querystring
-    """
-    # Define the API endpoint and parameters
-    url = "https://real-time-product-search.p.rapidapi.com/search"
-    country:str="de"
-    language:str="en"
-    page:int=1
-    limit:int=10
-    sort_by:str="BEST_MATCH"
-    product_condition:str="ANY"
-    min_rating:str="ANY"
-    querystring = {
-        "q": product_name_search,
-        "country": country,
-        "language": language,
-        "page": page,
-        "limit": limit,
-        "sort_by": sort_by,
-        "product_condition": product_condition,
-        "min_rating": min_rating
-    }
-   
-    headers = {
-        "x-rapidapi-key": "1ea1e31cfemshfe587adc5c86704p14d35cjsn4b260d16d0a0",
-        "x-rapidapi-host": "real-time-product-search.p.rapidapi.com"
-    }
-    
-    # Make the GET request to the API
-    
-    response = requests.get(url, headers=headers, params=querystring)
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"{product_name_search}_{timestamp}.json"
-    with open(filename, 'w') as f:
-        json.dump(response.json(), f, indent=4)
-   
-    return {"status": "OK", "data": response.json()}  
+        print(f"Error running the API call : {e}")
+        return {
+            "status": "ERROR",
+            "message": "Error: " + str(e),
+        }
 
 if __name__ == "__main__":
     # Example usage of the retrieve_products_from_api function
@@ -149,8 +104,12 @@ if __name__ == "__main__":
     sort_by = "BEST_MATCH"
     product_condition = "ANY"
     min_rating = "ANY"
+    result = asyncio.run(retrieve_products_from_api(
+        product_name_search,
+    ))
 
-    result = retrieve_products_from_api_normal(product_name_search)
-    
-    with open(f'product_search_results_{product_name_search}.json', 'w') as f:
+    PROJECT_ROOT=pathlib.Path(os.environ["PROJECT_ROOT"])
+    template_path = PROJECT_ROOT / "assets" / "outputs" / f"product_search_results_{product_name_search}.json"
+
+    with open(template_path, "w") as f:
         json.dump(result["data"], f, indent=4)

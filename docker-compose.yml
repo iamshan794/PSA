@@ -5,32 +5,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: google-adk:latest
-    container_name: google-adk-container
-    # volumes:
-    #   - mongodb_data:/data/db        # Uncomment to persist MongoDB data
-    #   - .:/workspace                 # Uncomment for development
+    image: $APP_IMG_NAME:$APP_IMG_TAG
+    container_name: $APP_CONTAINER_NAME
     ports:
-      - "0.0.0.0:8000:8000"           # API server port
-      - "0.0.0.0:8501:8501"           # Streamlit port
-      - "0.0.0.0:8051:8051"           # Additional app port
-      - "0.0.0.0:27017:27017"         # MongoDB port
-    environment:
-      - PYTHONUNBUFFERED=1
-      - MONGODB_URI=$MONGODB_URI 
-    # restart: unless-stopped
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
-    #   interval: 30s
-    #   timeout: 10s
-    #   retries: 3
+      - "8000:8000"           # API server port
+      - "8501:8501"           # Streamlit port
+
     command: [tail, "-f", "/dev/null"]  # Keep the container running
     networks:
       - adk-network
-
-# volumes:
-#   mongodb_data:
-#     driver: local
 
 networks:
   adk-network:

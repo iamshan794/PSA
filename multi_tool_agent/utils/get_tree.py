@@ -1,24 +1,36 @@
 import requests
 from bs4 import BeautifulSoup, Tag
+import typing 
+from typing import *
 
 from google.adk.tools import ToolContext
-from google.genai import Client, types
+from google.genai import types
+
 
 class TreeNode:
-    def __init__(self, text):
+    '''
+    A tree data structure
+    '''
+    text: str
+    node: "TreeNode"
+
+    def __init__(self, text:str)-> None:
         self.text = text
         self.children = []
 
-    def add_child(self, node):
+    def add_child(self, node:"TreeNode") -> None:
         self.children.append(node)
+
 
 def fetch_html_as_text(url: str) -> str:
     response = requests.get(url)
     response.raise_for_status()
     return response.text
 
+
 def parse_li(li: Tag) -> TreeNode:
-    label_tag = li.find(['span', 'a'], class_=['dttsubtree', 'dttBranch', 'dttLeaf'])
+
+    label_tag = li.find(["span", "a"], class_=["dttsubtree", "dttBranch", "dttLeaf"])
     if label_tag:
         text = label_tag.get_text(strip=True)
     else:
@@ -32,7 +44,9 @@ def parse_li(li: Tag) -> TreeNode:
     node = TreeNode(text)
 
     # If this is a leaf, no children
-    if 'dttLeaf' in li.get('class', []) or (label_tag and 'dttLeaf' in label_tag.get('class', [])):
+    if "dttLeaf" in li.get("class", []) or (
+        label_tag and "dttLeaf" in label_tag.get("class", [])
+    ):
         return node
 
     # Otherwise, look for nested <ul>
@@ -41,7 +55,9 @@ def parse_li(li: Tag) -> TreeNode:
         for child_li in nested_ul.find_all("li", recursive=False):
             child_node = parse_li(child_li)
             node.add_child(child_node)
+
     return node
+
 
 def extract_tree_from_container(html: str) -> TreeNode:
     soup = BeautifulSoup(html, "html.parser")
@@ -56,8 +72,14 @@ def extract_tree_from_container(html: str) -> TreeNode:
 
     # Try to find the root node "C.Thing" or "Thing"
     for li in ul.find_all("li", recursive=False):
-        label_tag = li.find(['span', 'a'], class_=['dttsubtree', 'dttBranch', 'dttLeaf'])
-        text = label_tag.get_text(strip=True) if label_tag else li.get_text(strip=True, separator=" ")
+        label_tag = li.find(
+            ["span", "a"], class_=["dttsubtree", "dttBranch", "dttLeaf"]
+        )
+        text = (
+            label_tag.get_text(strip=True)
+            if label_tag
+            else li.get_text(strip=True, separator=" ")
+        )
         text = text.strip()
         if text.startswith("C."):
             text = text[2:].strip()
@@ -72,7 +94,8 @@ def extract_tree_from_container(html: str) -> TreeNode:
     print("No <li> found in <ul>.")
     return None
 
-def print_tree(node: TreeNode, prefix="") -> str:
+
+def print_tree(node: TreeNode, prefix:Optional[str]="") -> str:
     if not node:
         return ""
     lines = [prefix + node.text]
@@ -83,21 +106,25 @@ def print_tree(node: TreeNode, prefix="") -> str:
         lines.append(print_tree(child, next_prefix + connector))
     return "\n".join(lines)
 
-async def get_schema_tree(tool_context=ToolContext) -> str:
-    
+
+async def get_schema_tree(tool_context=ToolContext) -> dict[str,str]:
+    '''
+    Get schema as a text structure. Switches to a generic type of product if
+    retrieval is not successful.
+    '''
+
     url = "https://schema.org/docs/full.html"
     try:
-        html_content = fetch_html_as_text(url)
-        root_node = extract_tree_from_container(html_content)
+        html_content = fetch_html_as_text(url) # Get text version of the HTML document
+        root_node = extract_tree_from_container(html_content) #Parse as tree structure
         if root_node:
             tree_str = print_tree(root_node)
     except requests.RequestException as e:
-        # Default to a generic product 
+        # Default to a generic product
         tree_str = "Product"
     await tool_context.save_artifact(
-    "schema_tree.txt",
-    types.Part.from_text(text=tree_str)
-)
+        "schema_tree.txt", types.Part.from_text(text=tree_str)
+    )
     return {
         "status": "success",
         "detail": "Schema retrieved successfully and stored in artifacts.",
