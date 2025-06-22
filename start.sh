@@ -12,7 +12,7 @@ mongosh --eval "rs.initiate()" || echo "Replica set already initialized"
 
 
 echo "Starting ADK API server..."
-adk api_server --host=0.0.0.0 --port=8000 &
+adk api_server --host=$FASTAPI_HOST --port=8000 &
 API_PID=$!
 
 
@@ -20,6 +20,4 @@ sleep 10
 
 
 echo "Starting Streamlit app..."
-exec streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=${PORT:-8501} 
-
-alias kill_fe="ps -aux | grep \"streamlit\" | awk 'NR==1 {print $2}' | xargs kill"
+exec streamlit run streamlit_app.py --server.address=$APP_HOST --server.port=${PORT:-8501} 
