@@ -71,7 +71,7 @@ test_container:
       --build-arg PROJECT_PATH="${PROJECT_PATH}" \
       --build-arg FASTAPI_HOST="${APP_HOST}" \
       --build-arg APP_HOST="${APP_HOST}" \
-      -t $APP_IMG_NAME:$APP_IMG_TAG 
+      -t $APP_IMG_NAME:$APP_IMG_TAG \
       .
     
     #Stop and remove previous instances of the app
