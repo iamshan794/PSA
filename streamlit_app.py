@@ -29,7 +29,7 @@ def is_adk_server_running():
         print(f"Error checking process: {e}")
         return False
 
-def is_port_open(host='0.0.0.0', port=8000):
+def is_port_open(host='0.0.0.0', port=8016):
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.settimeout(1)
@@ -77,7 +77,7 @@ collection = client[DB_NAME][COLLECTION_NAME]
 
 # ---------- Chat API Request (Mock) ----------
 def initialize_sesion(app_name,user_id,session_id):
-    url = f"http://0.0.0.0:8000"  # Replace with your FastAPI endpoint
+    url = f"http://0.0.0.0:8016"  # Replace with your FastAPI endpoint
     full_url = f"{url}/apps/{app_name}/users/{user_id}/sessions/{session_id}"
     payload = {"additionalProp1": {}}
     headers = {
@@ -99,7 +99,7 @@ def initialize_sesion(app_name,user_id,session_id):
 
 def get_chatbot_response(user_input,app_name,user_id,session_id):
     # Replace with real endpoint
-    url = f"http://0.0.0.0:8000/run"  # Replace with your FastAPI endpoint
+    url = f"http://0.0.0.0:8016/run"  # Replace with your FastAPI endpoint
     allowable_agents = ["product_identifier_agent", "query_param_optimizer"]
     payload = { "appName": app_name,
                 "userId": user_id,
