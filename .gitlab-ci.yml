@@ -107,8 +107,11 @@ build_gc:
   services:
     - docker:dind
   variables:
-    DOCKER_DRIVER: overlay2
-    DOCKER_HOST: unix:///var/run/docker.sock
+    # DinD configuration
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_VERIFY: 1
+    DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
     REGISTRY_LOCATION: "us-central1"
     REPOSITORY_NAME: "docker-repo"
     IMAGE_TAG: "$REGISTRY_LOCATION-docker.pkg.dev/$GC_PROJECT_ID/$REPOSITORY_NAME/$APP_IMG_NAME:$CI_COMMIT_SHA"
