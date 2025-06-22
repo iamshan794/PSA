@@ -17,19 +17,23 @@ RUN python3 --version && pip --version && node --version && npm --version && mon
 
 WORKDIR /workspace
 COPY . /workspace
-ARG ENV_CONTENT
-RUN echo "$ENV_CONTENT" > multi_tool_agent/.env
 
-RUN echo "=== Contents of multi_tool_agent/.env ===" && cat /workspace/multi_tool_agent/.env && echo "=== End of .env file ==="
+#Environment variables
+
+ARG ENV_CONTENT
+ARG ENV_CONTENT
+ARG MONGODB_URI
+ARG API_URL
+ARG API_KEY
+ARG API_HOST
+ARG PROJECT_PATH
+ARG FASTAPI_HOST
+ARG APP_HOST
+
+RUN echo "$ENV_CONTENT" > multi_tool_agent/.env
 
 # Install Python dependencies
 RUN pip install --no-cache --break-system-packages -r requirements.txt
-
-# Install Node.js dependencies (if you have package.json)
-# RUN npm install
-
-# Create MongoDB data directory
-RUN mkdir -p /data/db
 
 EXPOSE 8501
 
@@ -41,10 +45,10 @@ sleep 10 && \
 echo 'Initializing MongoDB replica set...' && \
 (mongosh --eval 'rs.initiate()' || echo 'Replica set already initialized') && \
 echo 'Starting ADK API server...' && \
-adk api_server --host=0.0.0.0 --port=8000 & \
+adk api_server --host=$FASTAPI_HOST --port=8000 & \
 API_PID=$! && \
 sleep 5 && \
 echo 'Starting Streamlit app...' && \
-streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=${PORT:-8501} & \
+streamlit run streamlit_app.py --server.address=$APP_HOST --server.port=${PORT:-8501} & \
 STREAMLIT_PID=$! && \
 wait $API_PID $STREAMLIT_PID"]
