@@ -72,7 +72,17 @@ test_container:
   
   script:
 
-    - docker build --build-arg ENV_CONTENT="$(cat $AGENT_ENV_FILE)" --build-arg MONGODB_URI="${MONGODB_URI}" --build-arg API_URL="${API_URL}" --build-arg API_HOST="${API_HOST}" --build-arg API_KEY="${API_KEY}" --build-arg PROJECT_PATH="${PROJECT_PATH}" --build-arg FASTAPI_HOST="${APP_HOST}" --build-arg APP_HOST="${APP_HOST}" -t $APP_IMG_NAME:$APP_IMG_TAG .
+    - docker build \ 
+        --build-arg ENV_CONTENT="$(cat $AGENT_ENV_FILE)" \
+        --build-arg MONGODB_URI="${MONGODB_URI}" \
+        --build-arg API_URL="${API_URL}" \
+        --build-arg API_HOST="${API_HOST}" \
+        --build-arg API_KEY="${API_KEY}" \
+        --build-arg PROJECT_PATH="${PROJECT_PATH}" \
+        --build-arg FASTAPI_HOST="${APP_HOST}" \
+        --build-arg APP_HOST="${APP_HOST}" \
+        -t $APP_IMG_NAME:$APP_IMG_TAG \
+        .
 
     #Stop and remove previous instances of the app
     - docker stop "${APP_IMG_NAME}" 2>/dev/null || true
@@ -81,10 +91,10 @@ test_container:
     
     - docker compose -f docker-compose.tmp.yml up -d 
 
-    - docker exec -d "${APP_CONTAINER_NAME}" sh $PROJECT_ROOT/start.sh
+    - docker exec -d "${APP_CONTAINER_NAME}" sh $PROJECT_PATH/start.sh
     - sleep 20
     #Test database, FastAPI server and frontend app
-    - docker exec "${APP_CONTAINER_NAME}" python3 $PROJECT_ROOT/multi_tool_agent/ping_mongodb.py ping
+    - docker exec "${APP_CONTAINER_NAME}" python3 $PROJECT_PATH/multi_tool_agent/ping_mongodb.py ping
     - docker exec "${APP_CONTAINER_NAME}" curl -v http://localhost:8000/docs || echo "Internal API test failed"
     - docker exec "${APP_CONTAINER_NAME}" curl -v http://localhost:8501 || echo "App not responding"
     
