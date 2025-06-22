@@ -11,12 +11,32 @@ import os
 from streamlit_autorefresh import st_autorefresh
 import subprocess
 import logging 
+import subprocess
+import socket 
 
 logging.basicConfig(
     level=logging.INFO,
     filename=f"{__file__}.log",
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
+#---- utils --
+def is_adk_server_running():
+    try:
+        # Check for adk api_server process
+        result = subprocess.run(['ps', 'aux'], capture_output=True, text=True)
+        return 'adk api_server' in result.stdout
+    except Exception as e:
+        print(f"Error checking process: {e}")
+        return False
+
+def is_port_open(host='0.0.0.0', port=8000):
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.settimeout(1)
+            result = sock.connect_ex((host, port))
+            return result == 0
+    except Exception:
+        return False
 
 logger = logging.getLogger(__name__)
 # ---------- Session Setup ----------
@@ -57,7 +77,7 @@ collection = client[DB_NAME][COLLECTION_NAME]
 
 # ---------- Chat API Request (Mock) ----------
 def initialize_sesion(app_name,user_id,session_id):
-    url = f"http://127.0.0.1:8000"  # Replace with your FastAPI endpoint
+    url = f"http://0.0.0.0:8000"  # Replace with your FastAPI endpoint
     full_url = f"{url}/apps/{app_name}/users/{user_id}/sessions/{session_id}"
     payload = {"additionalProp1": {}}
     headers = {
@@ -71,15 +91,15 @@ def initialize_sesion(app_name,user_id,session_id):
         else:
             return (f"Failed to initialize session: {response.status_code} - {response.text}")
     except requests.exceptions.ConnectionError as e:
-        return (f"Failed to connect to service: Connection refused. Is the service running on the target host/port? Error: {str(e)}")
+        return (f"is_adk_running: {is_adk_server_running()} and is_port_open: {is_port_open()} Is the service running on the target host/port? Error: {str(e)}")
     except requests.exceptions.RequestException as e:
-        return (f"Request failed: {str(e)}")
+        return (f"is_adk_running: {is_adk_server_running()} and is_port_open: {is_port_open()} Request failed: {str(e)}")
     except Exception as e:
-        return (f"Unexpected error during session initialization: {str(e)}")
+        return (f"is_adk_running: {is_adk_server_running()} and is_port_open: {is_port_open()} Unexpected error during session initialization: {str(e)}")
 
 def get_chatbot_response(user_input,app_name,user_id,session_id):
     # Replace with real endpoint
-    url = f"http://127.0.0.1:8000/run"  # Replace with your FastAPI endpoint
+    url = f"http://0.0.0.0:8000/run"  # Replace with your FastAPI endpoint
     allowable_agents = ["product_identifier_agent", "query_param_optimizer"]
     payload = { "appName": app_name,
                 "userId": user_id,

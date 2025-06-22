@@ -34,11 +34,11 @@ ENV API_URL=${API_URL}
 ENV API_KEY=${API_KEY}
 ENV API_HOST=${API_HOST}
 ENV PROJECT_PATH=${PROJECT_PATH}
-ENV FASTAPI_HOST=127.0.0.1
+ENV FASTAPI_HOST=0.0.0.0
 ENV APP_HOST=0.0.0.0
 
 RUN echo "$ENV_CONTENT" > multi_tool_agent/.env
-RUN echo "=== Contents of multi_tool_agent/.env ===" && cat /workspace/multi_tool_agent/.env && echo "=== End of .env file ==="
+
 # Install Python dependencies
 RUN pip install --no-cache --break-system-packages -r requirements.txt
 
@@ -53,7 +53,7 @@ echo 'Initializing MongoDB replica set...' && \
 (mongosh --eval 'rs.initiate()' || echo 'Replica set already initialized') && \
 echo 'Starting ADK API server...' && \
 adk api_server --host=0.0.0.0 --port=8000 & \
-sleep 5 && \
+sleep 20 && \
 echo 'Starting Streamlit app...' && \
 streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=${PORT:-8501} && \
 wait"]
