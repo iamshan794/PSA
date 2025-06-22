@@ -55,7 +55,7 @@ def read_adk_log():
 def start_adk():
     try:
         process = subprocess.Popen(
-            ['adk', 'api_server', '--host=0.0.0.0', '--port=8016', '--verbose'],
+            ['adk', 'api_server', '--host=0.0.0.0', '--port=8016'],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
