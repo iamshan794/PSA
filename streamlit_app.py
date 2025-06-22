@@ -13,6 +13,7 @@ import subprocess
 import logging 
 import subprocess
 import socket
+import time 
 
 logging.basicConfig(
     level=logging.INFO,
@@ -51,7 +52,23 @@ def read_adk_log():
        
     except Exception as e:
         return f"Error reading log: {e}"
+def start_adk():
+    try:
+        process = subprocess.Popen(
+            ['adk', 'api_server', '--host=0.0.0.0', '--port=8016', '--verbose'],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
 
+        log_output = ""
+        for line in process.stdout:
+            log_output += f"ADK: {line.strip()}\n"
+
+        return log_output
+
+    except Exception as e:
+        return f"Failed to start ADK: {e}"
 
 
 logger = logging.getLogger(__name__)
@@ -107,11 +124,14 @@ def initialize_sesion(app_name,user_id,session_id):
         else:
             return (f"Failed to initialize session: {response.status_code} - {response.text}")
     except requests.exceptions.ConnectionError as e:
-        return (f"is_adk_running: {read_adk_log()} and is_port_open: {is_port_open()} Is the service running on the target host/port? Error: {str(e)}")
+        status= start_adk()
+        return (f"is_adk_running: {status} and is_port_open: {is_port_open()} Is the service running on the target host/port? Error: {str(e)}")
     except requests.exceptions.RequestException as e:
-        return (f"is_adk_running: {read_adk_log()} and is_port_open: {is_port_open()} Request failed: {str(e)}")
+        status= start_adk()
+        return (f"is_adk_running: {status} and is_port_open: {is_port_open()} Request failed: {str(e)}")
     except Exception as e:
-        return (f"is_adk_running: {read_adk_log()} and is_port_open: {is_port_open()} Unexpected error during session initialization: {str(e)}")
+        status= start_adk()
+        return (f"is_adk_running: {status} and is_port_open: {is_port_open()} Unexpected error during session initialization: {str(e)}")
 
 def get_chatbot_response(user_input,app_name,user_id,session_id):
     # Replace with real endpoint
