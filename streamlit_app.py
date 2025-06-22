@@ -40,18 +40,18 @@ def is_port_open(host='0.0.0.0', port=8016):
 
 def read_adk_log():
     try:
-        with open('/var/log/adk.log', 'r') as f:
+        with open('/tmp/adk.log', 'r') as f:
             content = f.read()
             print("=== ADK LOG CONTENT ===")
             print(content)
             print("=== END LOG ===")
             return content
     except FileNotFoundError:
-        print("Log file /var/log/adk.log not found")
-        return None
+        return "Log file /var/log/adk.log not found"
+       
     except Exception as e:
-        print(f"Error reading log: {e}")
-        return None
+        return f"Error reading log: {e}"
+
 
 
 logger = logging.getLogger(__name__)
