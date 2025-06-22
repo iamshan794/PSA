@@ -45,7 +45,7 @@ test_container:
 
   resource_group: development
 
-  .before_script:
+  before_script:
 
     - echo "Setting Up Curl..."
     - apk add --no-cache curl
