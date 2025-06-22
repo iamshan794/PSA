@@ -59,6 +59,16 @@ test_container:
   
     # - mkdir -p "$(dirname "$ENV_FILE_DESTINATION")"
     # - cp "$AGENT_ENV_FILE" "$ENV_FILE_DESTINATION" || echo "No env file to copy"
+    - echo "$AGENT_ENV_FILE"
+    - cat "$AGENT_ENV_FILE"
+    - echo "$MONGODB_URI"
+    - echo "$API_URL"
+    - echo "$API_HOST"
+    - echo "$API_KEY"
+    - echo "$PROJECT_PATH"
+    - echo "$APP_HOST"
+    - echo "$APP_IMG_NAME"
+    - echo "$APP_IMG_TAG"
   
   script:
 
