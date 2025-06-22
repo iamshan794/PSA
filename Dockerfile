@@ -55,4 +55,5 @@ echo 'Starting ADK API server...' && \
 adk api_server --host=127.0.0.1 --port=8000 & \
 sleep 5 && \
 echo 'Starting Streamlit app...' && \
-streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=${PORT:-8501} & ]
+streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=${PORT:-8501} && \
+wait"]
