@@ -34,8 +34,8 @@ ENV API_URL=${API_URL}
 ENV API_KEY=${API_KEY}
 ENV API_HOST=${API_HOST}
 ENV PROJECT_PATH=${PROJECT_PATH}
-ENV FASTAPI_HOST=${FASTAPI_HOST}
-ENV APP_HOST=${APP_HOST}
+ENV FASTAPI_HOST=0.0.0.0
+ENV APP_HOST=0.0.0.0
 
 RUN echo "$ENV_CONTENT" > multi_tool_agent/.env
 RUN echo "=== Contents of multi_tool_agent/.env ===" && cat /workspace/multi_tool_agent/.env && echo "=== End of .env file ==="
@@ -55,6 +55,7 @@ echo 'Starting ADK API server...' && \
 adk api_server --host=0.0.0.0 --port=8000 & \
 API_PID=$! && \
 sleep 5 && \
+curl -v http://0.0.0.0:8000 && \
 echo 'Starting Streamlit app...' && \
 streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=${PORT:-8501} & \
 
