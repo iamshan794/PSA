@@ -100,7 +100,7 @@ build_gc:
   stage: build
   image: google/cloud-sdk:alpine
   needs: 
-    - jobs: test_container
+    - job: test_container
       optional: true
   services:
     - docker:dind
