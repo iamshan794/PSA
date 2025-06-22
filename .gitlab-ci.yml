@@ -72,7 +72,7 @@ test_container:
   
   script:
 
-    - docker build \
+    - DOCKER_BUILDKIT=0 docker build \
       --build-arg ENV_CONTENT="$(cat $AGENT_ENV_FILE)" \
       --build-arg MONGODB_URI="${MONGODB_URI}" \
       --build-arg API_URL="${API_URL}" \
@@ -81,7 +81,7 @@ test_container:
       --build-arg PROJECT_PATH="${PROJECT_PATH}" \
       --build-arg FASTAPI_HOST="${APP_HOST}" \
       --build-arg APP_HOST="${APP_HOST}" \
-      -t "${APP_IMG_NAME}:${APP_IMG_TAG}" \
+      -t $APP_IMG_NAME:$APP_IMG_TAG \
       .
 
     #Stop and remove previous instances of the app
