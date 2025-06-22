@@ -5,17 +5,22 @@ from pymongo import MongoClient
 from datetime import datetime
 import time
 from bson import ObjectId
-from ping_mongodb import watch_new_inserts 
+from multi_tool_agent.utils.ping_mongodb import watch_new_inserts 
 import threading
 import os 
 from streamlit_autorefresh import st_autorefresh
+import subprocess
+import logging 
 
+logging.basicConfig(
+    level=logging.INFO,
+    filename=f"{__file__}.log",
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
-st.set_page_config(layout="wide")
-# 📦 Placeholder to dynamically update right column
-
-
+logger = logging.getLogger(__name__)
 # ---------- Session Setup ----------
+st.set_page_config(layout="wide")
 
 if "latest_product_doc" not in st.session_state:
     st.session_state.latest_product_doc = None
@@ -28,19 +33,17 @@ if 'session_id' not in st.session_state:
 
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
+
 USER_ID = st.session_state.user_id
 SESSION_ID = st.session_state.session_id
 APP_NAME = "multi_tool_agent"
-
-
-
 
 # ---------- MongoDB Setup ----------
 MONGODB_URI = os.environ["MONGODB_URI"]
 DB_NAME = "shopping_app"
 COLLECTION_NAME = "api_results_raw"
 
-
+#Event listener
 if "watcher_started" not in st.session_state:
     threading.Thread(
         target=watch_new_inserts,
@@ -52,13 +55,9 @@ if "watcher_started" not in st.session_state:
 client = MongoClient(MONGODB_URI)
 collection = client[DB_NAME][COLLECTION_NAME]
 
-def fetch_latest_product():
-    doc = collection.find_one({"_id": ObjectId("684782732322bdd492e2a0f1")})
-    return doc
-
 # ---------- Chat API Request (Mock) ----------
 def initialize_sesion(app_name,user_id,session_id):
-    url = "http://0.0.0.0:8000"  # Replace with your FastAPI endpoint
+    url = f"http://{os.environ.get("FASTAPI_HOST")}:8000"  # Replace with your FastAPI endpoint
     full_url = f"{url}/apps/{app_name}/users/{user_id}/sessions/{session_id}"
     payload = {"additionalProp1": {}}
     headers = {
@@ -67,20 +66,14 @@ def initialize_sesion(app_name,user_id,session_id):
 }
     response = requests.post(full_url, headers=headers, json=payload)
     if response.status_code == 200 and response.ok:
-        print(f"Session initialized successfully for app {app_name}, user {user_id}, session {session_id}")
+        return (f"Session initialized successfully for app {app_name}, user {user_id}, session {session_id}")
     else:
-        print(f"Failed to initialize session: {response.status_code} - {response.text}")
-    
-def list_apps():
-    url = "http://0.0.0.0:8000/list-apps/"  # Replace with your FastAPI endpoint
-    response = requests.get(url)
-    #print("AT list apps",response.json())
+        return (f"Failed to initialize session: {response.status_code} - {response.text}")
 
 def get_chatbot_response(user_input,app_name,user_id,session_id):
-    list_apps()
     # Replace with real endpoint
-    url = "http://0.0.0.0:8000/run"  # Replace with your FastAPI endpoint
-
+    url = f"http://{os.environ.get("FASTAPI_HOST")}:8000/run"  # Replace with your FastAPI endpoint
+    allowable_agents = ["product_identifier_agent", "query_param_optimizer"]
     payload = { "appName": app_name,
                 "userId": user_id,
                 "sessionId": session_id,
@@ -94,19 +87,34 @@ def get_chatbot_response(user_input,app_name,user_id,session_id):
     headers = {
     "accept": "application/json",
     "Content-Type": "application/json"
-}
-    try:
-        initialize_sesion(app_name,user_id,session_id)
+}   
+    initialize_sesion(app_name,user_id,session_id)
+
+    try:  
         response = requests.post(url, headers=headers, json=payload)
         response.raise_for_status()  # Raises an error for 4xx/5xx
-        result = response.json()
-        result = result[0]["content"]["parts"][0]["text"]
-        return result
+        results = response.json()
+        with open("response.json", "w") as f:
+            import json
+            json.dump(results, f, indent=4)
+        returnable_results=[]
+        for result_i in results:
+            if result_i["author"] not in allowable_agents:
+                continue
+            for result_i_j in result_i["content"]["parts"]:
+                if "text" in result_i_j.keys():
+                    result = result_i_j["text"]
+                    logger.info(f"User input: {user_input}")
+                    logger.info(f"Chatbot response: {results}")
+                    returnable_results.append(result)
+
+        return returnable_results
+                    
+    
     except requests.exceptions.RequestException as e:
         print(f"Request failed: {e}")
-        return "Apologies, I am not reachable at the moment. Please try again later"
     except Exception as e:
-        return "An error occurred while processing your request."
+        return f"An error occurred while processing your request.{repr(e)}"
 
 # ---------- Streamlit Layout ----------
 
@@ -131,6 +139,7 @@ else:
         st.session_state.last_seen_object_id = latest_doc["_id"]
         st.session_state.latest_product_doc = latest_doc
         st.session_state.last_product_time = time.time()  # Update time if needed
+
 # ---------- Left Panel: Chat ----------
 with left_col:
     st.title("🛍️ Personal Shopping Assistant")
@@ -144,9 +153,8 @@ with left_col:
         st.session_state.chat_history.append({"role": "user", "content": user_input})
 
         # Bot response
-        bot_response = get_chatbot_response(user_input,APP_NAME,USER_ID,SESSION_ID)
-        st.session_state.chat_history.append({"role": "bot", "content": bot_response})
-
+        for bot_response in get_chatbot_response(user_input,APP_NAME,USER_ID,SESSION_ID):
+            st.session_state.chat_history.append({"role": "bot", "content": bot_response})
         st.rerun()  # Refresh display
 
 # ---------- Right Panel: Product Card ----------
@@ -154,12 +162,15 @@ with right_placeholder.container():
     st.title("🛍️ Product Listings")
     if st.session_state.latest_product_doc:
         latest_product = st.session_state.latest_product_doc
-        #latest_product=fetch_latest_product()
-        products = latest_product["data"]["products"] 
-        
-        if not products:
-            st.info("No products available.")
-        else:
+        #latest_product=fetch_latest_product() 
+        products=None
+        try:
+            products = latest_product["data"]["products"] 
+        except KeyError:
+            st.error("No products found in the latest document.")
+            products = []
+
+        if products:
             for product in products:
                 with st.container():
                     # Image
@@ -187,4 +198,3 @@ with right_placeholder.container():
                     st.markdown(f"[🔗 View Product]({url})")
 
                     st.markdown("---")
-

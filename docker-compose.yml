@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   google-adk:
     build:
@@ -7,17 +6,20 @@ services:
       dockerfile: Dockerfile
     image: google-adk:latest
     container_name: google-adk-container
-    # volumes:
+    volumes:
     #   - mongodb_data:/data/db        # Uncomment to persist MongoDB data
-    #   - .:/workspace                 # Uncomment for development
+      - .:/workspace                 # Uncomment for development
     ports:
-      - "0.0.0.0:8000:8000"           # API server port
-      - "0.0.0.0:8501:8501"           # Streamlit port
-      - "0.0.0.0:8051:8051"           # Additional app port
-      - "0.0.0.0:27017:27017"         # MongoDB port
+      - "8000:8000"           # API server port
+      - "8501:8501"           # Streamlit port
+      - "27017:27017"         # MongoDB port
     environment:
-      - PYTHONUNBUFFERED=1
       - MONGODB_URI=$MONGODB_URI 
+      - API_URL=$API_URL
+      - API_KEY=$API_KEY
+      - API_HOST=$API_HOST
+      - PROJECT_PATH=$PROJECT_PATH
+      - FASTAPI_HOST=$FASTAPI_HOST
     # restart: unless-stopped
     # healthcheck:
     #   test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
