@@ -57,7 +57,7 @@ collection = client[DB_NAME][COLLECTION_NAME]
 
 # ---------- Chat API Request (Mock) ----------
 def initialize_sesion(app_name,user_id,session_id):
-    url = f"http://localhost:8000"  # Replace with your FastAPI endpoint
+    url = f"http://127.0.0.1:8000"  # Replace with your FastAPI endpoint
     full_url = f"{url}/apps/{app_name}/users/{user_id}/sessions/{session_id}"
     payload = {"additionalProp1": {}}
     headers = {
@@ -79,7 +79,7 @@ def initialize_sesion(app_name,user_id,session_id):
 
 def get_chatbot_response(user_input,app_name,user_id,session_id):
     # Replace with real endpoint
-    url = f"http://localhost:8000/run"  # Replace with your FastAPI endpoint
+    url = f"http://127.0.0.1:8000/run"  # Replace with your FastAPI endpoint
     allowable_agents = ["product_identifier_agent", "query_param_optimizer"]
     payload = { "appName": app_name,
                 "userId": user_id,
