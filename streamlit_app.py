@@ -38,6 +38,22 @@ def is_port_open(host='0.0.0.0', port=8016):
     except Exception:
         return False
 
+def read_adk_log():
+    try:
+        with open('/var/log/adk.log', 'r') as f:
+            content = f.read()
+            print("=== ADK LOG CONTENT ===")
+            print(content)
+            print("=== END LOG ===")
+            return content
+    except FileNotFoundError:
+        print("Log file /var/log/adk.log not found")
+        return None
+    except Exception as e:
+        print(f"Error reading log: {e}")
+        return None
+
+
 logger = logging.getLogger(__name__)
 # ---------- Session Setup ----------
 st.set_page_config(layout="wide")
@@ -91,11 +107,11 @@ def initialize_sesion(app_name,user_id,session_id):
         else:
             return (f"Failed to initialize session: {response.status_code} - {response.text}")
     except requests.exceptions.ConnectionError as e:
-        return (f"is_adk_running: {is_adk_server_running()} and is_port_open: {is_port_open()} Is the service running on the target host/port? Error: {str(e)}")
+        return (f"is_adk_running: {read_adk_log()} and is_port_open: {is_port_open()} Is the service running on the target host/port? Error: {str(e)}")
     except requests.exceptions.RequestException as e:
-        return (f"is_adk_running: {is_adk_server_running()} and is_port_open: {is_port_open()} Request failed: {str(e)}")
+        return (f"is_adk_running: {read_adk_log()} and is_port_open: {is_port_open()} Request failed: {str(e)}")
     except Exception as e:
-        return (f"is_adk_running: {is_adk_server_running()} and is_port_open: {is_port_open()} Unexpected error during session initialization: {str(e)}")
+        return (f"is_adk_running: {read_adk_log()} and is_port_open: {is_port_open()} Unexpected error during session initialization: {str(e)}")
 
 def get_chatbot_response(user_input,app_name,user_id,session_id):
     # Replace with real endpoint

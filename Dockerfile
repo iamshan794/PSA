@@ -52,8 +52,8 @@ sleep 10 && \
 echo 'Initializing MongoDB replica set...' && \
 (mongosh --eval 'rs.initiate()' || echo 'Replica set already initialized') && \
 echo 'Starting ADK API server...' && \
-adk api_server --host=0.0.0.0 --port=8016 & \
-sleep 20 && \
+adk api_server --host=0.0.0.0 --port=8016 --verbose > /var/log/adk.log 2>&1 & \
+sleep 10 && \
 echo 'Starting Streamlit app...' && \
 streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=${PORT:-8501} && \
 wait"]
