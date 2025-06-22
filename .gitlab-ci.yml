@@ -71,7 +71,8 @@ test_container:
       --build-arg API_HOST="${API_HOST}" \
       --build-arg PROJECT_PATH="${PROJECT_PATH}" \
       --build-arg FASTAPI_HOST="${APP_HOST}" \
-      -t $IMAGE_TAG .
+      -t $APP_IMG_NAME:$APP_IMG_TAG 
+      .
     
     #Stop and remove previous instances of the app
     - docker stop "${APP_IMG_NAME}" 2>/dev/null || true
