@@ -45,7 +45,7 @@ variables:
   #   - lint_job
   resource_group: development
 
-  before_script:
+  .before_script:
 
     - echo "Setting Up Curl..."
     - apk add --no-cache curl
@@ -86,7 +86,7 @@ variables:
     
   allow_failure: false 
   
-build:
+.build:
   stage: build
   image: google/cloud-sdk:alpine
   services:
@@ -116,7 +116,7 @@ build:
     - docker tag $IMAGE_TAG $LATEST_TAG
     - docker push $LATEST_TAG
 
-deploy_job:
+.deploy_job:
   stage: deploy
   image: google/cloud-sdk:alpine
   variables:
