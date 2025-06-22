@@ -10,18 +10,20 @@ stages:
   - ".pre"
   - test
   - build
-  - integration
   - deploy
   - ".post"
 
 variables:
-  # No DOCKER_HOST needed for self-hosted runner with Docker
+  
   IMAGE_TAG: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA"
   LATEST_TAG: "$CI_REGISTRY_IMAGE:latest"
   APP_IMG_NAME: google-adk
-  APP_CONTAINER_NAME: google-adk-container
   APP_IMG_TAG: latest
+  APP_CONTAINER_NAME: google-adk-container
   APP_HOST: 0.0.0.0
+  API_HOST: real-time-product-search.p.rapidapi.com
+  PROJECT_PATH: /workspace
+
 
 .lint_job:
   stage: ".pre"
@@ -38,11 +40,12 @@ variables:
   stage: test
   variables:
     #Destination to write the .env file required to run the agent
-    ENV_FILE_DESTINATION: "/workspace/multi_tool_agent/.env"
+    ENV_FILE_DESTINATION: "$PROJECT_PATH/multi_tool_agent/.env"
   tags:
     - shopping_app
-  # needs:
-  #   - lint_job
+  needs:
+    - lint_job
+
   resource_group: development
 
   .before_script:
@@ -56,9 +59,9 @@ variables:
     
     - echo "Setup Docker Compose"
     - apk update && apk add docker-cli-compose
-    
-    - mkdir -p "$(dirname "$ENV_FILE_DESTINATION")"
-    - cp "$AGENT_ENV_FILE" "$ENV_FILE_DESTINATION" || echo "No env file to copy"
+  
+    # - mkdir -p "$(dirname "$ENV_FILE_DESTINATION")"
+    # - cp "$AGENT_ENV_FILE" "$ENV_FILE_DESTINATION" || echo "No env file to copy"
   
   script:
 
@@ -86,9 +89,11 @@ variables:
     
   allow_failure: false 
   
-.build:
+.build_gc:
   stage: build
   image: google/cloud-sdk:alpine
+  needs: 
+    - test_container
   services:
     - docker:dind
   variables:
@@ -97,7 +102,6 @@ variables:
     DOCKER_TLS_CERTDIR: "/certs"
     DOCKER_TLS_VERIFY: 1
     DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
-    APP_IMG_NAME: "google-adk"
     REGISTRY_LOCATION: "us-central1"
     REPOSITORY_NAME: "docker-repo"
     IMAGE_TAG: "$REGISTRY_LOCATION-docker.pkg.dev/$GC_PROJECT_ID/$REPOSITORY_NAME/$APP_IMG_NAME:$CI_COMMIT_SHA"
@@ -109,9 +113,15 @@ variables:
     - gcloud config set project $GC_PROJECT_ID
     - gcloud auth configure-docker $REGISTRY_LOCATION-docker.pkg.dev
   script:
-    - docker build 
-        --build-arg ENV_CONTENT="$(cat $AGENT_ENV_FILE)" 
-        -t $IMAGE_TAG .
+    - docker build \
+      --build-arg ENV_CONTENT="$(cat $AGENT_ENV_FILE)" \
+      --build-arg MONGODB_URI="${MONGODB_URI}" \
+      --build-arg API_URL="${API_URL}" \
+      --build-arg API_KEY="${API_KEY}" \
+      --build-arg API_HOST="${API_HOST}" \
+      --build-arg PROJECT_PATH="${PROJECT_PATH}" \
+      --build-arg FASTAPI_HOST="${APP_HOST}" \
+      -t $IMAGE_TAG .
     - docker push $IMAGE_TAG
     - docker tag $IMAGE_TAG $LATEST_TAG
     - docker push $LATEST_TAG
@@ -119,8 +129,9 @@ variables:
 .deploy_job:
   stage: deploy
   image: google/cloud-sdk:alpine
+  needs:
+    - build_gc
   variables:
-    APP_IMG_NAME: "google-adk"
     REGISTRY_LOCATION: "us-central1"
     REPOSITORY_NAME: "docker-repo"
     IMAGE_TAG: "$REGISTRY_LOCATION-docker.pkg.dev/$GC_PROJECT_ID/$REPOSITORY_NAME/$APP_IMG_NAME:$CI_COMMIT_SHA"
@@ -141,5 +152,4 @@ variables:
         --cpu 2 \
         --memory 4Gi \
         --max-instances 5 \
-        --min-instances 1 \
-        --set-env-vars "MONGODB_URI=$MONGODB_URI"
+        --min-instances 1 
