@@ -120,7 +120,7 @@ def get_chatbot_response(user_input,app_name,user_id,session_id):
                     
     
     except requests.exceptions.RequestException as e:
-        return f"{initialize_response}Request failed: {repr(e)}")
+        return f"{initialize_response}Request failed: {repr(e)}"
     except Exception as e:
         return f"{initialize_response}An error occurred while processing your request.{repr(e)}"
 
