@@ -11,7 +11,6 @@ stages:
   - test
   - build
   - deploy
-  - ".post"
 
 variables:
   
@@ -24,7 +23,6 @@ variables:
   API_HOST: real-time-product-search.p.rapidapi.com
   PROJECT_PATH: /workspace
 
-
 .lint_job:
   stage: ".pre"
   resource_group: development
@@ -34,7 +32,6 @@ variables:
     - echo "Running linting checks..."
     - echo "Lint Successful"
   allow_failure: false
-
 
 .test_container:
   stage: test
@@ -65,20 +62,28 @@ variables:
   
   script:
 
-    - docker build -t "$APP_IMG_NAME:$APP_IMG_TAG" .
+    - docker build \
+      --build-arg ENV_CONTENT="$(cat $AGENT_ENV_FILE)" \
+      --build-arg MONGODB_URI="${MONGODB_URI}" \
+      --build-arg API_URL="${API_URL}" \
+      --build-arg API_URL="${APP_HOST}" \
+      --build-arg API_KEY="${API_KEY}" \
+      --build-arg API_HOST="${API_HOST}" \
+      --build-arg PROJECT_PATH="${PROJECT_PATH}" \
+      --build-arg FASTAPI_HOST="${APP_HOST}" \
+      -t $IMAGE_TAG .
     
     #Stop and remove previous instances of the app
     - docker stop "${APP_IMG_NAME}" 2>/dev/null || true
     - docker rm "${APP_IMG_NAME}" 2>/dev/null || true
-    - envsubst < docker-compose.yml > docker-compose.tmp.yml
-    
-    - docker compose -f docker-compose.tmp.yml up -d 
 
-    - docker exec -d "${APP_CONTAINER_NAME}" sh /workspace/start.sh
-    - sleep 30
+    - docker compose up -d 
+
+    - docker exec -d "${APP_CONTAINER_NAME}" sh $PROJECT_ROOT/start.sh
+    - sleep 20
     #Test database, FastAPI server and frontend app
-    - docker exec "${APP_CONTAINER_NAME}" python3 ping_mongodb.py ping
-    - docker exec "${APP_CONTAINER_NAME}" curl -L http://localhost:8000/docs || echo "Internal API test failed"
+    - docker exec "${APP_CONTAINER_NAME}" python3 $PROJECT_ROOT/multi_tool_agent/ping_mongodb.py ping
+    - docker exec "${APP_CONTAINER_NAME}" curl -v http://localhost:8000/docs || echo "Internal API test failed"
     - docker exec "${APP_CONTAINER_NAME}" curl -v http://localhost:8501 || echo "App not responding"
     
   after_script:
@@ -117,6 +122,7 @@ variables:
       --build-arg ENV_CONTENT="$(cat $AGENT_ENV_FILE)" \
       --build-arg MONGODB_URI="${MONGODB_URI}" \
       --build-arg API_URL="${API_URL}" \
+      --build-arg API_URL="${APP_HOST}" \
       --build-arg API_KEY="${API_KEY}" \
       --build-arg API_HOST="${API_HOST}" \
       --build-arg PROJECT_PATH="${PROJECT_PATH}" \
