@@ -33,7 +33,7 @@ variables:
     - echo "Lint Successful"
   allow_failure: false
 
-.test_container:
+test_container:
   stage: test
   variables:
     #Destination to write the .env file required to run the agent
@@ -76,8 +76,9 @@ variables:
     #Stop and remove previous instances of the app
     - docker stop "${APP_IMG_NAME}" 2>/dev/null || true
     - docker rm "${APP_IMG_NAME}" 2>/dev/null || true
-
-    - docker compose up -d 
+    - envsubst < docker-compose.yml > docker-compose.tmp.yml
+    
+    - docker compose -f docker-compose.tmp.yml up -d 
 
     - docker exec -d "${APP_CONTAINER_NAME}" sh $PROJECT_ROOT/start.sh
     - sleep 20
