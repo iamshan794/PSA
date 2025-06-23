@@ -56,9 +56,9 @@ if 'session_id' not in st.session_state:
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
 #If adk does not successfully start
-# if 'api_server' not in st.session_state:
-#     start_adk()
-#     st.session_state.api_server=True
+if 'api_server' not in st.session_state:
+    start_adk()
+    st.session_state.api_server=True
 
 USER_ID = st.session_state.user_id
 SESSION_ID = st.session_state.session_id
