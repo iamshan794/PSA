@@ -20,10 +20,6 @@ sleep 10
 
 
 echo "Starting Streamlit app..."
-<<<<<<< HEAD
-exec streamlit run streamlit_app.py --server.address=$APP_HOST --server.port=${PORT:-8501} 
-=======
-exec streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=${PORT:-8501} 
 
-alias kill_fe="ps -aux | grep \"streamlit\" | awk 'NR==1 {print $2}' | xargs kill"
->>>>>>> b58a2a9 (Final Local hosted app)
+exec streamlit run streamlit_app.py --server.address=$APP_HOST --server.port=${PORT:-8501} 
+
