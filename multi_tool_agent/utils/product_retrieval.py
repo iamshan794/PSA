@@ -64,8 +64,8 @@ async def retrieve_products_from_api(
     }
     querystring.update(kwdargs)
     headers = {
-        "x-rapidapi-key": os.environ.get("API_KEY"),
-        "x-rapidapi-host": os.environ.get("API_HOST"),
+        "x-rapidapi-key": os.environ["API_KEY"],
+        "x-rapidapi-host": os.environ["API_HOST"],
     }
 
     global RATE_COUNT
@@ -85,7 +85,7 @@ async def retrieve_products_from_api(
             
             except Exception as e:
 
-                print(f"Cannot insert into MongoDB due to {e}")
+                return {"status": "OK", "data": response.json(), "message":"MongoDB insertion failed"}
 
     except Exception as e:
         print(f"Error running the API call : {e}")

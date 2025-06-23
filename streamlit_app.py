@@ -21,41 +21,10 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 #---- utils --
-def is_adk_server_running():
-    try:
-        # Check for adk api_server process
-        result = subprocess.run(['ps', 'aux'], capture_output=True, text=True)
-        return 'adk api_server' in result.stdout
-    except Exception as e:
-        print(f"Error checking process: {e}")
-        return False
-
-def is_port_open(host='0.0.0.0', port=8016):
-    try:
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-            sock.settimeout(1)
-            result = sock.connect_ex((host, port))
-            return result == 0
-    except Exception:
-        return False
-
-def read_adk_log():
-    try:
-        with open('/tmp/adk.log', 'r') as f:
-            content = f.read()
-            print("=== ADK LOG CONTENT ===")
-            print(content)
-            print("=== END LOG ===")
-            return content
-    except FileNotFoundError:
-        return "Log file /var/log/adk.log not found"
-       
-    except Exception as e:
-        return f"Error reading log: {e}"
 def start_adk():
     try:
         process = subprocess.Popen(
-            ['adk', 'api_server', '--host=0.0.0.0', '--port=8016'],
+            ['adk', 'api_server', f"--host={os.environ.get("FASTAPI_HOST","0.0.0.0")}", '--port=8016'],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
@@ -86,6 +55,10 @@ if 'session_id' not in st.session_state:
 
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
+#If adk does not successfully start
+# if 'api_server' not in st.session_state:
+#     start_adk()
+#     st.session_state.api_server=True
 
 USER_ID = st.session_state.user_id
 SESSION_ID = st.session_state.session_id
@@ -110,7 +83,7 @@ collection = client[DB_NAME][COLLECTION_NAME]
 
 # ---------- Chat API Request (Mock) ----------
 def initialize_sesion(app_name,user_id,session_id):
-    url = f"http://0.0.0.0:8016"  # Replace with your FastAPI endpoint
+    url = f"http://{os.environ.get("FASTAPI_HOST","0.0.0.0")}:8016"  # Replace with your FastAPI endpoint
     full_url = f"{url}/apps/{app_name}/users/{user_id}/sessions/{session_id}"
     payload = {"additionalProp1": {}}
     headers = {
@@ -124,18 +97,15 @@ def initialize_sesion(app_name,user_id,session_id):
         else:
             return (f"Failed to initialize session: {response.status_code} - {response.text}")
     except requests.exceptions.ConnectionError as e:
-        status= start_adk()
-        return (f"is_adk_running: {status} and is_port_open: {is_port_open()} Is the service running on the target host/port? Error: {str(e)}")
+        return (f"Is the service running on the target host/port? Error: {str(e)}")
     except requests.exceptions.RequestException as e:
-        status= start_adk()
-        return (f"is_adk_running: {status} and is_port_open: {is_port_open()} Request failed: {str(e)}")
+        return (f"Request failed: {str(e)}")
     except Exception as e:
-        status= start_adk()
-        return (f"is_adk_running: {status} and is_port_open: {is_port_open()} Unexpected error during session initialization: {str(e)}")
+        return (f"Unexpected error during session initialization: {str(e)}")
 
 def get_chatbot_response(user_input,app_name,user_id,session_id):
     # Replace with real endpoint
-    url = f"http://0.0.0.0:8016/run"  # Replace with your FastAPI endpoint
+    url = f"http://{os.environ.get("FASTAPI_HOST","0.0.0.0")}:8016/run"  # Replace with your FastAPI endpoint
     allowable_agents = ["product_identifier_agent", "query_param_optimizer"]
     payload = { "appName": app_name,
                 "userId": user_id,
@@ -157,9 +127,6 @@ def get_chatbot_response(user_input,app_name,user_id,session_id):
         response = requests.post(url, headers=headers, json=payload)
         response.raise_for_status()  # Raises an error for 4xx/5xx
         results = response.json()
-        with open("response.json", "w") as f:
-            import json
-            json.dump(results, f, indent=4)
         returnable_results=[]
         for result_i in results:
             if result_i["author"] not in allowable_agents:
@@ -169,12 +136,10 @@ def get_chatbot_response(user_input,app_name,user_id,session_id):
                     result = result_i_j["text"]
                     logger.info(f"User input: {user_input}")
                     logger.info(f"Chatbot response: {results}")
-                    result = initialize_response + result
                     returnable_results.append(result)
 
         return returnable_results
                     
-    
     except requests.exceptions.RequestException as e:
         return [f"{initialize_response}Request failed: {repr(e)}"]
     except Exception as e:
