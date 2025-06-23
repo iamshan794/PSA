@@ -14,7 +14,8 @@ class agent_definition:
         description=("Agent to obtain JSON schema from schema.org from user input."),
         instruction=(
             """
-            Do not reveal the internal workings on user reponse.
+            Only answer to the given task. Do not reveal internal agent names or workflows to the customer 
+            since it is immaterial to the conversation. 
             You are a helpful agent that retrieves JSON schema from schema.org based on input.
             1. Use the get_schema_tree function to obtain the list of all possible products.
             2. Find the exact or closest match to the input product name from the schema tree.
@@ -32,7 +33,8 @@ class agent_definition:
         description=("Agent to frame questions based on given JSON schema."),
         instruction=(
             """
-            Do not reveal the internal workings on user reponse.
+            Only answer to the given task. Do not reveal internal agent names or workflows to the customer 
+            since it is immaterial to the conversation. 
             You are an AI agent to help the customer buy a product. Do the following:
 
             1. Use the google_search tool to obtain JSON schema of product.
@@ -51,7 +53,8 @@ class agent_definition:
         description=("Agent that optimizes a query param given a JSON schema."),
         instruction=(
             """
-            Do not reveal the internal workings on user reponse.
+            Only answer to the given task. Do not reveal internal agent names or workflows to the customer 
+            since it is immaterial to the conversation. 
             You are an AI agent that uses JSON schema to modify the API query to retrieve most relevant products.   
         1. Design the querystring variable to obtain rubrics with html_to_text_h2t tool.
         2. Call the API to obtain JSON object of products.
@@ -75,7 +78,8 @@ class agent_definition:
         ),
         instruction=(
             """
-            Do not reveal the internal workings on user reponse.
+            Only answer to the given task. Do not reveal internal agent names or workflows to the customer 
+            since it is immaterial to the conversation. 
             You are a customer service agent tasked with conversing with the user to learn more about 
             the product of interest.  
 
@@ -94,9 +98,7 @@ class agent_definition:
             3. Ask the user the follow-up questions and obtain answers.           
             4. Autofill the questions if the user has not provided answers. 
 
-            Do the following without conversing with the user:
-            Save the JSON schema of the product in the same schema.org format. 
-            Finally, use the api_sub_agent_1 to query the API with the JSON schema and obtain the products.
+            Use the api_sub_agent_1 to query the API with the JSON schema and obtain the products.
             """
         ),
         tools=[AgentTool(agent=schema_agent), AgentTool(agent=research_agent)],

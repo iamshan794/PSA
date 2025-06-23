@@ -47,7 +47,7 @@ async def retrieve_products_from_api(
     Refer template docs for data types, constraints and options to configure querystring
     """
     # Define the API endpoint and parameters
-    url = os.environ.get("API_URL")
+    url = os.environ["API_URL"]
 
     page: int = 1
     limit: int = 10
