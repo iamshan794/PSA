@@ -33,6 +33,11 @@ def start_adk():
     except Exception:
         return False
 
+logging.basicConfig(
+    level=logging.INFO,
+    filename=f"{__file__}.log",
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 logger = logging.getLogger(__name__)
 # ---------- Session Setup ----------
