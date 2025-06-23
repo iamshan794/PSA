@@ -169,7 +169,7 @@ with left_col:
 
     if 'api_server' not in st.session_state:
         st.session_state.chat_history.append({"role": "bot", "content": "Loading Agent..."})
-        thread = threading.Thread(target=start_adk_background, daemon=True)
+        thread = threading.Thread(target=start_adk, daemon=True)
         thread.start()
         time.sleep(5)
         st.session_state.api_server=True
