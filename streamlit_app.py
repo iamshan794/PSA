@@ -23,21 +23,15 @@ logging.basicConfig(
 #---- utils --
 def start_adk():
     try:
+        host = os.environ.get("FASTAPI_HOST", "0.0.0.0")
         process = subprocess.Popen(
-            ['adk', 'api_server', f"--host={os.environ.get("FASTAPI_HOST","0.0.0.0")}", '--port=8016'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
+            ['adk', 'api_server', f'--host={host}', '--port=8016'],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
         )
-
-        log_output = ""
-        for line in process.stdout:
-            log_output += f"ADK: {line.strip()}\n"
-
-        return log_output
-
-    except Exception as e:
-        return f"Failed to start ADK: {e}"
+        return True
+    except Exception:
+        return False
 
 
 logger = logging.getLogger(__name__)
@@ -173,16 +167,17 @@ with left_col:
         role = "🤖" if msg['role'] == 'bot' else "🧑"
         st.markdown(f"**{role}**: {msg['content']}")
 
+    # if 'api_server' not in st.session_state:
+    #         st.session_state.chat_history.append({"role": "bot", "content": "Hello, how can I help you?."})
+    #         thread = threading.Thread(target=start_adk_background, daemon=True)
+    #         thread.start()
+    #         time.sleep(5)
+    #         st.session_state.api_server=True
+
     user_input = st.chat_input("Type your message...")
     if user_input:
         # User message
         st.session_state.chat_history.append({"role": "user", "content": user_input})
-
-        if 'api_server' not in st.session_state:
-            st.session_state.chat_history.append({"role": "bot", "content": bot_response})
-            start_adk()
-            st.session_state.api_server=True
-            
         # Bot response
         for bot_response in get_chatbot_response(user_input,APP_NAME,USER_ID,SESSION_ID):
             st.session_state.chat_history.append({"role": "bot", "content": bot_response})

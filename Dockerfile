@@ -52,7 +52,7 @@ sleep 10 && \
 echo 'Initializing MongoDB replica set...' && \
 (mongosh --eval 'rs.initiate()' || echo 'Replica set already initialized') && \
 echo 'Starting ADK API server...' && \
-adk api_server --host=$FASTAPI_HOST --port=8016 & \
+python3 -c 'from streamlit_app import start_adk; start_adk()' & \
 API_PID=$! && \
 echo 'Starting Streamlit app...' && \
 streamlit run streamlit_app.py --server.address=$APP_HOST --server.port=${PORT:-8501} & \
