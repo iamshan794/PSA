@@ -168,13 +168,11 @@ with left_col:
         st.markdown(f"**{role}**: {msg['content']}")
 
     if 'api_server' not in st.session_state:
-        st.session_state.chat_history.append({"role": "bot", "content": "Loading Agent..."})
+        st.session_state.chat_history.append({"role": "bot", "content": "Search for a new, used or refurbished product..."})
         thread = threading.Thread(target=start_adk, daemon=True)
         thread.start()
         time.sleep(10)
         st.session_state.api_server=True
-        for bot_response in get_chatbot_response("Hello",APP_NAME,USER_ID,SESSION_ID):
-            st.session_state.chat_history.append({"role": "bot", "content": bot_response})
         st.rerun()  # Refresh display
 
     user_input = st.chat_input("Type your message...")
