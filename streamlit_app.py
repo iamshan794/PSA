@@ -167,12 +167,15 @@ with left_col:
         role = "🤖" if msg['role'] == 'bot' else "🧑"
         st.markdown(f"**{role}**: {msg['content']}")
 
-    # if 'api_server' not in st.session_state:
-    #         st.session_state.chat_history.append({"role": "bot", "content": "Hello, how can I help you?."})
-    #         thread = threading.Thread(target=start_adk_background, daemon=True)
-    #         thread.start()
-    #         time.sleep(5)
-    #         st.session_state.api_server=True
+    if 'api_server' not in st.session_state:
+        st.session_state.chat_history.append({"role": "bot", "content": "Loading Agent..."})
+        thread = threading.Thread(target=start_adk_background, daemon=True)
+        thread.start()
+        time.sleep(5)
+        st.session_state.api_server=True
+        for bot_response in get_chatbot_response("Hello",APP_NAME,USER_ID,SESSION_ID):
+            st.session_state.chat_history.append({"role": "bot", "content": bot_response})
+        st.rerun()  # Refresh display
 
     user_input = st.chat_input("Type your message...")
     if user_input:
