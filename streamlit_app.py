@@ -162,7 +162,7 @@ else:
 
 # ---------- Left Panel: Chat ----------
 with left_col:
-    st.title("🛍️ Personal Shopping Assistant")
+    st.title("🛍️ What can I get for you today?")
     for msg in st.session_state.chat_history:
         role = "🤖" if msg['role'] == 'bot' else "🧑"
         st.markdown(f"**{role}**: {msg['content']}")
@@ -171,7 +171,7 @@ with left_col:
         st.session_state.chat_history.append({"role": "bot", "content": "Loading Agent..."})
         thread = threading.Thread(target=start_adk, daemon=True)
         thread.start()
-        time.sleep(5)
+        time.sleep(10)
         st.session_state.api_server=True
         for bot_response in get_chatbot_response("Hello",APP_NAME,USER_ID,SESSION_ID):
             st.session_state.chat_history.append({"role": "bot", "content": bot_response})
